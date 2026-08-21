@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#141118"/>
+      <stop offset="1" stop-color="#0d0b10"/>
+    </linearGradient>
+    <radialGradient id="corona" cx="50%" cy="50%" r="50%">
+      <stop offset="46%" stop-color="#ff9aa8" stop-opacity="0"/>
+      <stop offset="56%" stop-color="#ff9aa8" stop-opacity=".55"/>
+      <stop offset="72%" stop-color="#b2506f" stop-opacity=".18"/>
+      <stop offset="100%" stop-color="#b2506f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="flare" cx="50%" cy="50%" r="50%">
+      <stop stop-color="#ffffff"/>
+      <stop offset=".3" stop-color="#ffd2a8"/>
+      <stop offset="1" stop-color="#ff8ca0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="disc" cx="34%" cy="76%" r="85%">
+      <stop stop-color="#241d27"/>
+      <stop offset=".45" stop-color="#191420"/>
+      <stop offset="1" stop-color="#120f16"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="600" cy="330" r="330" fill="url(#corona)"/>
+  <circle cx="600" cy="330" r="215" fill="url(#disc)" stroke="#ffcdbe" stroke-opacity=".5" stroke-width="2"/>
+  <circle cx="742" cy="212" r="62" fill="url(#flare)" opacity=".95"/>
+
+  <text x="600" y="316" text-anchor="middle" font-family="'Space Grotesk',Segoe UI,sans-serif"
+        font-size="62" font-weight="600" letter-spacing="14" fill="#f4eef2">COMING SOON</text>
+
+  <rect x="450" y="360" width="300" height="12" rx="6" fill="#ffffff" fill-opacity=".08"/>
+  <rect x="450" y="360" width="204" height="12" rx="6" fill="#ef8296"/>
+
+  <text x="600" y="470" text-anchor="middle" font-family="'Space Grotesk',Segoe UI,sans-serif"
+        font-size="22" letter-spacing="9" fill="#b6aab4">AMANETS</text>
+</svg>
