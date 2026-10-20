@@ -202,8 +202,10 @@
     var submit = el('button', { type: 'submit', class: 'btn btn-red btn-lg btn-block', 'data-i18n': apply ? 'form.submitApply' : 'form.submitPartner', text: t(apply ? 'form.submitApply' : 'form.submitPartner') });
     form.appendChild(el('div', { class: 'form-foot' }, [status, submit]));
 
-    form.addEventListener('input', function (e) { if (e.target.getAttribute('aria-invalid')) clearError(e.target); });
-    form.addEventListener('change', function (e) { if (e.target.getAttribute('aria-invalid')) clearError(e.target); });
+    // The CV field checks its own file on change; clearing here would wipe that message as it appears.
+    var edited = function (e) { if (e.target.type !== 'file' && e.target.getAttribute('aria-invalid')) clearError(e.target); };
+    form.addEventListener('input', edited);
+    form.addEventListener('change', edited);
     form.addEventListener('submit', function (e) { e.preventDefault(); send(form, kind, status, submit); });
     return form;
   }
