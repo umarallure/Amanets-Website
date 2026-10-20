@@ -42,10 +42,12 @@
     });
   }
 
+  // The player speaks the page's language (Spanish by default): its controls, and captions in
+  // that language when the video has them. Read at play time, so a language switch carries over.
   function embedUrl(url) {
-    var m;
-    if ((m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0';
-    if ((m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/))) return 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1';
+    var m, lang = site.lang;
+    if ((m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0&hl=' + lang + '&cc_lang_pref=' + lang + (lang === 'es' ? '&cc_load_policy=1' : '');
+    if ((m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/))) return 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1&texttrack=' + lang;
     if ((m = url.match(/loom\.com\/(?:share|embed)\/([\w]+)/))) return 'https://www.loom.com/embed/' + m[1] + '?autoplay=1';
     return '';
   }
@@ -55,19 +57,18 @@
     var frame = document.getElementById('video-frame');
     if (/\.(mp4|webm|ogg)(\?|$)/i.test(url)) {
       frame.textContent = '';
-      frame.appendChild(el('video', { src: url, controls: true, playsinline: true, preload: 'metadata' }));
+      frame.appendChild(el('video', { src: url, controls: true, playsinline: true, preload: 'metadata', title: t('video.watch') }));
       return;
     }
-    var embed = embedUrl(url);
-    if (!embed) return;
+    if (!embedUrl(url)) return;
     // The player loads on tap: a third-party iframe up front costs a phone on mobile data seconds.
     var play = el('button', { type: 'button', class: 'video-play', 'data-i18n-attr': 'aria-label:video.play', 'aria-label': t('video.play') }, [
-      el('img', { src: '/assets/brand/mark-white.png', width: '160', height: '96', alt: '' }),
+      el('img', { class: 'video-mark', src: '/assets/brand/mark-white.png', width: '320', height: '191', alt: '' }),
       el('span', { class: 'video-play-icon', 'aria-hidden': 'true' })
     ]);
     play.addEventListener('click', function () {
       frame.textContent = '';
-      frame.appendChild(el('iframe', { src: embed, title: t('video.watch'), allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: true }));
+      frame.appendChild(el('iframe', { src: embedUrl(url), title: t('video.watch'), allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: true }));
     });
     frame.textContent = '';
     frame.appendChild(play);
@@ -139,7 +140,7 @@
     var code = el('select', { name: 'phone_code', class: 'phone-code', 'data-i18n-attr': 'aria-label:form.phoneCode', 'aria-label': t('form.phoneCode') });
     fillCountries(code, 'VE');
     var local = el('input', { name: 'phone_local', type: 'tel', inputmode: 'tel', autocomplete: 'tel-national', maxlength: '20', 'data-i18n-attr': 'placeholder:form.phonePlaceholder', placeholder: t('form.phonePlaceholder') });
-    var phone = field('form.phone', local, { required: true });
+    var phone = field('form.phone', local, { required: true, wide: true });
     phone.insertBefore(el('div', { class: 'phone' }, [code, local]), phone.querySelector('.field-error'));
 
     var school = choice('school', cfg.schoolOptions, true);

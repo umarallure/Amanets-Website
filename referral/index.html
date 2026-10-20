@@ -37,25 +37,26 @@
 
 <main id="main">
   <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-mark" aria-hidden="true"><img src="/assets/brand/mark-black.png" width="640" height="382" alt="" /></div>
     <div class="hero-copy">
       <p class="hero-place" data-i18n="hero.place">Mérida, Venezuela</p>
       <h1 id="hero-title"><span data-i18n="hero.h1a">Encuentra tu lugar.</span> <span data-i18n="hero.h1b">Invita a alguien más.</span></h1>
-      <p class="hero-lede" data-i18n="hero.lede">Abrimos oficina en Mérida. Mira el video, postúlate a un puesto o recomienda a alguien que conozcas.</p>
-      <p class="invite" id="invite" hidden><span data-i18n="hero.invite">Llegaste por el enlace de un socio. Tu solicitud quedará vinculada a esa persona.</span></p>
     </div>
     <figure class="video" id="video">
       <figcaption data-i18n="video.watch">Mira esto primero</figcaption>
       <div class="video-frame" id="video-frame">
         <div class="video-empty">
-          <img src="/assets/brand/mark-white.png" width="160" height="96" alt="" />
+          <img class="video-mark" src="/assets/brand/mark-white.png" width="320" height="191" alt="" />
           <p data-i18n="video.soon">El video de Monica llegará muy pronto. Mientras tanto, ya puedes postularte o registrarte como socio.</p>
         </div>
       </div>
     </figure>
-    <div class="hero-actions">
-      <button type="button" class="btn btn-red" data-open="apply" data-i18n="cta.apply">Postularme</button>
-      <button type="button" class="btn btn-line" data-open="partner" data-i18n="cta.partner">Ser socio de referidos</button>
+    <div class="hero-side">
+      <p class="hero-lede" data-i18n="hero.lede">Abrimos oficina en Mérida. Mira el video, postúlate a un puesto o recomienda a alguien que conozcas.</p>
+      <p class="invite" id="invite" hidden><span data-i18n="hero.invite">Llegaste por el enlace de un socio. Tu solicitud quedará vinculada a esa persona.</span></p>
+      <div class="hero-actions">
+        <button type="button" class="btn btn-red btn-lg" data-open="apply" data-i18n="cta.apply">Postularme</button>
+        <button type="button" class="btn btn-line btn-lg" data-open="partner" data-i18n="cta.partner">Ser socio de referidos</button>
+      </div>
     </div>
   </section>
 
@@ -90,7 +91,6 @@
 
   <section class="merida" aria-labelledby="merida-title">
     <div class="merida-head">
-      <p class="coords" aria-hidden="true">8.59° N · 71.14° O</p>
       <h2 id="merida-title" data-i18n="merida.title">Trabaja en Mérida con una empresa de Estados Unidos</h2>
     </div>
     <div class="merida-grid">
