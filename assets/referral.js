@@ -115,7 +115,14 @@
     root.querySelectorAll('option[data-en]').forEach(function (o) { o.textContent = site.pick(o.getAttribute('data-en'), o.getAttribute('data-es')); });
     root.querySelectorAll('label[data-en]').forEach(function (l) { l.firstChild.textContent = site.pick(l.getAttribute('data-en'), l.getAttribute('data-es')); });
     var code = root.querySelector('select[name="phone_code"]');
-    if (code) fillCountries(code, code.value);
+    if (code) { fillCountries(code, code.value); showCode(code); }
+  }
+  function showCode(select) {
+    var face = select.parentNode.querySelector('.phone-code-face');
+    if (!face) return;
+    var option = select.options[select.selectedIndex];
+    face.textContent = '+' + option.getAttribute('data-dial') + ' ';
+    face.appendChild(el('small', { text: select.value }));
   }
   function fillCountries(select, selected) {
     var lists = site.countries();
@@ -141,7 +148,10 @@
     fillCountries(code, 'VE');
     var local = el('input', { name: 'phone_local', type: 'tel', inputmode: 'tel', autocomplete: 'tel-national', maxlength: '20', 'data-i18n-attr': 'placeholder:form.phonePlaceholder', placeholder: t('form.phonePlaceholder') });
     var phone = field('form.phone', local, { required: true, wide: true });
-    phone.insertBefore(el('div', { class: 'phone' }, [code, local]), phone.querySelector('.field-error'));
+    var codeWrap = el('div', { class: 'phone-code-wrap' }, [el('span', { class: 'phone-code-face', 'aria-hidden': 'true' }), code]);
+    phone.insertBefore(el('div', { class: 'phone' }, [codeWrap, local]), phone.querySelector('.field-error'));
+    showCode(code);
+    code.addEventListener('change', function () { showCode(code); });
 
     var school = choice('school', cfg.schoolOptions, true);
     var other = field('form.schoolOther', el('input', { name: 'school_other', maxlength: '140', autocomplete: 'organization' }));
@@ -282,7 +292,7 @@
     data.set('custom_fields', JSON.stringify(custom));
     if (data.get('cv') instanceof File && !data.get('cv').size) data.delete('cv');
     data.set('action', kind); data.set('ref', ref); data.set('source', source);
-    submit.disabled = true; submit.setAttribute('data-i18n', 'form.sending'); submit.textContent = t('form.sending');
+    submit.disabled = true; submit.setAttribute('aria-busy', 'true'); submit.setAttribute('data-i18n', 'form.sending'); submit.textContent = t('form.sending');
     fetch(site.API + '/api/referrals', { method: 'POST', body: data })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (body) { return { ok: r.ok, body: body }; }); })
       .then(function (res) {
@@ -295,7 +305,7 @@
         status.textContent = error instanceof TypeError ? t('form.network') : error.message;
       })
       .then(function () {
-        submit.disabled = false;
+        submit.disabled = false; submit.removeAttribute('aria-busy');
         var key = kind === 'apply' ? 'form.submitApply' : 'form.submitPartner';
         submit.setAttribute('data-i18n', key); submit.textContent = t(key);
       });
@@ -315,6 +325,7 @@
     ];
   }
   function openForm(kind, role) {
+    closing++; sheet.classList.remove('is-closing');
     sheet.textContent = '';
     var apply = kind === 'apply';
     var body = el('div', { class: 'sheet-body' }, header(apply ? 'form.applyTitle' : 'form.partnerTitle', apply ? 'form.applyIntro' : 'form.partnerIntro'));
@@ -333,15 +344,36 @@
     var back = el('button', { type: 'button', class: 'btn btn-ink btn-lg', 'data-close': '', 'data-i18n': 'form.doneBack', text: t('form.doneBack') });
     var refer = el('button', { type: 'button', class: 'btn btn-line btn-lg', 'data-i18n': 'form.doneRefer', text: t('form.doneRefer') });
     refer.addEventListener('click', function () { openForm('partner'); });
-    sheet.appendChild(el('div', { class: 'sheet-body done' }, [
-      el('img', { src: '/assets/brand/mark-black.png', width: '120', height: '72', alt: '', class: 'done-mark' }),
+    var check = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    check.setAttribute('class', 'done-check'); check.setAttribute('viewBox', '0 0 84 84'); check.setAttribute('aria-hidden', 'true');
+    check.innerHTML = '<circle cx="42" cy="42" r="42"/><path d="M26 43l11 11 21-23"/>';
+    sheet.appendChild(el('div', { class: 'sheet-body done', role: 'status' }, [
+      check,
       el('h2', { id: 'sheet-title', 'data-i18n': 'form.doneTitle', text: t('form.doneTitle') }),
       el('p', { 'data-i18n': 'form.doneBody', text: t('form.doneBody') }),
       el('div', { class: 'done-actions' }, [back, refer])
     ]));
-    back.focus();
+    sheet.scrollTop = 0; // the form may have been scrolled; the confirmation starts at the top
+    back.focus({ preventScroll: true });
   }
+  // Closing plays a short exit first; Escape goes through the same path.
+  // `closing` is bumped by openForm, so a close still animating cannot shut a form opened after it.
+  var closing = 0;
+  function closeSheet() {
+    if (!sheet.open || sheet.classList.contains('is-closing')) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { sheet.close(); return; }
+    var id = ++closing;
+    sheet.classList.add('is-closing');
+    var done = function () { if (id !== closing) return; sheet.classList.remove('is-closing'); sheet.close(); };
+    sheet.addEventListener('animationend', done, { once: true });
+    setTimeout(done, 260);
+  }
+  sheet.addEventListener('cancel', function (event) { event.preventDefault(); closeSheet(); });
   sheet.addEventListener('click', function (event) {
-    if (event.target === sheet || (event.target.closest && event.target.closest('[data-close]'))) sheet.close();
+    var closer = event.target.closest && event.target.closest('[data-close]');
+    if (event.target === sheet || closer) {
+      if (closer && closer.getAttribute('href')) { sheet.close(); return; } // a link (privacy) jumps straight there
+      closeSheet();
+    }
   });
 })();
