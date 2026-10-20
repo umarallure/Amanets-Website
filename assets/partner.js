@@ -4,11 +4,15 @@
   var main = document.getElementById('main');
   // The private token rides in the hash so it never reaches a server log or a Referer header.
   var token = location.hash.slice(1);
-  var data = null, error = '', last = '';
+  var data = null, error = '', last = '', spanishRole = {};
 
-  document.title = t('meta.partnerTitle');
   site.apply();
-  site.onLang(function () { document.title = t('meta.partnerTitle'); render(); });
+  site.onLang(render);
+  // Applicant rows carry the English role value; the Spanish title comes from the public config.
+  fetch(site.API + '/api/referrals?roles=1').then(function (r) { return r.ok ? r.json() : null; }).then(function (body) {
+    ((body && body.formConfig && body.formConfig.openings) || []).forEach(function (o) { spanishRole[o.title] = o.title_es; });
+    if (data) render();
+  }).catch(function () {});
 
   function load() {
     return fetch(site.API + '/api/referrals?partner=1', { cache: 'no-store', headers: { Authorization: 'Bearer ' + token } })
@@ -19,7 +23,7 @@
   }
 
   function publicLink() {
-    var url = new URL('/referral', location.origin);
+    var url = new URL('/', location.origin);
     url.searchParams.set('ref', data.partner.code);
     return url.toString();
   }
@@ -40,7 +44,7 @@
     if (!token) {
       main.appendChild(el('section', { class: 'dash-card dash-notice' }, [
         el('h1', { text: t('dash.noToken') }), el('p', { text: t('dash.noTokenBody') }),
-        el('a', { class: 'btn btn-ink', href: '/referral', text: t('dash.toPage') })
+        el('a', { class: 'btn btn-ink', href: '/', text: t('dash.toPage') })
       ]));
       return;
     }
@@ -86,7 +90,7 @@
           el('div', { class: 'dash-people-head' }, [el('h2', { text: t('dash.people') }), el('span', { class: 'dash-count', text: String(people.length) })]),
           people.length ? el('ul', { class: 'dash-list' }, people.map(function (p) {
             return el('li', {}, [
-              el('div', {}, [el('b', { text: p.name }), el('span', { text: p.role })]),
+              el('div', {}, [el('b', { text: p.name }), el('span', { text: site.pick(p.role, spanishRole[p.role]) })]),
               el('span', { class: 'chip chip-' + p.status.toLowerCase().replace(/[^a-z]+/g, '-'), text: site.status(p.status) }),
               el('small', { text: t('dash.applied').replace('{date}', dateFormat.format(new Date(p.applied_at))) })
             ]);

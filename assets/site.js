@@ -4,10 +4,16 @@
   'use strict';
 
   /* Test traffic must land in the CRM's dev database, never in production. Local and preview
-     hosts talk to a local CRM (localhost) or the test CRM; everything else is production. */
+     hosts use the test CRM; the production host uses production. Running `npx serve .` takes
+     port 3000 itself, so a local CRM is opt-in rather than assumed:
+     localStorage.setItem('amanets-api', 'http://localhost:3001') — local hosts only. */
   var host = location.hostname;
-  var API = /^(localhost|127\.0\.0\.1)$/.test(host) ? 'http://localhost:3000'
-    : /(^|[.-])(test|staging|preview|dev)[.-]|\.vercel\.app$/.test(host) ? 'https://test.powerpolicies.com'
+  var PRODUCTION_HOSTS = ['amanets-website.vercel.app'];
+  var local = /^(localhost|127\.0\.0\.1)$/.test(host);
+  var localApi = '';
+  try { localApi = local ? localStorage.getItem('amanets-api') || '' : ''; } catch (e) {}
+  var API = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(localApi) ? localApi
+    : local || (PRODUCTION_HOSTS.indexOf(host) < 0 && /(^|[.-])(test|staging|preview|dev)[.-]|\.vercel\.app$/.test(host)) ? 'https://test.powerpolicies.com'
     : 'https://app.powerpolicies.com';
 
   var STATUS = {
@@ -35,8 +41,9 @@
   var FEATURED = ['VE', 'US', 'CO'];
 
   function pickLang() {
+    // A ?lang= link is remembered, so a partner who signs up in Spanish lands on a Spanish dashboard.
     var forced = new URLSearchParams(location.search).get('lang');
-    if (forced === 'en' || forced === 'es') return forced;
+    if (forced === 'en' || forced === 'es') { try { localStorage.setItem('amanets-lang', forced); } catch (e) {} return forced; }
     try { var saved = localStorage.getItem('amanets-lang'); if (saved === 'en' || saved === 'es') return saved; } catch (e) {}
     return 'es';
   }
@@ -70,7 +77,7 @@
       document.querySelectorAll('.lang-switch button').forEach(function (b) {
         b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === site.lang));
       });
-      if (site.dict[site.lang]['meta.title']) document.title = site.t('meta.title');
+      document.title = site.t(document.body.getAttribute('data-title') || 'meta.title');
     },
     countries: function () {
       var names;

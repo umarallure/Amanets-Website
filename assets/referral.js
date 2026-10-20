@@ -8,17 +8,45 @@
   var OTHER_SCHOOL = 'Other university';
   var MAX_CV = 4 * 1024 * 1024;
   var config = null, openings = [], configFailed = false;
+  var DEFAULT_VIDEO_URL = 'https://cap.so/s/n2rw42bn43s38qm';
   var sheet = document.getElementById('sheet');
 
   site.apply();
   requestAnimationFrame(function () { document.documentElement.classList.add('ready'); });
+
+  /* Scroll reveal: each marked block rises in once as it enters the screen; "stagger" blocks
+     cascade their children. Content is only hidden once this runs (no script, nothing hidden),
+     and whatever is already on screen is revealed in the observer's first callback. */
+  if (window.IntersectionObserver && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var stagger = function (block) {
+      Array.prototype.forEach.call(block.children, function (child, i) { child.style.setProperty('--i', Math.min(i, 8)); });
+    };
+    var waiting = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+    var reveal = function (el) {
+      if (el.getAttribute('data-reveal') === 'stagger') stagger(el);
+      el.classList.add('in');
+      seen.unobserve(el);
+    };
+    // A fast fling can carry a block past the screen between two observer checks. Whenever
+    // anything reveals, everything above it reveals too, so nothing already passed stays hidden.
+    var seen = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+      waiting = waiting.filter(function (el) {
+        if (el.getBoundingClientRect().top > window.innerHeight * 0.9) return true;
+        reveal(el);
+        return false;
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    waiting.forEach(function (el) { seen.observe(el); });
+    document.documentElement.classList.add('reveal-ready');
+  }
   if (ref) document.getElementById('invite').hidden = false;
 
   /* ── Roles and video from the CRM ─────────────────────────── */
   fetch(site.API + '/api/referrals?roles=1', { cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
     .then(function (data) { config = data.formConfig; openings = data.roles || []; renderRoles(); renderVideo(); })
-    .catch(function () { configFailed = true; renderRoles(); });
+    .catch(function () { configFailed = true; renderRoles(); renderVideo(); });
 
   function renderRoles() {
     var list = document.getElementById('roles');
@@ -38,44 +66,69 @@
         el('span', { class: 'role-go', 'aria-hidden': 'true' })
       ]);
       button.addEventListener('click', function () { openForm('apply', opening.title); });
-      list.appendChild(el('li', {}, [button]));
+      var item = el('li', {}, [button]);
+      item.style.setProperty('--i', Math.min(list.children.length, 8)); // cascade order if the list hasn't revealed yet
+      list.appendChild(item);
     });
   }
 
+  // The player speaks the page's language (Spanish by default): its controls, and captions in
+  // that language when the video has them. Read at play time, so a language switch carries over.
   function embedUrl(url) {
-    var m;
-    if ((m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0';
-    if ((m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/))) return 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1';
+    var m, lang = site.lang;
+    if ((m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0&hl=' + lang + '&cc_lang_pref=' + lang + (lang === 'es' ? '&cc_load_policy=1' : '');
+    if ((m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/))) return 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1&texttrack=' + lang;
     if ((m = url.match(/loom\.com\/(?:share|embed)\/([\w]+)/))) return 'https://www.loom.com/embed/' + m[1] + '?autoplay=1';
     return '';
   }
   function renderVideo() {
-    var url = config && config.videoUrl;
-    if (!url) return;
+    var url = config && config.videoUrl || DEFAULT_VIDEO_URL;
     var frame = document.getElementById('video-frame');
-    if (/\.(mp4|webm|ogg)(\?|$)/i.test(url)) {
+    var cap = url.match(/^https?:\/\/(?:www\.)?cap\.so\/(?:s|embed)\/([\w-]+)/i);
+    if (cap) {
       frame.textContent = '';
-      frame.appendChild(el('video', { src: url, controls: true, playsinline: true, preload: 'metadata' }));
+      mountVideo(frame, 'https://cap.so/api/playlist?videoId=' + encodeURIComponent(cap[1]) + '&videoType=mp4');
       return;
     }
-    var embed = embedUrl(url);
-    if (!embed) return;
+    if (/\.(mp4|webm|ogg)(\?|$)/i.test(url)) {
+      frame.textContent = '';
+      mountVideo(frame, url);
+      return;
+    }
+    if (!embedUrl(url)) return;
     // The player loads on tap: a third-party iframe up front costs a phone on mobile data seconds.
-    var play = el('button', { type: 'button', class: 'video-play', 'data-i18n-attr': 'aria-label:video.play', 'aria-label': t('video.play') }, [
-      el('img', { src: '/assets/brand/mark-white.png', width: '160', height: '96', alt: '' }),
-      el('span', { class: 'video-play-icon', 'aria-hidden': 'true' })
-    ]);
+    var play = el('button', { type: 'button', class: 'video-play', 'data-i18n-attr': 'aria-label:video.play', 'aria-label': t('video.play') });
+    play.innerHTML = '<div class="orb" aria-hidden="true"><span class="orb-corona"></span><span class="orb-ring"></span><span class="orb-orbit"><i></i></span><span class="orb-disc"></span></div><span class="video-play-icon" aria-hidden="true"></span>';
     play.addEventListener('click', function () {
       frame.textContent = '';
-      frame.appendChild(el('iframe', { src: embed, title: t('video.watch'), allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: true }));
+      frame.appendChild(el('iframe', { src: embedUrl(url), title: t('video.watch'), allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: true }));
     });
     frame.textContent = '';
     frame.appendChild(play);
+  }
+  function mountVideo(frame, url) {
+    frame.dataset.state = 'loading';
+    var video = el('video', { src: url, controls: true, playsinline: true, preload: 'metadata', title: t('video.watch') });
+    var message = el('p', { 'data-i18n': 'video.loading', text: t('video.loading') });
+    var loading = el('div', { class: 'video-loading', role: 'status', 'aria-live': 'polite' }, [
+      el('span', { class: 'video-spinner', 'aria-hidden': 'true' }),
+      message
+    ]);
+    video.addEventListener('canplay', function () { frame.dataset.state = 'ready'; });
+    video.addEventListener('waiting', function () { frame.dataset.state = 'loading'; });
+    video.addEventListener('playing', function () { frame.dataset.state = 'ready'; });
+    video.addEventListener('error', function () {
+      frame.dataset.state = 'error';
+      message.setAttribute('data-i18n', 'video.error');
+      site.apply(loading);
+    });
+    frame.append(video, loading);
   }
 
   site.onLang(function () {
     if (config || configFailed) renderRoles();
     relabel(sheet);
+    site.apply(document.getElementById('video-frame'));
   });
 
   /* ── Forms ─────────────────────────────────────────────────── */
@@ -114,7 +167,14 @@
     root.querySelectorAll('option[data-en]').forEach(function (o) { o.textContent = site.pick(o.getAttribute('data-en'), o.getAttribute('data-es')); });
     root.querySelectorAll('label[data-en]').forEach(function (l) { l.firstChild.textContent = site.pick(l.getAttribute('data-en'), l.getAttribute('data-es')); });
     var code = root.querySelector('select[name="phone_code"]');
-    if (code) fillCountries(code, code.value);
+    if (code) { fillCountries(code, code.value); showCode(code); }
+  }
+  function showCode(select) {
+    var face = select.parentNode.querySelector('.phone-code-face');
+    if (!face) return;
+    var option = select.options[select.selectedIndex];
+    face.textContent = '+' + option.getAttribute('data-dial') + ' ';
+    face.appendChild(el('small', { text: select.value }));
   }
   function fillCountries(select, selected) {
     var lists = site.countries();
@@ -139,8 +199,11 @@
     var code = el('select', { name: 'phone_code', class: 'phone-code', 'data-i18n-attr': 'aria-label:form.phoneCode', 'aria-label': t('form.phoneCode') });
     fillCountries(code, 'VE');
     var local = el('input', { name: 'phone_local', type: 'tel', inputmode: 'tel', autocomplete: 'tel-national', maxlength: '20', 'data-i18n-attr': 'placeholder:form.phonePlaceholder', placeholder: t('form.phonePlaceholder') });
-    var phone = field('form.phone', local, { required: true });
-    phone.insertBefore(el('div', { class: 'phone' }, [code, local]), phone.querySelector('.field-error'));
+    var phone = field('form.phone', local, { required: true, wide: true });
+    var codeWrap = el('div', { class: 'phone-code-wrap' }, [el('span', { class: 'phone-code-face', 'aria-hidden': 'true' }), code]);
+    phone.insertBefore(el('div', { class: 'phone' }, [codeWrap, local]), phone.querySelector('.field-error'));
+    showCode(code);
+    code.addEventListener('change', function () { showCode(code); });
 
     var school = choice('school', cfg.schoolOptions, true);
     var other = field('form.schoolOther', el('input', { name: 'school_other', maxlength: '140', autocomplete: 'organization' }));
@@ -202,8 +265,10 @@
     var submit = el('button', { type: 'submit', class: 'btn btn-red btn-lg btn-block', 'data-i18n': apply ? 'form.submitApply' : 'form.submitPartner', text: t(apply ? 'form.submitApply' : 'form.submitPartner') });
     form.appendChild(el('div', { class: 'form-foot' }, [status, submit]));
 
-    form.addEventListener('input', function (e) { if (e.target.getAttribute('aria-invalid')) clearError(e.target); });
-    form.addEventListener('change', function (e) { if (e.target.getAttribute('aria-invalid')) clearError(e.target); });
+    // The CV field checks its own file on change; clearing here would wipe that message as it appears.
+    var edited = function (e) { if (e.target.type !== 'file' && e.target.getAttribute('aria-invalid')) clearError(e.target); };
+    form.addEventListener('input', edited);
+    form.addEventListener('change', edited);
     form.addEventListener('submit', function (e) { e.preventDefault(); send(form, kind, status, submit); });
     return form;
   }
@@ -272,14 +337,14 @@
     var code = form.querySelector('[name="phone_code"]');
     var dial = code.options[code.selectedIndex].getAttribute('data-dial');
     var number = String(data.get('phone_local')).trim().replace(/^0+/, '');
-    data.set('phone', '+' + dial + ' ' + number);
+    data.set('phone', '+' + dial + number); // the CRM's own form stores "+58412…" with no space; keep rows identical
     data.delete('phone_local'); data.delete('phone_code');
     var custom = {};
     Array.from(data.keys()).filter(function (k) { return k.indexOf('custom_') === 0; }).forEach(function (k) { custom[k.slice(7)] = data.get(k); data.delete(k); });
     data.set('custom_fields', JSON.stringify(custom));
     if (data.get('cv') instanceof File && !data.get('cv').size) data.delete('cv');
     data.set('action', kind); data.set('ref', ref); data.set('source', source);
-    submit.disabled = true; submit.setAttribute('data-i18n', 'form.sending'); submit.textContent = t('form.sending');
+    submit.disabled = true; submit.setAttribute('aria-busy', 'true'); submit.setAttribute('data-i18n', 'form.sending'); submit.textContent = t('form.sending');
     fetch(site.API + '/api/referrals', { method: 'POST', body: data })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (body) { return { ok: r.ok, body: body }; }); })
       .then(function (res) {
@@ -292,7 +357,7 @@
         status.textContent = error instanceof TypeError ? t('form.network') : error.message;
       })
       .then(function () {
-        submit.disabled = false;
+        submit.disabled = false; submit.removeAttribute('aria-busy');
         var key = kind === 'apply' ? 'form.submitApply' : 'form.submitPartner';
         submit.setAttribute('data-i18n', key); submit.textContent = t(key);
       });
@@ -312,6 +377,7 @@
     ];
   }
   function openForm(kind, role) {
+    closing++; sheet.classList.remove('is-closing');
     sheet.textContent = '';
     var apply = kind === 'apply';
     var body = el('div', { class: 'sheet-body' }, header(apply ? 'form.applyTitle' : 'form.partnerTitle', apply ? 'form.applyIntro' : 'form.partnerIntro'));
@@ -330,15 +396,36 @@
     var back = el('button', { type: 'button', class: 'btn btn-ink btn-lg', 'data-close': '', 'data-i18n': 'form.doneBack', text: t('form.doneBack') });
     var refer = el('button', { type: 'button', class: 'btn btn-line btn-lg', 'data-i18n': 'form.doneRefer', text: t('form.doneRefer') });
     refer.addEventListener('click', function () { openForm('partner'); });
-    sheet.appendChild(el('div', { class: 'sheet-body done' }, [
-      el('img', { src: '/assets/brand/mark-black.png', width: '120', height: '72', alt: '', class: 'done-mark' }),
+    var check = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    check.setAttribute('class', 'done-check'); check.setAttribute('viewBox', '0 0 84 84'); check.setAttribute('aria-hidden', 'true');
+    check.innerHTML = '<circle cx="42" cy="42" r="42"/><path d="M26 43l11 11 21-23"/>';
+    sheet.appendChild(el('div', { class: 'sheet-body done', role: 'status' }, [
+      check,
       el('h2', { id: 'sheet-title', 'data-i18n': 'form.doneTitle', text: t('form.doneTitle') }),
       el('p', { 'data-i18n': 'form.doneBody', text: t('form.doneBody') }),
       el('div', { class: 'done-actions' }, [back, refer])
     ]));
-    back.focus();
+    sheet.scrollTop = 0; // the form may have been scrolled; the confirmation starts at the top
+    back.focus({ preventScroll: true });
   }
+  // Closing plays a short exit first; Escape goes through the same path.
+  // `closing` is bumped by openForm, so a close still animating cannot shut a form opened after it.
+  var closing = 0;
+  function closeSheet() {
+    if (!sheet.open || sheet.classList.contains('is-closing')) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { sheet.close(); return; }
+    var id = ++closing;
+    sheet.classList.add('is-closing');
+    var done = function () { if (id !== closing) return; sheet.classList.remove('is-closing'); sheet.close(); };
+    sheet.addEventListener('animationend', done, { once: true });
+    setTimeout(done, 260);
+  }
+  sheet.addEventListener('cancel', function (event) { event.preventDefault(); closeSheet(); });
   sheet.addEventListener('click', function (event) {
-    if (event.target === sheet || (event.target.closest && event.target.closest('[data-close]'))) sheet.close();
+    var closer = event.target.closest && event.target.closest('[data-close]');
+    if (event.target === sheet || closer) {
+      if (closer && closer.getAttribute('href')) { sheet.close(); return; } // a link (privacy) jumps straight there
+      closeSheet();
+    }
   });
 })();
