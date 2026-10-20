@@ -5,26 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Empleos y referidos en Mérida | Amanets</title>
 <meta name="description" content="Amanets abre su oficina en Mérida. Mira el video, postúlate a un puesto o recomienda a alguien como socio de referidos." />
-<meta name="theme-color" content="#000000" />
+<meta name="theme-color" content="#141118" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Empleos y referidos en Mérida | Amanets" />
 <meta property="og:description" content="Postúlate a un puesto o recomienda a alguien. Medio tiempo y tiempo completo en Mérida." />
-<meta property="og:image" content="/assets/brand/og.png" />
+<meta property="og:image" content="/assets/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="/assets/brand/favicon-48.png" type="image/png" />
-<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/assets/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Lexend+Exa:wght@500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/referral.css" />
 </head>
 <body>
+<svg class="sprite" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="eclipse-grad" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd2a8"/><stop offset=".5" stop-color="#f2879a"/><stop offset="1" stop-color="#b2506f"/></linearGradient>
+  <linearGradient id="done-grad" x1="0" y1="0" x2="84" y2="84" gradientUnits="userSpaceOnUse"><stop stop-color="#ff9aa8"/><stop offset="1" stop-color="#d4607e"/></linearGradient>
+  <symbol id="eclipse" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15.5" fill="none" stroke="url(#eclipse-grad)" stroke-width="2.4"/><circle cx="24.5" cy="17" r="13" fill="#141118"/><circle cx="28.8" cy="11.6" r="2.6" fill="#ffd2a8"/></symbol>
+</defs></svg>
+<canvas id="starfield" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
 <a class="skip" href="#main" data-i18n="nav.skip">Saltar al contenido</a>
 
 <header class="bar">
   <a class="brand" href="/referral" aria-label="Amanets">
-    <img src="/assets/brand/mark-black.png" width="44" height="26" alt="" />
-    <span class="wordmark">AMANETS</span>
+    <span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><use href="#eclipse"/></svg></span>
+    <span class="logo-type">Amanets<i>.</i></span>
   </a>
   <div class="bar-actions">
     <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label">
@@ -38,14 +45,14 @@
 <main id="main">
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy">
-      <p class="hero-place" data-i18n="hero.place">Mérida, Venezuela</p>
+      <p class="pill"><i class="dot" aria-hidden="true"></i><span data-i18n="hero.place">Mérida, Venezuela</span></p>
       <h1 id="hero-title"><span data-i18n="hero.h1a">Encuentra tu lugar.</span> <span data-i18n="hero.h1b">Invita a alguien más.</span></h1>
     </div>
     <figure class="video" id="video">
-      <figcaption data-i18n="video.watch">Mira esto primero</figcaption>
+      <figcaption class="pill"><i class="dot" aria-hidden="true"></i><span data-i18n="video.watch">Mira esto primero</span></figcaption>
       <div class="video-frame" id="video-frame">
         <div class="video-empty">
-          <img class="video-mark" src="/assets/brand/mark-white.png" width="320" height="191" alt="" />
+          <div class="orb" aria-hidden="true"><span class="orb-corona"></span><span class="orb-ring"></span><span class="orb-orbit"><i></i></span><span class="orb-disc"></span></div>
           <p data-i18n="video.soon">El video de Monica llegará muy pronto. Mientras tanto, ya puedes postularte o registrarte como socio.</p>
         </div>
       </div>
@@ -62,12 +69,12 @@
 
   <section class="partner-band" aria-labelledby="partner-title">
     <div class="partner-inner">
-      <h2 id="partner-title" data-i18n="partner.title">Conviértete en socio de referidos</h2>
-      <div class="partner-body">
+      <h2 id="partner-title" data-reveal data-i18n="partner.title">Conviértete en socio de referidos</h2>
+      <div class="partner-body" data-reveal>
         <p data-i18n="partner.body">¿Conoces a alguien en Mérida que encajaría en el equipo? Regístrate, comparte tu enlace personal y sigue el progreso de cada persona que recomiendes. No necesitas trabajar con nosotros para recomendar.</p>
         <button type="button" class="btn btn-ink btn-lg" data-open="partner" data-i18n="partner.cta">Crear mi cuenta de socio</button>
       </div>
-      <ol class="steps steps-on-red" aria-labelledby="partner-title">
+      <ol class="steps steps-on-red" data-reveal="stagger" aria-labelledby="partner-title">
         <li><b data-i18n="partner.s1">Crea tu cuenta</b><span data-i18n="partner.s1b">Toma un minuto. Recibes un enlace y un código QR personal.</span></li>
         <li><b data-i18n="partner.s2">Comparte tu enlace</b><span data-i18n="partner.s2b">Envíalo por WhatsApp o muéstralo en persona.</span></li>
         <li><b data-i18n="partner.s3">Sigue su progreso</b><span data-i18n="partner.s3b">Ve en tu panel quién se postuló y en qué etapa está.</span></li>
@@ -76,27 +83,27 @@
   </section>
 
   <section class="careers" id="careers" aria-labelledby="careers-title">
-    <div class="careers-head">
+    <div class="careers-head" data-reveal>
       <h2 id="careers-title" data-i18n="careers.title">Explora empleos</h2>
       <p data-i18n="careers.sub">Puestos de medio tiempo y tiempo completo en nuestra oficina de Mérida. Elige uno y te llevamos directo a la solicitud.</p>
     </div>
-    <ul class="roles" id="roles" aria-live="polite">
+    <ul class="roles" id="roles" data-reveal="stagger" aria-live="polite">
       <li class="roles-skel" aria-hidden="true"><i></i><i></i></li>
       <li class="roles-skel" aria-hidden="true"><i></i><i></i></li>
       <li class="roles-skel" aria-hidden="true"><i></i><i></i></li>
       <li class="sr-only" data-i18n="careers.loading">Cargando puestos…</li>
     </ul>
-    <div class="careers-foot">
+    <div class="careers-foot" data-reveal>
       <p data-i18n="careers.unsure">¿No sabes qué puesto elegir? Postúlate igual y te ayudamos a encontrar el adecuado.</p>
       <button type="button" class="btn btn-ink" data-open="apply" data-i18n="cta.apply">Postularme</button>
     </div>
   </section>
 
   <section class="merida" aria-labelledby="merida-title">
-    <div class="merida-head">
+    <div class="merida-head" data-reveal>
       <h2 id="merida-title" data-i18n="merida.title">Trabaja en Mérida con una empresa de Estados Unidos</h2>
     </div>
-    <div class="merida-grid">
+    <div class="merida-grid" data-reveal="stagger">
       <article class="merida-lead">
         <h3 data-i18n="merida.office">Nuestra oficina en Rodero Plaza</h3>
         <p data-i18n="merida.officeb">Estamos abriendo una oficina en el edificio administrativo de Rodero Plaza, en Mérida. Un lugar de trabajo cerca de la universidad y del centro de la ciudad.</p>
@@ -122,29 +129,29 @@
         <p data-i18n="merida.referb">Si conoces a alguien en Mérida que encaje, regístrate como socio y compártele tu enlace.</p>
       </article>
     </div>
-    <div class="merida-actions">
+    <div class="merida-actions" data-reveal>
       <button type="button" class="btn btn-red" data-open="apply" data-i18n="cta.apply">Postularme</button>
       <button type="button" class="btn btn-line-light" data-open="partner" data-i18n="cta.partner">Ser socio de referidos</button>
     </div>
   </section>
 
   <section class="how" aria-labelledby="how-title">
-    <h2 id="how-title" data-i18n="how.title">Cómo postularte</h2>
-    <ol class="steps">
+    <h2 id="how-title" data-reveal data-i18n="how.title">Cómo postularte</h2>
+    <ol class="steps" data-reveal="stagger">
       <li><b data-i18n="how.s1">Mira el video</b><span data-i18n="how.s1b">Conoce quiénes somos y cómo trabajamos.</span></li>
       <li><b data-i18n="how.s2">Envía tu solicitud</b><span data-i18n="how.s2b">Elige un puesto y completa el formulario. Tu CV es opcional.</span></li>
       <li><b data-i18n="how.s3">Te contactamos</b><span data-i18n="how.s3b">Nuestro equipo revisa cada solicitud y te escribe para el siguiente paso.</span></li>
     </ol>
   </section>
 
-  <section class="privacy" id="privacy" aria-labelledby="privacy-title">
+  <section class="privacy" id="privacy" data-reveal aria-labelledby="privacy-title">
     <h2 id="privacy-title" data-i18n="privacy.title">Aviso de privacidad</h2>
     <p data-i18n="privacy.body">Usamos tu información solo para revisar tu solicitud o gestionar tu cuenta de socio. El equipo de selección autorizado puede ver tu solicitud. Si llegaste por el enlace de un socio, esa persona solo ve tu nombre, el puesto al que te postulaste y la etapa de tu proceso.</p>
   </section>
 </main>
 
 <footer class="foot">
-  <span class="wordmark" aria-hidden="true">AMANETS</span>
+  <span class="logo-type" aria-hidden="true">Amanets<i>.</i></span>
   <span>© <span id="year">2026</span> Amanets</span>
   <a href="#privacy" data-i18n="privacy.title">Aviso de privacidad</a>
 </footer>
@@ -152,6 +159,7 @@
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-title"></dialog>
 
 <script src="/assets/vendor/qrcode.min.js" defer></script>
+<script src="/assets/starfield.js" defer></script>
 <script src="/assets/site.js" defer></script>
 <script src="/assets/i18n.js" defer></script>
 <script src="/assets/referral.js" defer></script>

@@ -6,19 +6,26 @@
 <title>Tu panel de socio | Amanets</title>
 <meta name="robots" content="noindex, nofollow" />
 <meta name="referrer" content="no-referrer" />
-<meta name="theme-color" content="#000000" />
-<link rel="icon" href="/assets/brand/favicon-48.png" type="image/png" />
-<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+<meta name="theme-color" content="#141118" />
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/assets/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Lexend+Exa:wght@500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/referral.css" />
 </head>
 <body class="dash-page" data-title="meta.partnerTitle">
+<svg class="sprite" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="eclipse-grad" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd2a8"/><stop offset=".5" stop-color="#f2879a"/><stop offset="1" stop-color="#b2506f"/></linearGradient>
+  <linearGradient id="done-grad" x1="0" y1="0" x2="84" y2="84" gradientUnits="userSpaceOnUse"><stop stop-color="#ff9aa8"/><stop offset="1" stop-color="#d4607e"/></linearGradient>
+  <symbol id="eclipse" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15.5" fill="none" stroke="url(#eclipse-grad)" stroke-width="2.4"/><circle cx="24.5" cy="17" r="13" fill="#141118"/><circle cx="28.8" cy="11.6" r="2.6" fill="#ffd2a8"/></symbol>
+</defs></svg>
+<canvas id="starfield" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
 <header class="bar">
   <a class="brand" href="/referral" aria-label="Amanets">
-    <img src="/assets/brand/mark-black.png" width="44" height="26" alt="" />
-    <span class="wordmark">AMANETS</span>
+    <span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><use href="#eclipse"/></svg></span>
+    <span class="logo-type">Amanets<i>.</i></span>
   </a>
   <div class="bar-actions">
     <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label">
@@ -33,12 +40,13 @@
 </main>
 
 <footer class="foot">
-  <span class="wordmark" aria-hidden="true">AMANETS</span>
+  <span class="logo-type" aria-hidden="true">Amanets<i>.</i></span>
   <span>© <span id="year">2026</span> Amanets</span>
   <a href="/referral#privacy" data-i18n="privacy.title">Aviso de privacidad</a>
 </footer>
 
 <script src="/assets/vendor/qrcode.min.js" defer></script>
+<script src="/assets/starfield.js" defer></script>
 <script src="/assets/site.js" defer></script>
 <script src="/assets/i18n.js" defer></script>
 <script src="/assets/partner.js" defer></script>

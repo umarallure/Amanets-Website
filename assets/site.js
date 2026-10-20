@@ -4,11 +4,16 @@
   'use strict';
 
   /* Test traffic must land in the CRM's dev database, never in production. Local and preview
-     hosts talk to a local CRM (localhost) or the test CRM; everything else is production. */
+     hosts use the test CRM; the production host uses production. Running `npx serve .` takes
+     port 3000 itself, so a local CRM is opt-in rather than assumed:
+     localStorage.setItem('amanets-api', 'http://localhost:3001') — local hosts only. */
   var host = location.hostname;
   var PRODUCTION_HOSTS = ['amanets-website.vercel.app'];
-  var API = /^(localhost|127\.0\.0\.1)$/.test(host) ? 'http://localhost:3000'
-    : PRODUCTION_HOSTS.indexOf(host) < 0 && /(^|[.-])(test|staging|preview|dev)[.-]|\.vercel\.app$/.test(host) ? 'https://test.powerpolicies.com'
+  var local = /^(localhost|127\.0\.0\.1)$/.test(host);
+  var localApi = '';
+  try { localApi = local ? localStorage.getItem('amanets-api') || '' : ''; } catch (e) {}
+  var API = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(localApi) ? localApi
+    : local || (PRODUCTION_HOSTS.indexOf(host) < 0 && /(^|[.-])(test|staging|preview|dev)[.-]|\.vercel\.app$/.test(host)) ? 'https://test.powerpolicies.com'
     : 'https://app.powerpolicies.com';
 
   var STATUS = {

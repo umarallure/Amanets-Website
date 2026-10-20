@@ -12,6 +12,33 @@
 
   site.apply();
   requestAnimationFrame(function () { document.documentElement.classList.add('ready'); });
+
+  /* Scroll reveal: each marked block rises in once as it enters the screen; "stagger" blocks
+     cascade their children. Content is only hidden once this runs (no script, nothing hidden),
+     and whatever is already on screen is revealed in the observer's first callback. */
+  if (window.IntersectionObserver && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var stagger = function (block) {
+      Array.prototype.forEach.call(block.children, function (child, i) { child.style.setProperty('--i', Math.min(i, 8)); });
+    };
+    var waiting = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+    var reveal = function (el) {
+      if (el.getAttribute('data-reveal') === 'stagger') stagger(el);
+      el.classList.add('in');
+      seen.unobserve(el);
+    };
+    // A fast fling can carry a block past the screen between two observer checks. Whenever
+    // anything reveals, everything above it reveals too, so nothing already passed stays hidden.
+    var seen = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+      waiting = waiting.filter(function (el) {
+        if (el.getBoundingClientRect().top > window.innerHeight * 0.9) return true;
+        reveal(el);
+        return false;
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    waiting.forEach(function (el) { seen.observe(el); });
+    document.documentElement.classList.add('reveal-ready');
+  }
   if (ref) document.getElementById('invite').hidden = false;
 
   /* ── Roles and video from the CRM ─────────────────────────── */
@@ -38,7 +65,9 @@
         el('span', { class: 'role-go', 'aria-hidden': 'true' })
       ]);
       button.addEventListener('click', function () { openForm('apply', opening.title); });
-      list.appendChild(el('li', {}, [button]));
+      var item = el('li', {}, [button]);
+      item.style.setProperty('--i', Math.min(list.children.length, 8)); // cascade order if the list hasn't revealed yet
+      list.appendChild(item);
     });
   }
 
@@ -62,10 +91,8 @@
     }
     if (!embedUrl(url)) return;
     // The player loads on tap: a third-party iframe up front costs a phone on mobile data seconds.
-    var play = el('button', { type: 'button', class: 'video-play', 'data-i18n-attr': 'aria-label:video.play', 'aria-label': t('video.play') }, [
-      el('img', { class: 'video-mark', src: '/assets/brand/mark-white.png', width: '320', height: '191', alt: '' }),
-      el('span', { class: 'video-play-icon', 'aria-hidden': 'true' })
-    ]);
+    var play = el('button', { type: 'button', class: 'video-play', 'data-i18n-attr': 'aria-label:video.play', 'aria-label': t('video.play') });
+    play.innerHTML = '<div class="orb" aria-hidden="true"><span class="orb-corona"></span><span class="orb-ring"></span><span class="orb-orbit"><i></i></span><span class="orb-disc"></span></div><span class="video-play-icon" aria-hidden="true"></span>';
     play.addEventListener('click', function () {
       frame.textContent = '';
       frame.appendChild(el('iframe', { src: embedUrl(url), title: t('video.watch'), allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: true }));
@@ -285,7 +312,7 @@
     var code = form.querySelector('[name="phone_code"]');
     var dial = code.options[code.selectedIndex].getAttribute('data-dial');
     var number = String(data.get('phone_local')).trim().replace(/^0+/, '');
-    data.set('phone', '+' + dial + ' ' + number);
+    data.set('phone', '+' + dial + number); // the CRM's own form stores "+58412…" with no space; keep rows identical
     data.delete('phone_local'); data.delete('phone_code');
     var custom = {};
     Array.from(data.keys()).filter(function (k) { return k.indexOf('custom_') === 0; }).forEach(function (k) { custom[k.slice(7)] = data.get(k); data.delete(k); });
