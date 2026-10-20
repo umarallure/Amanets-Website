@@ -43,16 +43,32 @@
   if (ref) document.getElementById('invite').hidden = false;
 
   /* ── Roles and video from the CRM ─────────────────────────── */
-  fetch(site.API + '/api/referrals?roles=1', { cache: 'no-store' })
-    .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
-    .then(function (data) { config = data.formConfig; openings = data.roles || []; renderRoles(); renderVideo(); })
-    .catch(function () { configFailed = true; renderRoles(); renderVideo(); });
+  // retry = true when the visitor taps "Try again": only the role list is redrawn, so a video that
+  // is already playing from the default URL is never remounted.
+  function loadConfig(retry) {
+    fetch(site.API + '/api/referrals?roles=1', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then(function (data) { configFailed = false; config = data.formConfig; openings = data.roles || []; renderRoles(); renderVideo(); })
+      .catch(function () { configFailed = true; renderRoles(); if (!retry) renderVideo(); });
+  }
+  loadConfig(false);
 
   function renderRoles() {
     var list = document.getElementById('roles');
     list.textContent = '';
     if (configFailed || !openings.length) {
-      list.appendChild(el('li', { class: 'roles-empty', text: t(configFailed ? 'careers.offline' : 'careers.none') }));
+      var key = configFailed ? 'careers.offline' : 'careers.none';
+      var empty = el('li', { class: 'roles-empty' }, [el('span', { 'data-i18n': key, text: t(key) })]);
+      if (configFailed) {
+        var retry = el('button', { type: 'button', class: 'btn btn-line roles-retry', 'data-i18n': 'careers.retry', text: t('careers.retry') });
+        retry.addEventListener('click', function () {
+          retry.disabled = true;
+          retry.textContent = t('careers.loading');
+          loadConfig(true);
+        });
+        empty.appendChild(retry);
+      }
+      list.appendChild(empty);
       return;
     }
     openings.forEach(function (opening) {

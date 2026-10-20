@@ -18,12 +18,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/referral.css?v=20261021-video-state" />
+<link rel="stylesheet" href="/assets/referral.css?v=20261021-polish" />
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false"><defs>
   <linearGradient id="eclipse-grad" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd2a8"/><stop offset=".5" stop-color="#f2879a"/><stop offset="1" stop-color="#b2506f"/></linearGradient>
   <linearGradient id="done-grad" x1="0" y1="0" x2="84" y2="84" gradientUnits="userSpaceOnUse"><stop stop-color="#ff9aa8"/><stop offset="1" stop-color="#d4607e"/></linearGradient>
+  <symbol id="i-office" viewBox="0 0 24 24"><path d="M4 21V3.5h11V21M15 9h5v12M2 21h20M8 7.5h3M8 11.5h3M8 15.5h3"/></symbol>
+  <symbol id="i-usd" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M14.9 9.3c-.4-1.1-1.5-1.7-2.9-1.7-1.7 0-2.9.8-2.9 2.1s1 1.7 2.9 2.2 2.9 1 2.9 2.2-1.2 2.1-2.9 2.1c-1.5 0-2.6-.7-3-1.8M12 5.6v2M12 16.4v2"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M1.5 9L12 4l10.5 5L12 14z"/><path d="M6 11.6V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.4M22.5 9v6.5"/></symbol>
+  <symbol id="i-uni" viewBox="0 0 24 24"><path d="M3 9.5L12 4l9 5.5zM5.5 12v6M10 12v6M14 12v6M18.5 12v6M3 21h18M4 18h16"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M2.8 12h18.4M12 2.8c2.6 2.6 4 5.7 4 9.2s-1.4 6.6-4 9.2c-2.6-2.6-4-5.7-4-9.2s1.4-6.6 4-9.2z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="5.8" cy="12" r="2.7"/><circle cx="18" cy="5.8" r="2.7"/><circle cx="18" cy="18.2" r="2.7"/><path d="M8.2 10.7l7.4-3.6M8.2 13.3l7.4 3.6"/></symbol>
   <symbol id="eclipse" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15.5" fill="none" stroke="url(#eclipse-grad)" stroke-width="2.4"/><circle cx="24.5" cy="17" r="13" fill="#141118"/><circle cx="28.8" cy="11.6" r="2.6" fill="#ffd2a8"/></symbol>
 </defs></svg>
 <canvas id="starfield" aria-hidden="true"></canvas>
@@ -107,26 +113,32 @@
     </div>
     <div class="merida-grid" data-reveal="stagger">
       <article class="merida-lead">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-office"/></svg></span>
         <h3 data-i18n="merida.office">Nuestra oficina en Rodero Plaza</h3>
         <p data-i18n="merida.officeb">Estamos abriendo una oficina en el edificio administrativo de Rodero Plaza, en Mérida. Un lugar de trabajo cerca de la universidad y del centro de la ciudad.</p>
       </article>
-      <article>
+      <article class="merida-usd">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-usd"/></svg></span>
         <h3 data-i18n="merida.usd">Gana en dólares estadounidenses</h3>
         <p data-i18n="merida.usdb">Trabaja para una empresa con sede en Estados Unidos y gana en dólares sin salir de Venezuela.</p>
       </article>
-      <article>
+      <article class="merida-students">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-cap"/></svg></span>
         <h3 data-i18n="merida.students">Pensado para estudiantes</h3>
         <p data-i18n="merida.studentsb">Tenemos puestos de medio tiempo y de tiempo completo, para que puedas trabajar mientras estudias.</p>
       </article>
-      <article>
+      <article class="merida-uni">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-uni"/></svg></span>
         <h3 data-i18n="merida.uni">De la mano con la universidad</h3>
         <p data-i18n="merida.unib">Estamos colaborando con la universidad local para llegar a estudiantes de Mérida que quieran dar su primer paso profesional.</p>
       </article>
-      <article>
+      <article class="merida-team">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-globe"/></svg></span>
         <h3 data-i18n="merida.team">Un equipo internacional</h3>
         <p data-i18n="merida.teamb">Ventas, atención al cliente, reclutamiento, administración y marketing: aprende junto a un equipo que atiende a clientes en Estados Unidos.</p>
       </article>
-      <article>
+      <article class="merida-refer">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-share"/></svg></span>
         <h3 data-i18n="merida.refer">Recomienda a cualquiera en la ciudad</h3>
         <p data-i18n="merida.referb">Si conoces a alguien en Mérida que encaje, regístrate como socio y compártele tu enlace.</p>
       </article>
@@ -163,7 +175,7 @@
 <script src="/assets/vendor/qrcode.min.js" defer></script>
 <script src="/assets/starfield.js" defer></script>
 <script src="/assets/site.js" defer></script>
-<script src="/assets/i18n.js?v=20261021-video-state" defer></script>
-<script src="/assets/referral.js?v=20261021-video-state" defer></script>
+<script src="/assets/i18n.js?v=20261021-polish" defer></script>
+<script src="/assets/referral.js?v=20261021-polish" defer></script>
 </body>
 </html>
