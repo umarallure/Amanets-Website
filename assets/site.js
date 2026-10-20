@@ -6,8 +6,9 @@
   /* Test traffic must land in the CRM's dev database, never in production. Local and preview
      hosts talk to a local CRM (localhost) or the test CRM; everything else is production. */
   var host = location.hostname;
+  var PRODUCTION_HOSTS = ['amanets-website.vercel.app'];
   var API = /^(localhost|127\.0\.0\.1)$/.test(host) ? 'http://localhost:3000'
-    : /(^|[.-])(test|staging|preview|dev)[.-]|\.vercel\.app$/.test(host) ? 'https://test.powerpolicies.com'
+    : PRODUCTION_HOSTS.indexOf(host) < 0 && /(^|[.-])(test|staging|preview|dev)[.-]|\.vercel\.app$/.test(host) ? 'https://test.powerpolicies.com'
     : 'https://app.powerpolicies.com';
 
   var STATUS = {

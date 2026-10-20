@@ -100,7 +100,8 @@ On phones specifically:
 Spanish-first careers page for the Mérida office, with an English switch. All data lives in the
 Power Policies CRM — this site renders it and posts to the CRM's `/api/referrals`:
 
-- `localhost` → `http://localhost:3000` (a local CRM), any `test`/`staging`/`preview`/`dev` host or
+- `localhost` → `http://localhost:3000` (a local CRM); `amanets-website.vercel.app` (production) →
+  `https://app.powerpolicies.com`; any `test`/`staging`/`preview`/`dev` host or other
   `*.vercel.app` → `https://test.powerpolicies.com`, everything else → `https://app.powerpolicies.com`
   (see `assets/site.js`). The CRM must list this site's origin in `REFERRAL_PUBLIC_ORIGINS`.
 - Positions, dropdown choices, extra questions and the intro video are edited in the CRM under
