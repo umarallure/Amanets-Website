@@ -167,8 +167,19 @@ body::before {
   background: radial-gradient(120% 120% at 32% 78%, #241d27 0%, #191420 42%, #120f16 100%);
   box-shadow: 0 0 0 1.5px rgba(255, 205, 190, .32), 0 0 34px 2px rgba(255, 150, 165, .22), inset 0 0 40px rgba(255, 150, 165, .08);
 }
-.video-frame iframe, .video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-frame iframe, .video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: inherit; }
+.video-frame video { object-fit: contain; background: #090909; }
+.video-frame[data-state="loading"] video { opacity: 0; }
+.video-frame[data-state="ready"] .video-loading { display: none; }
+.video-frame[data-state="error"] video { display: none; }
+.video-loading { position: absolute; inset: 0; z-index: 1; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 20px; background: #090909; color: #bdbdbd; text-align: center; }
+.video-loading p { max-width: 30em; font-size: 14px; }
+.video-spinner { width: 32px; aspect-ratio: 1; border: 2px solid rgba(255,255,255,.2); border-top-color: #ed1c24; border-radius: 50%; animation: video-spin .8s linear infinite; }
+@keyframes video-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .video-spinner { animation: none; } }
 .video-empty, .video-play { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 16px; padding: 20px; text-align: center; }
+.video-empty { background: #090909; color: #bdbdbd; }
+.video-empty .video-spinner { border-color: rgba(255,255,255,.2); border-top-color: #ed1c24; }
 /* A small copy of the home page's eclipse, built from round gradients so its glow never shows
    a box: soft corona that breathes, a crisp rim, a flare that orbits, the dark disc on top. */
 .orb { position: relative; width: clamp(76px, 13vw, 120px); aspect-ratio: 1; }
@@ -482,6 +493,99 @@ body::before {
   .merida-actions { display: grid; }
   .roles { padding: 2px 14px; }
 }
-/* Flags only on the narrowest phones; the words stay for screen readers. */
-@media (max-width: 340px) { .lang-switch span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
 @media (prefers-reduced-motion: reduce) { .grain { display: none; } }
+
+
+/* Public homepage: match the approved black, white and red Amanet direction. */
+:root {
+  --bg: #090909;
+  --bg-deep: #050505;
+  --ink: #f5f5f5;
+  --ink-soft: #bdbdbd;
+  --ink-faint: #888;
+  --rose: #d71920;
+  --rose-hot: #ed1c24;
+  --rose-deep: #b9151b;
+  --peach: #fff;
+  --on-rose: #fff;
+  --line: rgba(255,255,255,.12);
+  --line-strong: rgba(255,255,255,.24);
+  --card: #111;
+  --card-hi: #191919;
+}
+body:not(.dash-page)::before { background: #090909; }
+body:not(.dash-page) #starfield, body:not(.dash-page) .grain { display: none; }
+::selection { background: rgba(215,25,32,.42); }
+:focus-visible { outline-color: var(--rose-hot); }
+.bar { min-height: 78px; padding-inline: max(var(--gutter), calc((100vw - 1320px) / 2)); background: #fff; color: #101010; border-bottom: 0; }
+.brand { gap: 18px; color: #101010; }
+.brand-logo { display: block; width: clamp(138px, 15vw, 180px); height: auto; }
+.brand-tag { padding-left: 18px; border-left: 1px solid #d7d7d7; color: #111; font-size: 10px; font-weight: 700; letter-spacing: .16em; line-height: 1.4; }
+.lang-switch { background: #f5f5f5; border-color: #e7e7e7; }
+.lang-switch button { color: #575757; }
+.lang-switch button[aria-pressed="true"] { background: #111; color: #fff; box-shadow: none; }
+.btn-red, .bar .bar-cta, .bar .btn-red { background: #d71920; border-color: #d71920; color: #fff; box-shadow: none; }
+.btn-lg { min-height: 50px; padding-inline: 22px; font-size: 15px; }
+.hero { background: #090909; }
+.hero h1 { font-size: clamp(3rem, 4.6vw, 6rem); text-transform: none; text-shadow: none; }
+.hero-eyebrow { padding: 10px 18px; border: 1px solid rgba(255,255,255,.65); border-radius: 0; background: transparent; color: #fff; font-size: 11px; letter-spacing: .18em; }
+.hero-eyebrow .dot { background: #e31e25; }
+.hero .video figcaption { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #ddd; }
+.hero .btn-line { border-radius: 0; background: transparent; border-color: rgba(255,255,255,.55); color: #fff; }
+.hero .proof, .hero-side .invite { color: #bbb; }
+.hero-side { align-content: start; }
+.hero h1 span + span { color: #fff; }
+.hero .video-frame { width: 100%; aspect-ratio: 16 / 9; border-radius: 2px; background: #151515; box-shadow: 0 0 0 1px rgba(255,255,255,.18); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.hero-actions .btn { min-width: 190px; }
+.partner-band { background: #101010; color: var(--ink); border-block: 1px solid #252525; }
+.partner-band .steps li::before, .partner-band .steps-on-red li::before { color: var(--rose-hot); }
+.partner-band .steps-on-red li { border-top-color: var(--line); }
+.partner-band .steps-on-red span { color: var(--ink-soft); }
+.partner-body .btn { background: #d71920; border-color: #d71920; color: #fff; box-shadow: none; }
+.partner-body .btn:hover { background: #b9151b; }
+.roles { border-radius: 2px; background: #101010; }
+.role:hover .role-title { color: #fff; }
+.role:active .role-go, .role:hover .role-go { background: var(--rose); border-color: var(--rose); color: #fff; }
+.merida { background: #0d0d0d; }
+.merida-grid article, .merida-lead { background: #111 !important; border-color: #292929 !important; border-radius: 2px; }
+.merida-lead { box-shadow: inset 3px 0 #d71920; }
+.merida-actions .btn-line-light { color: #fff; border-color: var(--line-strong); }
+.how { padding-top: clamp(56px, 8vw, 104px); }
+.privacy p { color: #a6a6a6; }
+.foot { background: #090909; border-color: #262626; }
+.sheet { background: #0a0a0a; }
+.sheet::backdrop { background: rgba(0,0,0,.72); }
+.sheet-tools { background: rgba(10,10,10,.96); }
+.group legend, .req, .form-status, .field-error, .consent-link { color: #ff555b; }
+.field input:not([type="checkbox"]):not([type="file"]), .field select, .field textarea, .phone-code-face, .consent { background-color: #151515; border-color: #3b3b3b; border-radius: 2px; }
+.field input:focus, .field select:focus, .field textarea:focus, .phone-code-wrap:has(.phone-code:focus-visible) .phone-code-face { border-color: #ed1c24; box-shadow: 0 0 0 3px rgba(237,28,36,.16); background-color: #171717; }
+.form-foot { background: linear-gradient(to top, #0a0a0a 78%, rgba(10,10,10,0)); border-top: 1px solid #292929; }
+.form-foot .btn { min-height: 50px; border-radius: 2px; background: #d71920; color: #fff; box-shadow: none; }
+.form-foot .btn:hover { background: #b9151b; }
+.done-check circle { fill: #d71920; }
+.done-check path { stroke: #fff; }
+.dash-save { border-color: #3a2223; background: #151111; }
+.dash-url { color: #fff; }
+.dash-count { color: #ed1c24; }
+.chip-hired, .chip-started { background: #d71920; color: #fff !important; }
+@media (min-width: 900px) {
+  .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "copy video" "side video"; column-gap: clamp(36px, 5vw, 72px); row-gap: 18px; }
+  .hero .video { width: 100%; max-width: 720px; justify-self: end; }
+  .hero .video-frame { aspect-ratio: 16 / 9; }
+}
+@media (max-width: 640px) {
+  .hero .video-frame { aspect-ratio: 16 / 9; }
+  .hero-actions { display: grid; grid-template-columns: 1fr; }
+  .hero-actions .btn { width: 100%; min-width: 0; }
+  .partner-inner { padding-block: 44px; }
+  .partner-band h2 { text-transform: none; letter-spacing: -.03em; }
+  .merida-actions .btn, .partner-body .btn, .careers-foot .btn { min-height: 48px; }
+  .form-foot .btn { min-height: 48px; }
+}
+body.dash-page::before { background: #090909; }
+body.dash-page #starfield, body.dash-page .grain { display: none; }
+.btn-red:hover { box-shadow: none; filter: brightness(1.06); }
+
+@media (max-width: 380px) { .lang-switch button { width: 44px; padding-inline: 0; } .lang-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+@media (max-width: 340px) { .lang-switch span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }

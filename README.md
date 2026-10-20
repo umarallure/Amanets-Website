@@ -1,4 +1,4 @@
-# Amanets — Coming Soon
+# Amanet — Careers and Referrals
 
 A single-page "coming soon" landing page. Pure static HTML/CSS/JS — no build step,
 no dependencies, no framework.
@@ -81,7 +81,7 @@ On phones specifically:
 
 ## Things to change before launch
 
-- **Brand name** — "Amanets" is used in the title, logo, and footer. Search and replace.
+- **Brand name** — "Amanet" is used in the title, logo, and footer. Search and replace.
 - **Progress %** — set in two places that must match: `--` the `68%` in the `fillUp`
   keyframe in [styles.css](styles.css), and `TARGET` in [script.js](script.js).
   Also update `aria-valuenow` on the progress element in [index.html](index.html).
@@ -95,9 +95,9 @@ On phones specifically:
   `assets/og.png` at 1200×630 and point the `og:image` / `twitter:image` meta tags at
   the PNG when you want link previews to work.
 
-## Careers & referral pages (`/referral`, `/referral/partner`)
+## Careers & referral homepage (`/`, `/referral`, `/referral/partner`)
 
-Run locally with `npx serve .` and open `/referral`. To use a CRM running on your machine instead
+The careers and referrals homepage is served directly at `/`. `/referral` redirects to `/` for older links. Run locally with `npx serve .`. The partner dashboard remains at `/referral/partner`. To use a CRM running on your machine instead
 of the test CRM, run once in the browser console:
 `localStorage.setItem('amanets-api', 'http://localhost:3001')` (its port).
 
@@ -110,4 +110,4 @@ Power Policies CRM — this site renders it and posts to the CRM's `/api/referra
 - Positions, dropdown choices, extra questions and the intro video are edited in the CRM under
   Referrals → Setup. Every other word is in `assets/i18n.js`.
 - `/referral/partner#<token>` is the partner's private dashboard; the token never leaves the hash.
-- `/referral` has its own Content-Security-Policy in `vercel.json` — add any new API or video host there.
+- The homepage and partner dashboard use the Content-Security-Policy in `vercel.json` — add any new API or video host there.

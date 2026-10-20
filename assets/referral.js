@@ -8,6 +8,7 @@
   var OTHER_SCHOOL = 'Other university';
   var MAX_CV = 4 * 1024 * 1024;
   var config = null, openings = [], configFailed = false;
+  var DEFAULT_VIDEO_URL = 'https://cap.so/s/n2rw42bn43s38qm';
   var sheet = document.getElementById('sheet');
 
   site.apply();
@@ -45,7 +46,7 @@
   fetch(site.API + '/api/referrals?roles=1', { cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
     .then(function (data) { config = data.formConfig; openings = data.roles || []; renderRoles(); renderVideo(); })
-    .catch(function () { configFailed = true; renderRoles(); });
+    .catch(function () { configFailed = true; renderRoles(); renderVideo(); });
 
   function renderRoles() {
     var list = document.getElementById('roles');
@@ -81,12 +82,17 @@
     return '';
   }
   function renderVideo() {
-    var url = config && config.videoUrl;
-    if (!url) return;
+    var url = config && config.videoUrl || DEFAULT_VIDEO_URL;
     var frame = document.getElementById('video-frame');
+    var cap = url.match(/^https?:\/\/(?:www\.)?cap\.so\/(?:s|embed)\/([\w-]+)/i);
+    if (cap) {
+      frame.textContent = '';
+      mountVideo(frame, 'https://cap.so/api/playlist?videoId=' + encodeURIComponent(cap[1]) + '&videoType=mp4');
+      return;
+    }
     if (/\.(mp4|webm|ogg)(\?|$)/i.test(url)) {
       frame.textContent = '';
-      frame.appendChild(el('video', { src: url, controls: true, playsinline: true, preload: 'metadata', title: t('video.watch') }));
+      mountVideo(frame, url);
       return;
     }
     if (!embedUrl(url)) return;
@@ -100,10 +106,29 @@
     frame.textContent = '';
     frame.appendChild(play);
   }
+  function mountVideo(frame, url) {
+    frame.dataset.state = 'loading';
+    var video = el('video', { src: url, controls: true, playsinline: true, preload: 'metadata', title: t('video.watch') });
+    var message = el('p', { 'data-i18n': 'video.loading', text: t('video.loading') });
+    var loading = el('div', { class: 'video-loading', role: 'status', 'aria-live': 'polite' }, [
+      el('span', { class: 'video-spinner', 'aria-hidden': 'true' }),
+      message
+    ]);
+    video.addEventListener('canplay', function () { frame.dataset.state = 'ready'; });
+    video.addEventListener('waiting', function () { frame.dataset.state = 'loading'; });
+    video.addEventListener('playing', function () { frame.dataset.state = 'ready'; });
+    video.addEventListener('error', function () {
+      frame.dataset.state = 'error';
+      message.setAttribute('data-i18n', 'video.error');
+      site.apply(loading);
+    });
+    frame.append(video, loading);
+  }
 
   site.onLang(function () {
     if (config || configFailed) renderRoles();
     relabel(sheet);
+    site.apply(document.getElementById('video-frame'));
   });
 
   /* ── Forms ─────────────────────────────────────────────────── */

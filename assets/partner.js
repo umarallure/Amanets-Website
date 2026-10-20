@@ -23,7 +23,7 @@
   }
 
   function publicLink() {
-    var url = new URL('/referral', location.origin);
+    var url = new URL('/', location.origin);
     url.searchParams.set('ref', data.partner.code);
     return url.toString();
   }
@@ -44,7 +44,7 @@
     if (!token) {
       main.appendChild(el('section', { class: 'dash-card dash-notice' }, [
         el('h1', { text: t('dash.noToken') }), el('p', { text: t('dash.noTokenBody') }),
-        el('a', { class: 'btn btn-ink', href: '/referral', text: t('dash.toPage') })
+        el('a', { class: 'btn btn-ink', href: '/', text: t('dash.toPage') })
       ]));
       return;
     }
