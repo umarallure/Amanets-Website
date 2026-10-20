@@ -94,3 +94,16 @@ On phones specifically:
   (X, Facebook, LinkedIn, Slack) do not render SVG previews. Export it to
   `assets/og.png` at 1200×630 and point the `og:image` / `twitter:image` meta tags at
   the PNG when you want link previews to work.
+
+## Careers & referral pages (`/referral`, `/referral/partner`)
+
+Spanish-first careers page for the Mérida office, with an English switch. All data lives in the
+Power Policies CRM — this site renders it and posts to the CRM's `/api/referrals`:
+
+- `localhost` → `http://localhost:3000` (a local CRM), any `test`/`staging`/`preview`/`dev` host or
+  `*.vercel.app` → `https://test.powerpolicies.com`, everything else → `https://app.powerpolicies.com`
+  (see `assets/site.js`). The CRM must list this site's origin in `REFERRAL_PUBLIC_ORIGINS`.
+- Positions, dropdown choices, extra questions and the intro video are edited in the CRM under
+  Referrals → Setup. Every other word is in `assets/i18n.js`.
+- `/referral/partner#<token>` is the partner's private dashboard; the token never leaves the hash.
+- `/referral` has its own Content-Security-Policy in `vercel.json` — add any new API or video host there.
