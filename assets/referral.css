@@ -1341,3 +1341,14 @@ body.dash-page .bar-cta { white-space: nowrap; }
   .role-share { width: 48px; }
   .role-share span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
+
+/* Partner share card, desktop: the link, Share and Copy buttons and the "Send it directly" icons now stack on the
+   left, directly under the description, and the QR takes the right column alone. Before, the left column was
+   centred against the taller QR column, which left a gap above the link and the icons stranded at the bottom right. */
+@media (min-width: 1100px) {
+  .dash-link-grid { align-items: start; align-content: start; grid-template-rows: auto 1fr; row-gap: 18px; }
+  .dash-link-side { display: contents; }
+  .dash-link-main { grid-column: 1; grid-row: 1; }
+  .dash-link-side .send { grid-column: 1; grid-row: 2; }
+  .dash-link-side .dash-qr { grid-column: 2; grid-row: 1 / span 2; }
+}
