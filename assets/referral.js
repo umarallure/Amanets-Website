@@ -8,7 +8,9 @@
   var OTHER_SCHOOL = 'Other university';
   var MAX_CV = 4 * 1024 * 1024;
   var config = null, openings = [], configFailed = false;
-  var DEFAULT_VIDEO_URL = 'https://cap.so/s/n2rw42bn43s38qm';
+  // Monica's video, hosted here: Cap's copy keeps its index at the end of a 13 MB file behind an
+  // expiring redirect, which iPhones would not start. This one is 3 MB with the index first.
+  var DEFAULT_VIDEO_URL = '/assets/video/monica.mp4';
   var sheet = document.getElementById('sheet');
 
   site.apply();
@@ -124,15 +126,17 @@
   }
   function mountVideo(frame, url) {
     frame.dataset.state = 'loading';
-    var video = el('video', { src: url, controls: true, playsinline: true, preload: 'metadata', title: t('video.watch') });
+    var video = el('video', { src: url, poster: url === DEFAULT_VIDEO_URL ? '/assets/video/monica.jpg' : null, controls: true, playsinline: true, preload: 'metadata', title: t('video.watch') });
     var message = el('p', { 'data-i18n': 'video.loading', text: t('video.loading') });
     var loading = el('div', { class: 'video-loading', role: 'status', 'aria-live': 'polite' }, [
       el('span', { class: 'video-spinner', 'aria-hidden': 'true' }),
       message
     ]);
-    video.addEventListener('canplay', function () { frame.dataset.state = 'ready'; });
-    video.addEventListener('waiting', function () { frame.dataset.state = 'loading'; });
-    video.addEventListener('playing', function () { frame.dataset.state = 'ready'; });
+    // iPhone Safari loads nothing until the visitor taps play, so 'canplay' never comes on its own:
+    // waiting for it left the spinner over the player forever. Show the player as soon as there is
+    // anything to show, or as soon as the browser stops loading to wait for that tap ('suspend').
+    var ready = function () { if (frame.dataset.state !== 'error') frame.dataset.state = 'ready'; };
+    ['loadedmetadata', 'loadeddata', 'canplay', 'playing', 'suspend'].forEach(function (name) { video.addEventListener(name, ready); });
     video.addEventListener('error', function () {
       frame.dataset.state = 'error';
       message.setAttribute('data-i18n', 'video.error');

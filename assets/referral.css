@@ -172,7 +172,7 @@ body::before {
 .video-frame[data-state="loading"] video { opacity: 0; }
 .video-frame[data-state="ready"] .video-loading { display: none; }
 .video-frame[data-state="error"] video { display: none; }
-.video-loading { position: absolute; inset: 0; z-index: 1; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 20px; background: #090909; color: #bdbdbd; text-align: center; }
+.video-loading { position: absolute; inset: 0; z-index: 1; pointer-events: none; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 20px; background: #090909; color: #bdbdbd; text-align: center; }
 .video-loading p { max-width: 30em; font-size: 14px; }
 .video-spinner { width: 32px; aspect-ratio: 1; border: 2px solid rgba(255,255,255,.2); border-top-color: #ed1c24; border-radius: 50%; animation: video-spin .8s linear infinite; }
 @keyframes video-spin { to { transform: rotate(360deg); } }
@@ -588,7 +588,8 @@ body.dash-page::before { background: #090909; }
 body.dash-page #starfield, body.dash-page .grain { display: none; }
 .btn-red:hover { box-shadow: none; filter: brightness(1.06); }
 
-@media (max-width: 380px) { .lang-switch button { width: 44px; padding-inline: 0; } .lang-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+@media (max-width: 760px) { .brand-tag { display: none; } }
+@media (max-width: 480px) { .lang-switch button { width: 44px; padding-inline: 0; } .lang-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
 @media (max-width: 340px) { .lang-switch span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
 
 /* ── Mérida benefits: bento layout with icon tiles ─────────
