@@ -885,3 +885,110 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
   .merida .merida-team { grid-column: 5 / span 4; grid-row: 3; }
   .merida .merida-refer { grid-column: 9 / span 4; grid-row: 3; }
 }
+
+/* ── How to apply: scroll story ────────────────────────────
+   Left: the heading, a step counter, a progress bar and the Apply button, pinned while you read.
+   Right: the three steps, large. The one crossing the middle of the screen lights up in red; the
+   others stay readable (not faded to near-invisible). Without script every step shows at full
+   strength, and the text is always in the page for assistive tech. On phones the side column
+   dissolves into the flow: heading, steps, then the button. */
+.how { position: relative; padding-block: clamp(56px, 8vw, 104px); background: #090909; }
+.how > .how-bg { position: absolute; inset: 0; max-width: none; margin: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.how-bg img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 30% 60%; opacity: .34; filter: saturate(.85); }
+.how-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, #090909 14%, rgba(9,9,9,.5) 62%, rgba(9,9,9,.7)), linear-gradient(0deg, #090909, transparent 24%, transparent 76%, #090909);
+}
+.how > .how-wrap { position: relative; z-index: 1; display: grid; gap: 8px; }
+.how-side { display: contents; }
+.how-side h2 { margin-bottom: 14px; }
+.how-count, .how-prog { display: none; }
+.how-cta { justify-self: start; margin-top: 22px; order: 3; }
+.how-steps { order: 2; }
+
+.how-steps { list-style: none; margin: 0; padding: 0; display: grid; }
+.how-step { display: grid; grid-template-columns: 52px 1fr; gap: 6px 18px; padding: 26px 0; border-top: 1px solid #262626; align-content: center; }
+.how-n { padding-top: 12px; font-size: 14px; font-weight: 600; letter-spacing: .18em; color: #bdbdbd; font-variant-numeric: tabular-nums; }
+.how-ico { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 14px; border: 1px solid #d71920; color: #ed1c24; }
+.how-ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.how-step h3 { margin-bottom: 10px; font-size: clamp(1.7rem, 7vw, 2.6rem); letter-spacing: -.03em; line-height: 1.05; }
+.how-step p { max-width: 30em; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.55; color: #d6d6d6; }
+
+/* With script: the step in the middle band is lit, the rest sit back but stay legible (4.9:1). */
+.how-js .how-step:not(.is-active) h3, .how-js .how-step:not(.is-active) p { color: #858585; }
+.how-js .how-step:not(.is-active) .how-ico { border-color: #3a3a3a; color: #6d6d6d; }
+.how-js .how-step.is-active h3 { color: #ff4a50; }
+.how-js .how-step.is-active .how-n { color: #ff4a50; }
+.how-js .how-step.is-done .how-n { color: #d71920; }
+@media (prefers-reduced-motion: no-preference) {
+  .how-js .how-step h3, .how-js .how-step p, .how-js .how-n, .how-js .how-ico { transition: color .4s ease, border-color .4s ease; }
+  .how-js .how-step > div { transition: transform .5s var(--ease-out); }
+  .how-js .how-step.is-active > div { transform: translateX(8px); }
+  .how-count b { display: inline-block; animation: how-tick .35s var(--ease-out); }
+}
+@keyframes how-tick { from { transform: translateY(40%); opacity: 0; } to { transform: none; opacity: 1; } }
+
+@media (max-width: 899px) {
+  .how-js .how-step { padding: 22px 0; }
+}
+@media (min-width: 900px) {
+  .how > .how-wrap { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); column-gap: clamp(40px, 6vw, 80px); align-items: start; }
+  .how-side { display: grid; gap: 18px; align-content: start; position: sticky; top: 112px; }
+  .how-side h2 { margin-bottom: 0; max-width: 8em; }
+  .how-count { display: flex; align-items: baseline; gap: 10px; margin: 14px 0 0; font-size: 12px; font-weight: 600; letter-spacing: .2em; color: #bdbdbd; }
+  .how-count b { font-size: clamp(2.4rem, 4vw, 3rem); letter-spacing: -.02em; color: #fff; font-variant-numeric: tabular-nums; }
+  .how-prog { display: block; width: min(240px, 100%); height: 3px; background: #2c2c2c; }
+  .how-prog i { display: block; height: 100%; width: 33.3%; background: #d71920; transition: width .6s var(--ease-out); }
+  .how-cta { margin-top: 10px; }
+  .how-step { min-height: clamp(220px, 42vh, 400px); padding: 30px 0; grid-template-columns: 64px 1fr; gap: 6px 22px; }
+}
+
+/* ── Closing call to action, privacy points, footer ────────
+   The page used to end on a grey paragraph and a three-item footer. Now it finishes with a bold red
+   sign-off (the hero's own headline and the two buttons), the privacy notice split into its three
+   sentences with an icon each (same words, easier to scan), and a footer with the logo, tagline,
+   legal link and a way back to the top. No contact details are shown because none are published. */
+.closing { position: relative; overflow: hidden; padding: clamp(56px, 9vw, 112px) var(--gutter); background: linear-gradient(135deg, #d71920 0%, #b9151b 100%); color: #fff; }
+.closing::before {
+  content: ""; position: absolute; right: -10%; top: -45%; width: min(640px, 70vw); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+  border: 1px solid rgba(255,255,255,.2); box-shadow: 0 0 0 56px rgba(255,255,255,.045), 0 0 0 112px rgba(255,255,255,.03);
+}
+.closing-inner { position: relative; display: grid; gap: 22px; max-width: var(--max); margin: 0 auto; }
+.closing .pill { justify-self: start; border-color: rgba(255,255,255,.65); background: transparent; color: #fff; }
+.closing .pill .dot { background: #fff; }
+.closing h2 { max-width: 11em; font-size: clamp(2.5rem, 7.4vw, 5.6rem); font-weight: 700; line-height: .98; letter-spacing: -.04em; text-transform: none; }
+.closing h2 span { display: block; }
+.closing h2 span + span { color: #1a0508; }
+.closing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.btn-white { background: #fff; border-color: #fff; color: #111; box-shadow: none; }
+.btn-outline-white { background: transparent; border-color: rgba(255,255,255,.75); color: #fff; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .btn-white:hover { background: #f1f1f1; }
+  .btn-outline-white:hover { background: rgba(255,255,255,.12); }
+}
+@media (max-width: 640px) { .closing-actions { display: grid; } .closing-actions .btn { width: 100%; } }
+
+.privacy { padding-block: clamp(56px, 7vw, 96px) clamp(48px, 6vw, 80px); }
+.privacy h2 { margin-bottom: 26px; font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 700; letter-spacing: -.02em; text-transform: none; color: var(--ink); }
+.privacy-grid { display: grid; gap: 12px; }
+.privacy-pt { display: grid; grid-template-columns: 46px 1fr; column-gap: 16px; row-gap: 6px; align-content: start; padding: 20px; border: 1px solid #2c2c2c; border-radius: 14px; background: #111; }
+.pv-ico { grid-row: span 2; display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid #d71920; color: #ed1c24; }
+.pv-ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.privacy-pt b { align-self: end; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #ff6a6f; }
+.privacy .privacy-pt p { max-width: none; font-size: 15px; line-height: 1.55; color: #cfcfcf; }
+@media (min-width: 900px) {
+  .privacy-grid { grid-template-columns: repeat(3, 1fr); }
+  .privacy-pt { grid-template-columns: 1fr; }
+  .pv-ico { grid-row: auto; margin-bottom: 8px; }
+  .privacy-pt b { align-self: start; }
+}
+
+.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px; padding: 32px max(var(--gutter), calc((100vw - var(--max)) / 2)); padding-bottom: max(32px, env(safe-area-inset-bottom)); border-top: 1px solid #262626; background: #090909; }
+.foot-brand { display: flex; align-items: center; gap: 16px; }
+.foot-tag { padding-left: 16px; border-left: 1px solid #333; font-size: 11px; font-weight: 700; letter-spacing: .16em; color: #bdbdbd; }
+.foot-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; font-size: 13px; letter-spacing: .06em; color: var(--ink-faint); }
+.foot-links a { color: #d6d6d6; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 640px) {
+  .foot { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .foot-tag { display: none; }
+}

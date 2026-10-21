@@ -55,6 +55,11 @@
     'how.s2': 'Envía tu solicitud', 'how.s2b': 'Elige un puesto y completa el formulario. Tu CV es opcional.',
     'how.s3': 'Te contactamos', 'how.s3b': 'Nuestro equipo revisa cada solicitud y te escribe para el siguiente paso.',
     'privacy.title': 'Aviso de privacidad',
+    'privacy.l1': 'Uso', 'privacy.l2': 'Acceso', 'privacy.l3': 'Tu socio',
+    'privacy.p1': 'Usamos tu información solo para revisar tu solicitud o gestionar tu cuenta de socio.',
+    'privacy.p2': 'El equipo de selección autorizado puede ver tu solicitud.',
+    'privacy.p3': 'Si llegaste por el enlace de un socio, esa persona solo ve tu nombre, el puesto al que te postulaste y la etapa de tu proceso.',
+    'foot.top': 'Volver arriba',
     'privacy.body': 'Usamos tu información solo para revisar tu solicitud o gestionar tu cuenta de socio. El equipo de selección autorizado puede ver tu solicitud. Si llegaste por el enlace de un socio, esa persona solo ve tu nombre, el puesto al que te postulaste y la etapa de tu proceso.',
 
     'form.close': 'Cerrar',
@@ -183,6 +188,11 @@
     'how.s2': 'Send your application', 'how.s2b': 'Pick a role and fill in the form. Your CV is optional.',
     'how.s3': 'We get in touch', 'how.s3b': 'Our team reviews every application and contacts you about the next step.',
     'privacy.title': 'Privacy notice',
+    'privacy.l1': 'Use', 'privacy.l2': 'Access', 'privacy.l3': 'Your partner',
+    'privacy.p1': 'We use your information only to review your application or manage your partner account.',
+    'privacy.p2': 'Authorized recruiting staff can see your application.',
+    'privacy.p3': 'If you came through a partner’s link, that partner sees only your name, the role you applied for, and the stage of your process.',
+    'foot.top': 'Back to top',
     'privacy.body': 'We use your information only to review your application or manage your partner account. Authorized recruiting staff can see your application. If you came through a partner’s link, that partner sees only your name, the role you applied for, and the stage of your process.',
 
     'form.close': 'Close',
