@@ -114,7 +114,7 @@
     if (!embedUrl(url)) return;
     // The player loads on tap: a third-party iframe up front costs a phone on mobile data seconds.
     var play = el('button', { type: 'button', class: 'video-play', 'data-i18n-attr': 'aria-label:video.play', 'aria-label': t('video.play') });
-    play.innerHTML = '<div class="orb" aria-hidden="true"><span class="orb-corona"></span><span class="orb-ring"></span><span class="orb-orbit"><i></i></span><span class="orb-disc"></span></div><span class="video-play-icon" aria-hidden="true"></span>';
+    play.innerHTML = '<span class="video-play-icon" aria-hidden="true"></span>';
     play.addEventListener('click', function () {
       frame.textContent = '';
       frame.appendChild(el('iframe', { src: embedUrl(url), title: t('video.watch'), allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: true }));
