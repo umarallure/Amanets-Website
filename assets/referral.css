@@ -1413,12 +1413,31 @@ body.dash-page .bar-cta { white-space: nowrap; }
 .fit-hint { color: var(--ink-soft); font-size: 15px; }
 .fit-result { display: grid; gap: 10px; justify-items: start; padding: 24px; border-radius: 16px; background: linear-gradient(135deg, #d71920, #b9151b); color: #fff; box-shadow: 0 18px 50px rgba(215, 25, 32, .35); }
 .fit-result[hidden], .fit-hint[hidden] { display: none; }
-.fit-result svg { width: 44px; height: 44px; padding: 9px; border-radius: 50%; background: #fff; fill: none; stroke: #d71920; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .fit-result h3 { font-size: clamp(1.4rem, 5vw, 1.9rem); line-height: 1.1; letter-spacing: -.02em; }
 .fit-result p { color: rgba(255, 255, 255, .92); }
 .fit-result .btn { margin-top: 6px; }
-@media (prefers-reduced-motion: no-preference) { .fit-result:not([hidden]) { animation: fit-pop .5s var(--ease-out); } }
+@media (prefers-reduced-motion: no-preference) { .fit-result:not([hidden]) { animation: fit-pop .5s var(--ease-out) .3s both; } }
 @keyframes fit-pop { 0% { opacity: 0; transform: translateY(10px) scale(.97); } 100% { opacity: 1; transform: none; } }
 @media (min-width: 900px) {
   .sa-fit-wrap { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); column-gap: clamp(32px, 5vw, 72px); align-items: start; }
 }
+
+/* Checklist, round two: Puerto Rico first, the options fold away once the visitor qualifies (Puerto Rico plus at
+   least two more), and the congratulations card carries the Amanet logo. The fold animates the list's height with
+   the grid-rows trick and fades it; the card then rises in. Reduced motion gets the same states without movement. */
+.fit-collapse { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .55s var(--ease-out), opacity .35s ease, margin .55s var(--ease-out); }
+.fit-collapse-in { min-height: 0; overflow: hidden; }
+.sa-fit-body.done .fit-collapse { grid-template-rows: 0fr; opacity: 0; margin-bottom: -16px; pointer-events: none; }
+.sa-fit-body.done .fit-row { visibility: hidden; transition: visibility 0s .55s; }
+.fit-result { position: relative; overflow: hidden; }
+.fit-result > * { position: relative; z-index: 1; }
+.fit-logo { display: block; width: min(60%, 170px); height: auto; margin-bottom: 6px; }
+.fit-result::after {
+  content: ""; position: absolute; right: -14%; bottom: -4%; width: 90%; aspect-ratio: 392 / 72; z-index: 0; pointer-events: none;
+  background: url("/assets/brand/amanet-white.png") center / contain no-repeat; opacity: .12;
+}
+.fit-tick { width: 44px; height: 44px; padding: 9px; border-radius: 50%; background: #fff; fill: none; stroke: #d71920; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.fit-result svg.fit-tick { margin-top: 4px; }
+.fit-edit { padding: 6px 0; border: 0; background: none; color: rgba(255,255,255,.9); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 44px; }
+@media (prefers-reduced-motion: reduce) { .fit-collapse, .sa-fit-body.done .fit-row { transition: none; } }
+.fit-result h3, .fit-result p { text-align: left; }

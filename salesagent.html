@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/referral.css?v=20261021-sa5" />
+<link rel="stylesheet" href="/assets/referral.css?v=20261021-sa7" />
 </head>
 <body data-page="salesagent" data-title="sa.meta.title">
 <svg class="sprite" aria-hidden="true" focusable="false"><defs>
@@ -103,25 +103,29 @@
     <div class="sa-fit-wrap">
       <div class="sa-fit-head" data-reveal>
         <h2 id="fit-title" data-i18n="sa.fitT">¿Encajas?</h2>
-        <p data-i18n="sa.fitHint2">Marca lo que va contigo. Si coincides en todo, te lo decimos al instante.</p>
+        <p data-i18n="sa.fitHint2">Marca lo que va contigo. Si coincides, te lo decimos al instante.</p>
         <div class="fit-meter" aria-hidden="true"><i id="fit-bar"></i></div>
         <p class="fit-count" id="fit-count" aria-live="polite">0 de 4</p>
       </div>
       <div class="sa-fit-body" data-reveal>
+        <div class="fit-collapse"><div class="fit-collapse-in">
         <fieldset class="fit-list">
           <legend class="sr-only" data-i18n="sa.fitT">¿Encajas?</legend>
+          <label class="fit-row"><input type="checkbox" /><span class="fit-box" aria-hidden="true"></span><span data-i18n="sa.fit4">Vives en Puerto Rico</span></label>
           <label class="fit-row"><input type="checkbox" /><span class="fit-box" aria-hidden="true"></span><span data-i18n="sa.fit1">Hablas español e inglés</span></label>
           <label class="fit-row"><input type="checkbox" /><span class="fit-box" aria-hidden="true"></span><span data-i18n="sa.fit2">Te gusta conversar y ayudar a decidir</span></label>
           <label class="fit-row"><input type="checkbox" /><span class="fit-box" aria-hidden="true"></span><span data-i18n="sa.fit3">Quieres crecer en ventas</span></label>
-          <label class="fit-row"><input type="checkbox" /><span class="fit-box" aria-hidden="true"></span><span data-i18n="sa.fit4">Vives en Puerto Rico</span></label>
         </fieldset>
+        </div></div>
         <div class="fit-status" aria-live="polite">
-          <p class="fit-hint" id="fit-hint" data-i18n="sa.fitHint">Marca los 4 para ver si cumples.</p>
+          <p class="fit-hint" id="fit-hint" data-i18n="sa.fitHint">Marca al menos 3, incluido vivir en Puerto Rico.</p>
           <div class="fit-result" id="fit-result" hidden>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>
+            <img class="fit-logo" src="/assets/brand/amanet-white.png" alt="Amanet" width="392" height="72" />
+            <svg class="fit-tick" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>
             <h3 data-i18n="sa.fitOk">¡Felicidades! Cumples con lo que buscamos.</h3>
             <p data-i18n="sa.fitOkB">El siguiente paso es enviar tu solicitud.</p>
             <button type="button" class="btn btn-white btn-lg" data-open="apply" data-i18n="cta.apply">Postularme</button>
+            <button type="button" class="fit-edit" id="fit-edit" data-i18n="sa.fitEdit">Revisar mis respuestas</button>
           </div>
         </div>
       </div>
@@ -240,10 +244,10 @@
 
 <script src="/assets/vendor/qrcode.min.js" defer></script>
 <script src="/assets/starfield.js" defer></script>
-<script src="/assets/site.js?v=20261021-sa5" defer></script>
-<script src="/assets/i18n.js?v=20261021-sa5" defer></script>
-<script src="/assets/referral.js?v=20261021-sa5" defer></script>
-<script src="/assets/salesagent.js?v=20261021-sa5" defer></script>
-<script src="/assets/how.js?v=20261021-sa5" defer></script>
+<script src="/assets/site.js?v=20261021-sa7" defer></script>
+<script src="/assets/i18n.js?v=20261021-sa7" defer></script>
+<script src="/assets/referral.js?v=20261021-sa7" defer></script>
+<script src="/assets/salesagent.js?v=20261021-sa7" defer></script>
+<script src="/assets/how.js?v=20261021-sa7" defer></script>
 </body>
 </html>
