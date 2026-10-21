@@ -861,10 +861,10 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
   background: linear-gradient(0deg, rgba(9,9,9,.94) 0%, rgba(9,9,9,.62) 34%, rgba(9,9,9,.08) 78%);
 }
 .merida-uni .m-photo::after { background: linear-gradient(0deg, rgba(9,9,9,.96) 0%, rgba(9,9,9,.86) 44%, rgba(9,9,9,.08) 80%); }
-.merida-lead .m-photo img { object-position: 30% 55%; }
-.merida-uni .m-photo img { object-position: 52% 8%; }
+.merida-lead .m-photo img { object-position: 50% 35%; }
+.merida-uni .m-photo img { object-position: 50% 28%; }
 .merida .has-photo > :not(.m-photo) { position: relative; z-index: 1; }
-.merida .has-photo .ico { margin-bottom: auto; background: rgba(9,9,9,.62); }
+.merida .has-photo .ico { margin-bottom: auto; background: rgba(9,9,9,.86); border-color: #ff4a50; color: #ff4a50; box-shadow: 0 6px 18px rgba(0,0,0,.45); }
 .merida .merida-grid article.has-photo::before { z-index: 2; }
 .merida .has-photo p { color: #e4e4e4; }
 @media (prefers-reduced-motion: no-preference) {
