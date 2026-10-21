@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/referral.css?v=20261021-team3" />
+<link rel="stylesheet" href="/assets/referral.css?v=20261021-alt3" />
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false"><defs>
@@ -64,7 +64,6 @@
   </picture>
   <section class="hero" aria-labelledby="hero-title">
     <figure class="video" id="video">
-      <figcaption class="pill"><i class="dot" aria-hidden="true"></i><span data-i18n="video.watch">Mira esto primero</span></figcaption>
       <div class="video-frame" id="video-frame" data-state="idle">
         <button type="button" class="video-start" id="video-start" data-i18n-attr="aria-label:video.play" aria-label="Reproducir el video">
           <img class="video-poster" src="/assets/img/video-poster-1280.jpg" srcset="/assets/img/video-poster-640.jpg 640w, /assets/img/video-poster-1280.jpg 1280w" sizes="(min-width: 900px) 56vw, 100vw" width="1280" height="720" alt="" fetchpriority="high" />
@@ -141,15 +140,21 @@
         <h3 data-i18n="merida.office">Nuestra oficina en Rodero Plaza</h3>
         <p data-i18n="merida.officeb">Estamos abriendo una oficina en el edificio administrativo de Rodero Plaza, en Mérida. Un lugar de trabajo cerca de la universidad y del centro de la ciudad.</p>
       </article>
-      <article class="merida-usd">
+      <article class="merida-usd merida-red">
         <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-usd"/></svg></span>
         <h3 data-i18n="merida.usd">Gana en dólares estadounidenses</h3>
         <p data-i18n="merida.usdb">Trabaja para una empresa con sede en Estados Unidos y gana en dólares sin salir de Venezuela.</p>
       </article>
-      <article class="merida-students">
+      <article class="merida-students has-photo">
+        <picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/students-1000.webp" /><img src="/assets/img/students-1000.jpg" alt="" width="1000" height="666" loading="lazy" decoding="async" /></picture>
         <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-cap"/></svg></span>
         <h3 data-i18n="merida.students">Pensado para estudiantes</h3>
         <p data-i18n="merida.studentsb">Tenemos puestos de medio tiempo y de tiempo completo, para que puedas trabajar mientras estudias.</p>
+      </article>
+      <article class="merida-team merida-red">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-globe"/></svg></span>
+        <h3 data-i18n="merida.team">Un equipo internacional</h3>
+        <p data-i18n="merida.teamb">Ventas, atención al cliente, reclutamiento, administración y marketing: aprende junto a un equipo que atiende a clientes en Estados Unidos.</p>
       </article>
       <article class="merida-uni has-photo">
         <picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/campus-1000.webp" /><img src="/assets/img/campus-1000.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async" /></picture>
@@ -157,12 +162,7 @@
         <h3 data-i18n="merida.uni">De la mano con la universidad</h3>
         <p data-i18n="merida.unib">Estamos colaborando con la universidad local para llegar a estudiantes de Mérida que quieran dar su primer paso profesional.</p>
       </article>
-      <article class="merida-team">
-        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-globe"/></svg></span>
-        <h3 data-i18n="merida.team">Un equipo internacional</h3>
-        <p data-i18n="merida.teamb">Ventas, atención al cliente, reclutamiento, administración y marketing: aprende junto a un equipo que atiende a clientes en Estados Unidos.</p>
-      </article>
-      <article class="merida-refer">
+      <article class="merida-refer merida-red">
         <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-share"/></svg></span>
         <h3 data-i18n="merida.refer">Recomienda a cualquiera en la ciudad</h3>
         <p data-i18n="merida.referb">Si conoces a alguien en Mérida que encaje, regístrate como socio y compártele tu enlace.</p>
@@ -194,7 +194,7 @@
       <div class="team-card team-personas"><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/team-atencion.webp" /><img src="/assets/img/team-atencion.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async" /></picture><div class="team-body"><span class="team-kind" data-i18n="team.k3">Cultura</span><b class="team-title" data-i18n="team.t3">Personas primero</b><span class="team-desc" data-i18n="team.d3">Revisamos cada solicitud y te escribimos.</span></div></div>
       <div class="team-card team-estudio"><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/campus-1000.webp" /><img src="/assets/img/campus-1000.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async" /></picture><div class="team-body"><span class="team-kind" data-i18n="team.k3">Cultura</span><b class="team-title" data-i18n="team.t4">Estudia y trabaja</b><span class="team-desc" data-i18n="team.d4">Horarios de medio tiempo y tiempo completo.</span></div></div>
       <div class="team-card team-juntos"><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/team-ventas.webp" /><img src="/assets/img/team-ventas.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async" /></picture><div class="team-body"><span class="team-kind" data-i18n="team.k3">Cultura</span><b class="team-title" data-i18n="team.t5">Crecemos juntos</b><span class="team-desc" data-i18n="team.d5">Cada recomendación nos ayuda a crecer.</span></div></div>
-      <div class="team-card team-cta"><h3 data-i18n="hero.h1a">Encuentra tu lugar.</h3><button type="button" class="btn btn-white" data-open="apply" data-i18n="cta.apply">Postularme</button></div>
+      <div class="team-card team-cta"><img class="team-logo" src="/assets/brand/amanet-white.png" alt="Amanet" width="392" height="72" /><h3 data-i18n="hero.h1a">Encuentra tu lugar.</h3><button type="button" class="btn btn-white" data-open="apply" data-i18n="cta.apply">Postularme</button></div>
       </div>
     </div>
   </section>
@@ -268,9 +268,9 @@
 <script src="/assets/vendor/qrcode.min.js" defer></script>
 <script src="/assets/starfield.js" defer></script>
 <script src="/assets/site.js" defer></script>
-<script src="/assets/i18n.js?v=20261021-team3" defer></script>
-<script src="/assets/referral.js?v=20261021-team3" defer></script>
-<script src="/assets/motion.js?v=20261021-team3" defer></script>
-<script src="/assets/how.js?v=20261021-team3" defer></script>
+<script src="/assets/i18n.js?v=20261021-alt3" defer></script>
+<script src="/assets/referral.js?v=20261021-alt3" defer></script>
+<script src="/assets/motion.js?v=20261021-alt3" defer></script>
+<script src="/assets/how.js?v=20261021-alt3" defer></script>
 </body>
 </html>
