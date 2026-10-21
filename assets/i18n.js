@@ -60,6 +60,11 @@
     'privacy.p2': 'El equipo de selección autorizado puede ver tu solicitud.',
     'privacy.p3': 'Si llegaste por el enlace de un socio, esa persona solo ve tu nombre, el puesto al que te postulaste y la etapa de tu proceso.',
     'foot.top': 'Volver arriba',
+    'team.badge': 'Sobre el equipo',
+    'team.title': 'Conoce al equipo de Amanet',
+    'team.lead': 'Ventas, atención al cliente, reclutamiento, administración y marketing: un equipo internacional que atiende a clientes en Estados Unidos.',
+    'team.fp': 'Somos una empresa con sede en Estados Unidos y estamos abriendo una oficina en Mérida.',
+    'team.a1': 'Ventas', 'team.a2': 'Atención al cliente', 'team.a3': 'Reclutamiento', 'team.a4': 'Administración', 'team.a5': 'Marketing',
     'privacy.body': 'Usamos tu información solo para revisar tu solicitud o gestionar tu cuenta de socio. El equipo de selección autorizado puede ver tu solicitud. Si llegaste por el enlace de un socio, esa persona solo ve tu nombre, el puesto al que te postulaste y la etapa de tu proceso.',
 
     'form.close': 'Cerrar',
@@ -193,6 +198,11 @@
     'privacy.p2': 'Authorized recruiting staff can see your application.',
     'privacy.p3': 'If you came through a partner’s link, that partner sees only your name, the role you applied for, and the stage of your process.',
     'foot.top': 'Back to top',
+    'team.badge': 'About the team',
+    'team.title': 'Meet the Amanet team',
+    'team.lead': 'Sales, customer support, recruiting, administration and marketing: an international team that serves customers in the United States.',
+    'team.fp': 'We’re a U.S.-based company opening an office in Mérida.',
+    'team.a1': 'Sales', 'team.a2': 'Customer support', 'team.a3': 'Recruiting', 'team.a4': 'Administration', 'team.a5': 'Marketing',
     'privacy.body': 'We use your information only to review your application or manage your partner account. Authorized recruiting staff can see your application. If you came through a partner’s link, that partner sees only your name, the role you applied for, and the stage of your process.',
 
     'form.close': 'Close',

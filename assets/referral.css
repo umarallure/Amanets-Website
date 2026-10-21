@@ -1019,3 +1019,42 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
   .merida .merida-grid article:not(.has-photo) .ico { grid-row: span 2; margin: 0; align-self: start; }
   .merida .merida-grid article:not(.has-photo) h3 { align-self: center; }
 }
+
+/* ── About the team ────────────────────────────────────────
+   A company introduction, not a roster: a featured card with the company line, then one photo card per area
+   (sales, customer support, recruiting, administration, marketing) and a closing "find your place" card. All
+   photos are stock images and show no named people. Desktop: feature on the left, a 3 x 2 grid on the right.
+   Phone: feature on top, then two columns. */
+.team { padding: clamp(40px, 8vw, 104px) var(--gutter); background: #090909; border-top: 1px solid #1c1c1c; }
+.team-wrap { display: grid; gap: 26px; max-width: var(--max); margin: 0 auto; }
+.team-head { display: grid; gap: 14px; justify-items: start; }
+.team-head h2 { font-size: clamp(1.9rem, 5.6vw, 3.2rem); max-width: 12em; }
+.team-head > p:last-child { max-width: 34em; color: var(--ink-soft); }
+.team-feature, .team-card { position: relative; overflow: hidden; border: 1px solid #2c2c2c; border-radius: 14px; background: #111; isolation: isolate; }
+.team-feature { min-height: 360px; display: flex; align-items: flex-end; }
+.team-feature .m-photo img { object-position: 52% 40%; }
+.team-cap { position: relative; z-index: 1; display: grid; gap: 10px; padding: 22px; max-width: 26em; }
+.team-tag { justify-self: start; padding: 5px 9px; background: #d71920; font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+.team-cap p { font-size: clamp(1.15rem, 3.4vw, 1.5rem); font-weight: 600; line-height: 1.25; letter-spacing: -.015em; }
+.team-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.team-card { aspect-ratio: 4 / 5; display: flex; align-items: flex-end; }
+.team-area { position: relative; z-index: 1; padding: 14px; font-size: clamp(.95rem, 3.6vw, 1.05rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.15; }
+.team-area::before { content: ""; display: block; width: 26px; height: 3px; margin-bottom: 8px; background: #d71920; }
+.team-ventas .m-photo img { object-position: 30% 50%; }
+.team-atencion .m-photo img { object-position: 68% 40%; }
+.team-reclutamiento .m-photo img { object-position: 60% 50%; }
+.team-admin .m-photo img { object-position: 45% 45%; }
+.team-marketing .m-photo img { object-position: 50% 50%; }
+.team-cta { flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 14px; padding: 16px; background: linear-gradient(135deg, #d71920, #b9151b); border-color: #d71920; }
+.team-cta h3 { font-size: clamp(1.25rem, 4.8vw, 1.6rem); line-height: 1.05; letter-spacing: -.02em; }
+.team-cta .btn { min-height: 44px; padding-inline: 18px; }
+@media (prefers-reduced-motion: no-preference) {
+  .team-card .m-photo img, .team-feature .m-photo img { transition: transform 1s var(--ease-out); }
+  .team-card:hover .m-photo img, .team-feature:hover .m-photo img { transform: scale(1.05); }
+}
+@media (min-width: 900px) {
+  .team-wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); column-gap: clamp(28px, 4vw, 56px); align-items: stretch; }
+  .team-head { grid-column: 1 / -1; }
+  .team-feature { min-height: 0; }
+  .team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+}
