@@ -1451,3 +1451,101 @@ body.dash-page .bar-cta { white-space: nowrap; }
   .sa-fit-sec.qualified .sa-fit-wrap { grid-template-columns: minmax(0, 1fr); }
   .sa-fit-sec.qualified .sa-fit-body { width: 100%; max-width: 680px; margin-inline: auto; }
 }
+
+/* ── /developers: software developers in Kosovo ────────────
+   Same system as the other pages (hero stage, scroll story, alternating photo and red cards, red closing band),
+   with developer furniture: an editor window in the hero, track tabs, a test-runner review panel, sample
+   challenge snippets and stack tags. The Kosovo flag is the small mark; the page is English only. */
+body[data-page="developers"] .lang-switch { display: none; }
+.ks-flag { display: inline-block; width: 26px; height: 17px; flex: none; margin-right: 10px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,255,255,.3); }
+.hero-stage .dev-hero { grid-template-areas: "copy" "side" "code"; }
+.hero-stage .dev-hero .hero-eyebrow { display: inline-flex; align-items: center; justify-self: start; }
+.dev-code { grid-area: code; border: 1px solid #2c2c2c; border-radius: 14px; background: rgba(10,10,12,.88); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 28px 70px rgba(0,0,0,.55); overflow: hidden; min-width: 0; }
+.dev-code-bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; border-bottom: 1px solid #222; }
+.dev-code-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
+.dev-code-bar i:first-child { background: #d71920; }
+.dev-code-bar span { margin-left: 8px; font: 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #9a9a9a; }
+.dev-code pre, .dev-snip { margin: 0; overflow-x: auto; font: 13px/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #e6e6e6; tab-size: 2; }
+.dev-code pre { padding: 16px 18px 20px; }
+.dev-code code, .dev-snip code { display: block; font: inherit; white-space: pre; }
+.dev-code .ln { display: block; }
+.dev-code b, .dev-snip b { font-weight: 400; }
+.k { color: #ff6a6f; } .s { color: #8fd3a8; } .n { color: #f2a65a; } .f { color: #79b8ff; } .c { color: #7f7f88; } .o { color: #e6e6e6; }
+.caret { display: inline-block; width: 8px; height: 1.05em; margin-left: 3px; vertical-align: -2px; background: #ff4a50; }
+@media (prefers-reduced-motion: no-preference) {
+  .dev-code .ln { opacity: 0; transform: translateY(4px); animation: ln-in .45s var(--ease-out) forwards; animation-delay: calc(var(--n) * .32s + .5s); }
+  .caret { animation: blink 1s steps(2, start) infinite; }
+}
+@keyframes ln-in { to { opacity: 1; transform: none; } }
+@keyframes blink { to { visibility: hidden; } }
+@media (min-width: 900px) {
+  .hero-stage .dev-hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); grid-template-areas: "copy code" "side code"; }
+  .dev-code { align-self: center; }
+  .dev-code pre { font-size: 14px; padding: 22px 24px 26px; }
+}
+/* process: stage tags above the step titles */
+.dev-stage { margin: 0 0 4px !important; font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .14em; color: #ff6a6f; }
+/* sections */
+.dev-sec { padding: clamp(44px, 8vw, 104px) var(--gutter); background: #0d0d0d; border-top: 1px solid #1c1c1c; }
+.dev-alt { background: #090909; }
+.dev-wrap { display: grid; gap: 28px; max-width: var(--max); margin: 0 auto; }
+.dev-head { display: grid; gap: 12px; }
+.dev-head h2 { font-size: clamp(1.9rem, 5.6vw, 3.2rem); letter-spacing: -.03em; max-width: 14em; }
+.dev-head p { max-width: 36em; color: var(--ink-soft); }
+/* track tabs */
+.dev-tracks { display: grid; gap: 14px; }
+.dev-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.dev-tabs::-webkit-scrollbar { display: none; }
+.dev-tabs button {
+  flex: none; min-height: 44px; padding: 0 18px; border: 1px solid #353535; border-radius: 999px; background: #121212; color: #ddd;
+  font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; transition: background-color .2s, border-color .2s, color .2s;
+}
+.dev-tabs button[aria-selected="true"] { background: #d71920; border-color: #d71920; color: #fff; }
+.dev-tabs button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.dev-panel { display: grid; gap: 14px; justify-items: start; padding: clamp(20px, 4vw, 34px); border: 1px solid #2c2c2c; border-radius: 14px; background: #111; }
+.dev-panel[hidden] { display: none; }
+.dev-panel h3 { font-size: clamp(1.4rem, 4vw, 2rem); letter-spacing: -.02em; }
+.dev-panel > p:not(.dev-trk) { max-width: 40em; color: var(--ink-soft); font-size: 1.05rem; }
+@media (prefers-reduced-motion: no-preference) { .dev-panel:not([hidden]) { animation: fit-pop .4s var(--ease-out); } }
+.dev-trk { font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .14em; color: #ff6a6f; }
+.dev-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.dev-tags li { padding: 5px 11px; border: 1px solid #353535; border-radius: 6px; background: #151515; font: 13px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #dedede; }
+/* challenges */
+.dev-chals, .dev-projs { display: grid; gap: 12px; }
+.dev-chal, .dev-proj { display: grid; gap: 10px; align-content: start; padding: 22px; border: 1px solid #2c2c2c; border-radius: 14px; background: #111; min-width: 0; }
+.dev-chal h3, .dev-proj h3 { font-size: 1.3rem; letter-spacing: -.01em; }
+.dev-chal > p:not(.dev-chal-meta), .dev-proj > p:not(.dev-trk) { color: var(--ink-soft); font-size: 15px; }
+.dev-chal-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .1em; color: #cfcfcf; }
+.dev-chal-meta span { padding: 4px 8px; border: 1px solid #353535; border-radius: 4px; }
+.dev-chal-meta em { margin-left: auto; padding: 3px 8px; border: 1px dashed rgba(255,255,255,.45); font-style: normal; font-size: 11px; color: #bbb; }
+.dev-snip { padding: 14px 16px; border: 1px solid #222; border-radius: 10px; background: #0a0a0c; font-size: 12.5px; }
+/* review: a test-runner readout */
+.dev-review { align-items: center; }
+.dev-run { display: grid; gap: 0; border: 1px solid #2c2c2c; border-radius: 14px; background: #0a0a0c; overflow: hidden; font: 13.5px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; min-width: 0; }
+.dev-run p { margin: 0; padding: 12px 16px; border-bottom: 1px solid #1c1c1c; }
+.dev-run p:last-child { border-bottom: 0; }
+.dev-run-top { color: #bdbdbd; background: #101012; }
+.dev-run-top b { margin-right: 8px; padding: 2px 7px; background: #d71920; color: #fff; font-weight: 600; }
+.dev-run-row { display: grid; grid-template-columns: 22px minmax(0, 150px) 1fr; gap: 10px; align-items: baseline; }
+.dev-run-row i { font-style: normal; color: #3ddc84; font-weight: 700; }
+.dev-run-row b { color: #fff; font-weight: 600; }
+.dev-run-row span { color: #9d9da5; }
+.dev-run-sum { display: flex; flex-wrap: wrap; gap: 6px 22px; color: #9d9da5; background: #101012; }
+.dev-run-sum b { color: #3ddc84; font-weight: 600; }
+.dev-run-sum span:first-child b { color: #fff; }
+@media (max-width: 560px) { .dev-run-row { grid-template-columns: 22px 1fr; } .dev-run-row span { grid-column: 2; } }
+@media (min-width: 900px) {
+  .dev-chals, .dev-projs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dev-review { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); column-gap: clamp(32px, 5vw, 72px); }
+  .dev-tracks { grid-template-columns: 220px minmax(0, 1fr); gap: 20px; align-items: start; }
+  .dev-tabs { flex-direction: column; overflow: visible; }
+  .dev-tabs button { justify-content: flex-start; text-align: left; border-radius: 12px; }
+}
+/* Kosovo cards: "</>" watermark on the first red card, logo on the others (shared rules above) */
+.dev-ks .merida-usd::after { content: "</>"; content: "</>" / ""; }
+
+/* phones: deeper shade over the hero photo so the headline holds up */
+@media (max-width: 899px) { .hero-stage:has(> .dev-hero)::after { background: linear-gradient(180deg, rgba(9,9,9,.62) 0%, rgba(9,9,9,.84) 42%, #090909 92%); } }
+.dev-code code { white-space: normal; }
+.dev-code .ln { white-space: pre; }
+@media (max-width: 480px) { .dev-code pre { font-size: 12px; padding: 14px 14px 18px; } }

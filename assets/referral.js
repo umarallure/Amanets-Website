@@ -2,15 +2,15 @@
   'use strict';
   var site = window.site, el = site.el, t = site.t;
   var params = new URLSearchParams(location.search);
+  var PAGE = document.body.getAttribute('data-page') || ''; // which landing page this is: '', 'salesagent' or 'developers'
   var ref = (params.get('ref') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
   // "Keller" is the CEO's own QR code; printed codes without ?src= are his.
-  var source = (params.get('src') || (PAGE === 'salesagent' ? 'PR-SalesAgent' : 'Keller')).slice(0, 40);
+  var source = (params.get('src') || ({ salesagent: 'PR-SalesAgent', developers: 'KS-Developers' }[PAGE] || 'Keller')).slice(0, 40);
   var OTHER_SCHOOL = 'Other university';
   var MAX_CV = 4 * 1024 * 1024;
   var config = null, openings = [], configFailed = false;
   var DEFAULT_VIDEO_URL = 'https://cap.so/s/n2rw42bn43s38qm';
   var sheet = document.getElementById('sheet');
-  var PAGE = document.body.getAttribute('data-page') || '';
 
   site.apply();
   requestAnimationFrame(function () { document.documentElement.classList.add('ready'); });
@@ -193,7 +193,8 @@
     var opener = event.target.closest && event.target.closest('[data-open]');
     if (!opener) return;
     if (opener.getAttribute('data-open') === 'privacy') { event.preventDefault(); openPrivacy(); return; }
-    openForm(opener.getAttribute('data-open'));
+    var track = opener.getAttribute('data-track');
+    openForm(opener.getAttribute('data-open'), null, track ? { note: 'Track: ' + track } : null);
   });
 
   /* ── Privacy notice popup ──────────────────────────────────────
@@ -277,13 +278,13 @@
     return el('fieldset', { class: 'group' }, [el('legend', { 'data-i18n': key, text: t(key) })].concat(children));
   }
 
-  function buildForm(kind, role) {
+  function buildForm(kind, role, extras) {
     var cfg = config || {};
     var apply = kind === 'apply';
     var form = el('form', { class: 'form', novalidate: true });
 
     var code = el('select', { name: 'phone_code', class: 'phone-code', 'data-i18n-attr': 'aria-label:form.phoneCode', 'aria-label': t('form.phoneCode') });
-    fillCountries(code, PAGE === 'salesagent' ? 'PR' : 'VE');
+    fillCountries(code, { salesagent: 'PR', developers: 'XK' }[PAGE] || 'VE');
     var local = el('input', { name: 'phone_local', type: 'tel', inputmode: 'tel', autocomplete: 'tel-national', maxlength: '20', 'data-i18n-attr': 'placeholder:form.phonePlaceholder', placeholder: t('form.phonePlaceholder') });
     var phone = field('form.phone', local, { required: true, wide: true });
     var codeWrap = el('div', { class: 'phone-code-wrap' }, [el('span', { class: 'phone-code-face', 'aria-hidden': 'true' }), code]);
@@ -303,7 +304,7 @@
       field('form.name', el('input', { name: 'name', maxlength: '140', autocomplete: 'name' }), { required: true, wide: true }),
       field(apply ? 'form.emailOptional' : 'form.email', el('input', { name: 'email', type: 'email', inputmode: 'email', maxlength: '254', autocomplete: 'email', spellcheck: 'false' }), { required: !apply }),
       phone,
-      field('form.city', el('input', { name: 'city', maxlength: '100', autocomplete: 'address-level2', value: PAGE === 'salesagent' ? '' : 'Mérida' }), { required: true })
+      field('form.city', el('input', { name: 'city', maxlength: '100', autocomplete: 'address-level2', value: PAGE ? '' : 'Mérida' }), { required: true })
     ];
     if (!apply) about.push(field('form.age', el('input', { name: 'age', type: 'number', inputmode: 'numeric', min: '18', max: '100' }), { required: true }));
 
@@ -319,6 +320,9 @@
         // On the sales agent page the role starts on the sales opening, if one is published.
         var sales = openings.filter(function (o) { return /sales|ventas/i.test(o.title + ' ' + (o.title_es || '')); })[0];
         if (sales) roleSelect.value = sales.title;
+      } else if (PAGE === 'developers') {
+        var dev = openings.filter(function (o) { return /develop|software|engineer|desarroll/i.test(o.title + ' ' + (o.title_es || '')); })[0];
+        if (dev) roleSelect.value = dev.title;
       }
       form.appendChild(section('form.position', [
         field('form.role', roleSelect, { required: true, wide: true }),
@@ -341,7 +345,9 @@
       return wrap;
     });
     if (apply) {
-      more.push(field('form.note', el('textarea', { name: 'note', rows: '3', maxlength: '1200' }), { wide: true, hint: 'form.optional' }));
+      var noteBox = el('textarea', { name: 'note', rows: '3', maxlength: '1200' });
+      if (extras && extras.note) noteBox.value = extras.note + '\n'; // for example the track chosen on the developers page
+      more.push(field('form.note', noteBox, { wide: true, hint: 'form.optional' }));
       more.push(cvField());
     }
     if (more.length) form.appendChild(section('form.more', more));
@@ -467,13 +473,13 @@
       ])
     ];
   }
-  function openForm(kind, role) {
+  function openForm(kind, role, extras) {
     closing++; sheet.classList.remove('is-closing');
     sheet.textContent = '';
     var apply = kind === 'apply';
     var body = el('div', { class: 'sheet-body' }, header(apply ? 'form.applyTitle' : 'form.partnerTitle', apply ? 'form.applyIntro' : 'form.partnerIntro'));
     if (ref) body.appendChild(el('p', { class: 'invite', 'data-i18n': 'form.linked', text: t('form.linked') }));
-    body.appendChild(buildForm(kind, role));
+    body.appendChild(buildForm(kind, role, extras));
     sheet.appendChild(body);
     site.apply(sheet);
     if (!sheet.open) sheet.showModal();
