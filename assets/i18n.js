@@ -133,6 +133,8 @@
     'dash.applied': 'Se postuló el {date}',
     'dash.updated': 'Se actualiza solo mientras esta página está abierta.',
     'dash.retry': 'Intentar de nuevo',
+    'dash.badge': 'Tu cuenta de socio', 'dash.jobs': 'Ver empleos',
+    'dash.stat1': 'Recomendadas', 'dash.stat2': 'En proceso', 'dash.stat3': 'Contratadas',
     'dash.copyFail': 'No se pudo copiar. Mantén presionado el enlace para copiarlo.'
   };
   var en = {
@@ -266,6 +268,8 @@
     'dash.applied': 'Applied {date}',
     'dash.updated': 'Updates automatically while this page is open.',
     'dash.retry': 'Try again',
+    'dash.badge': 'Your partner account', 'dash.jobs': 'See jobs',
+    'dash.stat1': 'Referred', 'dash.stat2': 'In process', 'dash.stat3': 'Hired',
     'dash.copyFail': 'Couldn’t copy. Press and hold the link to copy it.'
   };
   window.site.dict = { es: es, en: en };

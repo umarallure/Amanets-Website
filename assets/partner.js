@@ -6,6 +6,11 @@
   var token = location.hash.slice(1);
   var data = null, error = '', last = '', spanishRole = {};
 
+  // Where an applicant is in the process, 1 to 5. Anything else (not selected, left) shows an empty bar.
+  var STAGE = { New: 1, Contacted: 2, Interviewed: 3, Hired: 4, Started: 5 };
+  var IN_PROCESS = ['New', 'Contacted', 'Interviewed'];
+  var HIRED = ['Hired', 'Started'];
+
   site.apply();
   site.onLang(render);
   // Applicant rows carry the English role value; the Spanish title comes from the public config.
@@ -28,8 +33,14 @@
     return url.toString();
   }
 
-  function copyButton(text, labelKey) {
-    var button = el('button', { type: 'button', class: 'btn btn-line', text: t(labelKey) });
+  function icon(name, cls) {
+    var span = el('span', { class: cls || 'pv-ico', 'aria-hidden': 'true' });
+    span.innerHTML = '<svg viewBox="0 0 24 24"><use href="#' + name + '"/></svg>';
+    return span;
+  }
+
+  function copyButton(text, labelKey, cls) {
+    var button = el('button', { type: 'button', class: cls || 'btn btn-line', text: t(labelKey) });
     button.addEventListener('click', function () {
       site.copy(text).then(function () {
         button.textContent = t('dash.copied');
@@ -39,68 +50,129 @@
     return button;
   }
 
+  function initials(name) {
+    var parts = String(name || '').trim().split(/\s+/);
+    return ((parts[0] || '').charAt(0) + (parts[1] || '').charAt(0)).toUpperCase() || '·';
+  }
+
+  function stageBar(status) {
+    var n = STAGE[status] || 0;
+    var bar = el('span', { class: 'stage' + (n ? '' : ' stage-off'), 'aria-hidden': 'true' });
+    for (var i = 1; i <= 5; i++) bar.appendChild(el('i', { class: i <= n ? 'on' : '' }));
+    return bar;
+  }
+
+  function stat(iconName, value, labelKey, hot) {
+    return el('div', { class: 'stat' + (hot ? ' hot' : '') }, [
+      icon(iconName, 'stat-ico'),
+      el('b', { text: String(value) }),
+      el('span', { text: t(labelKey) })
+    ]);
+  }
+
+  function backdrop() {
+    var bg = el('div', { class: 'dash-bg', 'aria-hidden': 'true' });
+    bg.innerHTML = '<picture><source type="image/webp" srcset="/assets/img/valley-800.webp" /><img src="/assets/img/valley-800.jpg" alt="" width="800" height="602" decoding="async" /></picture>';
+    return bg;
+  }
+
+  // The page body lives in one centred column; hero and body bands are full width.
+  function band(cls, children) {
+    return el('div', { class: cls }, [el('div', { class: 'dash-inner' }, children)]);
+  }
+
   function render() {
     main.textContent = '';
     if (!token) {
-      main.appendChild(el('section', { class: 'dash-card dash-notice' }, [
+      main.appendChild(band('dash-body', [el('section', { class: 'dash-card dash-notice' }, [
+        icon('i-lock'),
         el('h1', { text: t('dash.noToken') }), el('p', { text: t('dash.noTokenBody') }),
-        el('a', { class: 'btn btn-ink', href: '/', text: t('dash.toPage') })
-      ]));
+        el('a', { class: 'btn btn-red', href: '/', text: t('dash.toPage') })
+      ])]));
       return;
     }
     if (!data) {
-      main.appendChild(error
+      main.appendChild(band('dash-body', [error
         ? el('section', { class: 'dash-card dash-notice' }, [el('p', { class: 'form-status', role: 'alert', text: error }), retry()])
-        : el('p', { class: 'dash-loading', text: t('dash.loading') }));
+        : el('p', { class: 'dash-loading', text: t('dash.loading') })]));
       return;
     }
+
     var link = publicLink();
     var first = (data.partner.name || '').trim().split(/\s+/)[0];
+    var people = data.applicants || [];
+    var inProcess = people.filter(function (p) { return IN_PROCESS.indexOf(p.status) > -1; }).length;
+    var hired = people.filter(function (p) { return HIRED.indexOf(p.status) > -1; }).length;
+    var dateFormat = new Intl.DateTimeFormat(site.lang, { day: 'numeric', month: 'long', year: 'numeric' });
+
     var share = el('div', { class: 'dash-share-actions' }, [copyButton(link, 'dash.copy')]);
     if (navigator.share) {
       var shareButton = el('button', { type: 'button', class: 'btn btn-red', text: t('dash.share') });
-      shareButton.addEventListener('click', function () { navigator.share({ title: 'Amanets', text: t('dash.shareText'), url: link }).catch(function () {}); });
+      shareButton.addEventListener('click', function () { navigator.share({ title: 'Amanet', text: t('dash.shareText'), url: link }).catch(function () {}); });
       share.insertBefore(shareButton, share.firstChild);
     }
     var qr = site.qr(link, 8);
-    var people = data.applicants || [];
-    var dateFormat = new Intl.DateTimeFormat(site.lang, { day: 'numeric', month: 'long', year: 'numeric' });
 
-    main.append(
+    var hero = el('section', { class: 'dash-hero' }, [backdrop(), el('div', { class: 'dash-inner' }, [
       el('div', { class: 'dash-head' }, [
+        el('p', { class: 'pill' }, [el('i', { class: 'dot', 'aria-hidden': 'true' }), el('span', { text: t('dash.badge') })]),
         el('h1', { text: t('dash.hello').replace('{name}', first) }),
-        el('p', { text: t('dash.intro') })
+        el('p', { class: 'dash-intro', text: t('dash.intro') })
       ]),
-      el('section', { class: 'dash-save' }, [
-        el('div', {}, [el('h2', { text: t('dash.saveTitle') }), el('p', { text: t('dash.saveBody') })]),
-        copyButton(location.href, 'dash.copyPrivate')
-      ]),
-      el('div', { class: 'dash-grid' }, [
-        el('section', { class: 'dash-card dash-link' }, [
-          el('h2', { text: t('dash.shareTitle') }),
-          el('p', { text: t('dash.shareBody') }),
-          el('code', { class: 'dash-url', text: link }),
-          share,
-          qr ? el('figure', { class: 'dash-qr' }, [
-            el('img', { src: qr, width: '220', height: '220', alt: 'QR' }),
-            el('a', { class: 'linkish', href: qr, download: 'amanets-' + data.partner.code + '.gif', text: t('dash.download') })
-          ]) : null
-        ]),
-        el('section', { class: 'dash-card dash-people' }, [
-          el('div', { class: 'dash-people-head' }, [el('h2', { text: t('dash.people') }), el('span', { class: 'dash-count', text: String(people.length) })]),
-          people.length ? el('ul', { class: 'dash-list' }, people.map(function (p) {
-            return el('li', {}, [
-              el('div', {}, [el('b', { text: p.name }), el('span', { text: site.pick(p.role, spanishRole[p.role]) })]),
-              el('span', { class: 'chip chip-' + p.status.toLowerCase().replace(/[^a-z]+/g, '-'), text: site.status(p.status) }),
-              el('small', { text: t('dash.applied').replace('{date}', dateFormat.format(new Date(p.applied_at))) })
-            ]);
-          })) : el('p', { class: 'dash-empty', text: t('dash.empty') }),
-          el('p', { class: 'dash-auto', text: t('dash.updated') })
-        ])
+      el('div', { class: 'dash-stats' }, [
+        stat('i-user', people.length, 'dash.stat1'),
+        stat('i-clock', inProcess, 'dash.stat2'),
+        stat('i-check', hired, 'dash.stat3', hired > 0)
       ])
-    );
-    if (error) main.insertBefore(el('p', { class: 'form-status', role: 'alert', text: error }), main.firstChild);
+    ])]);
+
+    var save = el('section', { class: 'dash-save' }, [
+      icon('i-lock'),
+      el('div', {}, [el('h2', { text: t('dash.saveTitle') }), el('p', { text: t('dash.saveBody') })]),
+      copyButton(location.href, 'dash.copyPrivate', 'btn btn-red')
+    ]);
+
+    var linkCard = el('section', { class: 'dash-card dash-link' }, [
+      el('div', { class: 'dash-card-top' }, [icon('i-link'), el('h2', { text: t('dash.shareTitle') })]),
+      el('p', { text: t('dash.shareBody') }),
+      el('code', { class: 'dash-url', text: link }),
+      share,
+      qr ? el('figure', { class: 'dash-qr' }, [
+        el('img', { src: qr, width: '200', height: '200', alt: 'QR' }),
+        el('a', { class: 'linkish', href: qr, download: 'amanet-' + data.partner.code + '.gif', text: t('dash.download') })
+      ]) : null
+    ]);
+
+    var listBody = people.length
+      ? el('ul', { class: 'dash-list' }, people.map(function (p) {
+        return el('li', {}, [
+          el('span', { class: 'avatar', 'aria-hidden': 'true', text: initials(p.name) }),
+          el('div', { class: 'who' }, [el('b', { text: p.name }), el('span', { text: site.pick(p.role, spanishRole[p.role]) })]),
+          el('span', { class: 'chip chip-' + p.status.toLowerCase().replace(/[^a-z]+/g, '-'), text: site.status(p.status) }),
+          stageBar(p.status),
+          el('small', { text: t('dash.applied').replace('{date}', dateFormat.format(new Date(p.applied_at))) })
+        ]);
+      }))
+      : el('div', { class: 'dash-empty' }, [
+        icon('i-share'),
+        el('p', { text: t('dash.empty') }),
+        el('ol', { class: 'dash-hints' }, [
+          el('li', {}, [el('b', { text: t('partner.s2') }), el('span', { text: t('partner.s2b') })]),
+          el('li', {}, [el('b', { text: t('partner.s3') }), el('span', { text: t('partner.s3b') })])
+        ])
+      ]);
+
+    var peopleCard = el('section', { class: 'dash-card dash-people' }, [
+      el('div', { class: 'dash-people-head' }, [el('h2', { text: t('dash.people') }), el('span', { class: 'dash-count', text: String(people.length) })]),
+      listBody,
+      el('p', { class: 'dash-auto' }, [el('i', { class: 'live', 'aria-hidden': 'true' }), el('span', { text: t('dash.updated') })])
+    ]);
+
+    var inner = [save, el('div', { class: 'dash-grid' }, [linkCard, peopleCard])];
+    if (error) inner.unshift(el('p', { class: 'form-status', role: 'alert', text: error }));
+    main.append(hero, band('dash-body', inner));
   }
+
   function retry() {
     var b = el('button', { type: 'button', class: 'btn btn-ink', text: t('dash.retry') });
     b.addEventListener('click', function () { error = ''; render(); load(); });
