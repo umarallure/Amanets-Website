@@ -658,3 +658,75 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
   .foot { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 16px; }
   .foot .footer-logo { grid-column: 1 / -1; }
 }
+
+/* ── Hero: video first, over the Mérida valley ─────────────
+   The video is the one thing the page asks for, so it leads: top of the screen on phones, the
+   large right-hand column on desktop. Its thumbnail is a real frame from the recording, and the
+   red play button pulses so the eye lands on it before anything else. The player itself loads
+   only on tap. Reduced motion keeps the button, drops the ripple. */
+.hero-stage { position: relative; isolation: isolate; overflow: hidden; background: #090909; }
+.hero-photo { position: absolute; inset: 0; z-index: -2; }
+.hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 62% 36%; }
+.hero-stage::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(9,9,9,.3) 0%, rgba(9,9,9,.74) 42%, #090909 90%);
+}
+.hero-stage .hero { background: transparent; max-width: 1320px; grid-template-areas: "video" "copy" "side"; gap: 20px; padding-top: 18px; padding-bottom: clamp(40px, 7vw, 88px); }
+.hero-stage .hero-eyebrow { display: none; }
+.hero-stage .hero h1 { font-size: clamp(2.3rem, 9.4vw, 3.4rem); line-height: 1.02; letter-spacing: -.03em; }
+.hero-stage .hero h1 span + span { color: #ff4a50; }
+.hero-stage .video { gap: 10px; max-width: none; justify-self: stretch; }
+.hero-stage .video-frame { border-radius: 16px; background: #0b0b0b; box-shadow: 0 28px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.22); }
+
+.video-start { position: absolute; inset: 0; display: block; width: 100%; padding: 0; border: 0; background: #0b0b0b; color: #fff; font: inherit; cursor: pointer; }
+.video-start:focus-visible { outline-offset: -5px; }
+.video-poster { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease-out); }
+.video-start::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(0deg, rgba(9,9,9,.55) 0%, rgba(9,9,9,0) 38%);
+}
+.video-cta { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; justify-items: center; gap: 14px; padding-left: 52%; } /* the thumbnail keeps the right side free for the button */
+.play-btn {
+  position: relative; display: grid; place-items: center; width: clamp(76px, 12vw, 108px); aspect-ratio: 1; border-radius: 50%;
+  background: #d71920; box-shadow: 0 12px 38px rgba(215,25,32,.55), 0 0 0 7px rgba(215,25,32,.22);
+  transition: transform .25s var(--ease-out);
+}
+.play-btn::after {
+  content: ""; margin-left: 7%; border-style: solid; border-color: transparent transparent transparent #fff;
+  border-width: clamp(13px, 2vw, 19px) 0 clamp(13px, 2vw, 19px) clamp(22px, 3.3vw, 31px);
+}
+.play-btn i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(237,28,36,.9); opacity: 0; pointer-events: none; }
+.video-cta-label {
+  padding: 9px 14px; border: 1px solid rgba(255,255,255,.3); background: rgba(9,9,9,.74);
+  font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
+}
+.video-start:hover .play-btn, .video-start:focus-visible .play-btn { transform: scale(1.08); }
+.video-start:hover .video-poster { transform: scale(1.03); }
+@media (prefers-reduced-motion: no-preference) {
+  .play-btn i { animation: play-ripple 2.4s cubic-bezier(.2,.6,.3,1) infinite; }
+  .play-btn i + i { animation-delay: 1.2s; }
+  .play-btn { animation: play-nudge 2.4s ease-in-out infinite; }
+  .video-start:hover .play-btn { animation: none; }
+}
+@media (min-width: 560px) { .video-cta-label { font-size: 13px; letter-spacing: .16em; } }
+@keyframes play-ripple { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(2.3); opacity: 0; } }
+@keyframes play-nudge { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+@media (min-width: 900px) {
+  .hero-stage::after { background: linear-gradient(90deg, rgba(9,9,9,.92) 0%, rgba(9,9,9,.7) 38%, rgba(9,9,9,.16) 82%), linear-gradient(0deg, #090909 0%, rgba(9,9,9,0) 22%); }
+  .hero-stage .hero {
+    grid-template-columns: minmax(0, .96fr) minmax(0, 1.3fr); grid-template-areas: "copy video" "side video";
+    grid-template-rows: auto auto; align-content: center; column-gap: clamp(32px, 4vw, 64px); row-gap: 22px;
+    min-height: min(calc(100vh - 64px), 820px); padding-top: clamp(32px, 5vw, 64px);
+  }
+  .hero-stage .hero-eyebrow { display: inline-flex; }
+  .hero-stage .hero-copy { align-self: end; margin: 0; }
+  .hero-stage .hero-side { align-self: start; align-content: start; }
+  .hero-stage .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-stage .hero-actions .btn { width: auto; min-width: 0; padding-inline: 22px; white-space: nowrap; }
+  .hero-stage .hero h1 { font-size: clamp(2.5rem, 3.9vw, 4.4rem); }
+  .hero-stage .hero .video { max-width: none; width: 100%; justify-self: stretch; align-self: center; }
+}
+
+/* The tagline has no room beside the language switch on phones; at 440px it was crushed and clipped. */
+@media (max-width: 700px) { .brand-tag { display: none; } }
