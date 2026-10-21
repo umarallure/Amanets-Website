@@ -1058,3 +1058,20 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
   .team-feature { min-height: 0; }
   .team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 }
+
+/* ── About the team: mission, vision and culture tiles ─────
+   Each tile now carries a label (Mission, Vision, Culture), a short title and one line, over a photo that suits
+   it. The text is a draft built only from facts already on the page and lives in assets/i18n.js (team.k*, team.t*,
+   team.d*) so it is easy to edit. A deeper shade keeps the longer text readable. */
+.team-card .m-photo::after { background: linear-gradient(0deg, rgba(9,9,9,.97) 0%, rgba(9,9,9,.88) 46%, rgba(9,9,9,.22) 100%); }
+.team-card { aspect-ratio: 3 / 4; }
+.team-body { position: relative; z-index: 1; display: grid; gap: 5px; padding: 14px; }
+.team-kind { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #ff6a6f; }
+.team-title { font-size: clamp(1rem, 4vw, 1.15rem); line-height: 1.1; letter-spacing: -.01em; }
+.team-desc { font-size: 13.5px; line-height: 1.4; color: #d8d8d8; }
+.team-mision .m-photo img { object-position: 60% 50%; }
+.team-vision .m-photo img { object-position: 50% 40%; }
+.team-personas .m-photo img { object-position: 68% 35%; }
+.team-estudio .m-photo img { object-position: 50% 40%; }
+.team-juntos .m-photo img { object-position: 35% 50%; }
+@media (min-width: 900px) { .team-card { aspect-ratio: 4 / 5; } .team-body { padding: 16px; } }

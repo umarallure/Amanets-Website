@@ -22,5 +22,4 @@ The About the team section uses these stock photos (none show named people from 
 | `team-ventas.*` | [Unsplash photo 1542744173](https://images.unsplash.com/photo-1542744173-8e7e53415bb0) | Campaign Creators |
 | `team-atencion.*` | [Unsplash photo 1766066014237](https://images.unsplash.com/photo-1766066014237-00645c74e9c6) | BaljkanN4 |
 | `team-reclutamiento.*` | [Unsplash photo 1698047682091](https://images.unsplash.com/photo-1698047682091-782b1e5c6536) | Resume Genius |
-| `team-admin.*` | [Unsplash photo 1775163024488](https://images.unsplash.com/photo-1775163024488-e88e4a71179f) | Olena Kholina |
 | `team-marketing.*` | [Unsplash photo 1586936893354](https://images.unsplash.com/photo-1586936893354-362ad6ae47ba) | UX Indonesia |
