@@ -942,3 +942,53 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
   .how-cta { margin-top: 10px; }
   .how-step { min-height: clamp(220px, 42vh, 400px); padding: 30px 0; grid-template-columns: 64px 1fr; gap: 6px 22px; }
 }
+
+/* ── Closing call to action, privacy points, footer ────────
+   The page used to end on a grey paragraph and a three-item footer. Now it finishes with a bold red
+   sign-off (the hero's own headline and the two buttons), the privacy notice split into its three
+   sentences with an icon each (same words, easier to scan), and a footer with the logo, tagline,
+   legal link and a way back to the top. No contact details are shown because none are published. */
+.closing { position: relative; overflow: hidden; padding: clamp(56px, 9vw, 112px) var(--gutter); background: linear-gradient(135deg, #d71920 0%, #b9151b 100%); color: #fff; }
+.closing::before {
+  content: ""; position: absolute; right: -10%; top: -45%; width: min(640px, 70vw); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+  border: 1px solid rgba(255,255,255,.2); box-shadow: 0 0 0 56px rgba(255,255,255,.045), 0 0 0 112px rgba(255,255,255,.03);
+}
+.closing-inner { position: relative; display: grid; gap: 22px; max-width: var(--max); margin: 0 auto; }
+.closing .pill { justify-self: start; border-color: rgba(255,255,255,.65); background: transparent; color: #fff; }
+.closing .pill .dot { background: #fff; }
+.closing h2 { max-width: 11em; font-size: clamp(2.5rem, 7.4vw, 5.6rem); font-weight: 700; line-height: .98; letter-spacing: -.04em; text-transform: none; }
+.closing h2 span { display: block; }
+.closing h2 span + span { color: #1a0508; }
+.closing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.btn-white { background: #fff; border-color: #fff; color: #111; box-shadow: none; }
+.btn-outline-white { background: transparent; border-color: rgba(255,255,255,.75); color: #fff; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .btn-white:hover { background: #f1f1f1; }
+  .btn-outline-white:hover { background: rgba(255,255,255,.12); }
+}
+@media (max-width: 640px) { .closing-actions { display: grid; } .closing-actions .btn { width: 100%; } }
+
+.privacy { padding-block: clamp(56px, 7vw, 96px) clamp(48px, 6vw, 80px); }
+.privacy h2 { margin-bottom: 26px; font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 700; letter-spacing: -.02em; text-transform: none; color: var(--ink); }
+.privacy-grid { display: grid; gap: 12px; }
+.privacy-pt { display: grid; grid-template-columns: 46px 1fr; column-gap: 16px; row-gap: 6px; align-content: start; padding: 20px; border: 1px solid #2c2c2c; border-radius: 14px; background: #111; }
+.pv-ico { grid-row: span 2; display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid #d71920; color: #ed1c24; }
+.pv-ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.privacy-pt b { align-self: end; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #ff6a6f; }
+.privacy .privacy-pt p { max-width: none; font-size: 15px; line-height: 1.55; color: #cfcfcf; }
+@media (min-width: 900px) {
+  .privacy-grid { grid-template-columns: repeat(3, 1fr); }
+  .privacy-pt { grid-template-columns: 1fr; }
+  .pv-ico { grid-row: auto; margin-bottom: 8px; }
+  .privacy-pt b { align-self: start; }
+}
+
+.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px; padding: 32px max(var(--gutter), calc((100vw - var(--max)) / 2)); padding-bottom: max(32px, env(safe-area-inset-bottom)); border-top: 1px solid #262626; background: #090909; }
+.foot-brand { display: flex; align-items: center; gap: 16px; }
+.foot-tag { padding-left: 16px; border-left: 1px solid #333; font-size: 11px; font-weight: 700; letter-spacing: .16em; color: #bdbdbd; }
+.foot-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; font-size: 13px; letter-spacing: .06em; color: var(--ink-faint); }
+.foot-links a { color: #d6d6d6; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 640px) {
+  .foot { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .foot-tag { display: none; }
+}
