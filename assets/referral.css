@@ -1155,3 +1155,16 @@ body.dash-page .bar-cta { white-space: nowrap; }
 }
 .dash-empty { grid-template-columns: auto 1fr; align-items: center; justify-items: start; gap: 16px; padding: 6px 0; }
 .dash-empty > p { margin: 0; max-width: 38em; }
+
+/* ── Dashboard on phones: share first ──────────────────────
+   On a phone the first thing a new partner should see under the welcome band is the share card with the QR.
+   Order: share card, How it works, the private-link reminder, then the people list at the bottom. The grid
+   wrapper dissolves so its two cards can be ordered with the others. Desktop keeps the reminder on top. */
+@media (max-width: 899px) {
+  .dash-body .dash-inner > .form-status { order: 0; }
+  .dash-grid { display: contents; }
+  .dash-link { order: 1; }
+  .dash-how { order: 2; }
+  .dash-save { order: 3; }
+  .dash-people { order: 4; }
+}
