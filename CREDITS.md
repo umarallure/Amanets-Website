@@ -13,3 +13,13 @@ credit is given here anyway).
 `video-poster-640.jpg` and `video-poster-1280.jpg` are the video thumbnail, made from a frame of the
 Amanet office video (Monica). If the video on the site is replaced, regenerate the thumbnail from the
 new recording so the poster matches.
+
+The About the team section uses these stock photos (none show named people from the company):
+
+| File | Source | Photographer |
+| --- | --- | --- |
+| `team-main.*` | [Unsplash photo 1630487656049](https://images.unsplash.com/photo-1630487656049-6db93a53a7e9) | Andreea Avramescu |
+| `team-ventas.*` | [Unsplash photo 1542744173](https://images.unsplash.com/photo-1542744173-8e7e53415bb0) | Campaign Creators |
+| `team-atencion.*` | [Unsplash photo 1766066014237](https://images.unsplash.com/photo-1766066014237-00645c74e9c6) | BaljkanN4 |
+| `team-reclutamiento.*` | [Unsplash photo 1698047682091](https://images.unsplash.com/photo-1698047682091-782b1e5c6536) | Resume Genius |
+| `team-marketing.*` | [Unsplash photo 1586936893354](https://images.unsplash.com/photo-1586936893354-362ad6ae47ba) | UX Indonesia |
