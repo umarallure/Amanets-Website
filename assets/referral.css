@@ -844,3 +844,44 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
 .role-foot .role-go { position: relative; right: auto; top: auto; width: 38px; height: 38px; margin: 0; transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .3s var(--ease-out); }
 .role-foot .role-go::after { left: 11px; top: 13px; width: 10px; height: 10px; }
 @media (hover: hover) and (pointer: fine) { .role:hover .role-foot .role-go { transform: translateX(4px); } }
+
+/* ── Mérida benefits: photo mosaic, icons and boxes kept ───────
+   Two cards carry real Mérida photos (the dusk skyline behind the office, the cable car behind the
+   university); the other four keep the dark box. Every card keeps its icon tile. Photo cards sit
+   the text at the bottom over a deep shade so it stays readable, and the icon tile gets a dark
+   backing so it holds up on the picture. Desktop: office 7x2, dollars 5, university 5 on top,
+   then students, team and referral in three equal boxes. */
+.merida .merida-grid { grid-auto-rows: minmax(190px, auto); }
+.merida .merida-grid article.has-photo { display: flex; flex-direction: column; justify-content: flex-end; min-height: 270px; }
+.merida .merida-grid .merida-lead.has-photo { background: #111 !important; }
+.m-photo { position: absolute; inset: 0; z-index: 0; display: block; overflow: hidden; }
+.m-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.m-photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(9,9,9,.94) 0%, rgba(9,9,9,.62) 34%, rgba(9,9,9,.08) 78%);
+}
+.merida-uni .m-photo::after { background: linear-gradient(0deg, rgba(9,9,9,.96) 0%, rgba(9,9,9,.86) 44%, rgba(9,9,9,.08) 80%); }
+.merida-lead .m-photo img { object-position: 50% 35%; }
+.merida-uni .m-photo img { object-position: 50% 28%; }
+.merida .has-photo > :not(.m-photo) { position: relative; z-index: 1; }
+.merida .has-photo .ico { margin-bottom: auto; background: rgba(9,9,9,.86); border-color: #ff4a50; color: #ff4a50; box-shadow: 0 6px 18px rgba(0,0,0,.45); }
+.merida .merida-grid article.has-photo::before { z-index: 2; }
+.merida .has-photo p { color: #e4e4e4; }
+@media (prefers-reduced-motion: no-preference) {
+  .m-photo img { transition: transform 1s var(--ease-out); }
+  .merida .merida-grid article.has-photo:hover .m-photo img { transform: scale(1.05); }
+}
+
+@media (min-width: 760px) {
+  .merida .merida-lead { grid-column: 1 / -1; min-height: 300px; align-content: initial; }
+  .merida .merida-uni { grid-column: 1 / -1; min-height: 260px; }
+  .merida .merida-refer { grid-column: auto; }
+}
+@media (min-width: 1100px) {
+  .merida .merida-lead { grid-column: 1 / span 7; grid-row: 1 / span 2; min-height: 0; padding: 32px 30px; }
+  .merida .merida-usd { grid-column: 8 / span 5; grid-row: 1; }
+  .merida .merida-uni { grid-column: 8 / span 5; grid-row: 2; min-height: 0; }
+  .merida .merida-students { grid-column: 1 / span 4; grid-row: 3; }
+  .merida .merida-team { grid-column: 5 / span 4; grid-row: 3; }
+  .merida .merida-refer { grid-column: 9 / span 4; grid-row: 3; }
+}
