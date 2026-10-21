@@ -191,8 +191,37 @@
   /* ── Forms ─────────────────────────────────────────────────── */
   document.addEventListener('click', function (event) {
     var opener = event.target.closest && event.target.closest('[data-open]');
-    if (opener) openForm(opener.getAttribute('data-open'));
+    if (!opener) return;
+    if (opener.getAttribute('data-open') === 'privacy') { event.preventDefault(); openPrivacy(); return; }
+    openForm(opener.getAttribute('data-open'));
   });
+
+  /* ── Privacy notice popup ──────────────────────────────────────
+     Opens from the footer link and from the consent line in the form. It is its own dialog stacked on top, so
+     opening it from the form keeps whatever the visitor has typed. A #privacy link (for example from the partner
+     dashboard footer) opens it on load. */
+  var privacySheet = el('dialog', { class: 'sheet', id: 'privacy-sheet', 'aria-labelledby': 'privacy-title' });
+  document.body.appendChild(privacySheet);
+  function openPrivacy() {
+    var langs = document.querySelector('.bar .lang-switch').cloneNode(true);
+    var close = el('button', { type: 'button', class: 'sheet-close', 'data-close': '', 'data-i18n-attr': 'aria-label:form.close', 'aria-label': t('form.close') });
+    privacySheet.textContent = '';
+    privacySheet.appendChild(el('div', { class: 'sheet-body' }, [
+      el('div', { class: 'sheet-tools' }, [langs, close]),
+      el('div', { class: 'sheet-top' }, [
+        el('h2', { id: 'privacy-title', 'data-i18n': 'privacy.title', text: t('privacy.title') }),
+        el('p', { class: 'sheet-intro', 'data-i18n': 'privacy.body', text: t('privacy.body') })
+      ])
+    ]));
+    site.apply(privacySheet);
+    if (!privacySheet.open) privacySheet.showModal();
+    privacySheet.scrollTop = 0;
+    close.focus();
+  }
+  privacySheet.addEventListener('click', function (event) {
+    if (event.target === privacySheet || (event.target.closest && event.target.closest('[data-close]'))) privacySheet.close();
+  });
+  if (location.hash === '#privacy') openPrivacy();
 
   var uid = 0;
   function field(labelKey, control, opts) {
@@ -321,7 +350,7 @@
     var consent = el('input', { type: 'checkbox', name: 'consent', required: true, id: 'f' + (++uid) });
     form.appendChild(el('div', { class: 'consent' }, [
       el('label', { for: consent.id }, [consent, el('span', { 'data-i18n': apply ? 'form.consentApply' : 'form.consentPartner', text: t(apply ? 'form.consentApply' : 'form.consentPartner') })]),
-      el('a', { href: '#privacy', class: 'consent-link', 'data-close': '', 'data-i18n': 'privacy.title', text: t('privacy.title') })
+      el('a', { href: '#privacy', class: 'consent-link', 'data-open': 'privacy', 'data-i18n': 'privacy.title', text: t('privacy.title') })
     ]));
     var status = el('p', { class: 'form-status', role: 'alert' });
     var submit = el('button', { type: 'submit', class: 'btn btn-red btn-lg btn-block', 'data-i18n': apply ? 'form.submitApply' : 'form.submitPartner', text: t(apply ? 'form.submitApply' : 'form.submitPartner') });
