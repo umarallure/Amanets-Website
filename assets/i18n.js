@@ -143,6 +143,12 @@
     'dash.applied': 'Se postuló el {date}',
     'dash.updated': 'Se actualiza solo mientras esta página está abierta.',
     'dash.retry': 'Intentar de nuevo',
+    'dash.badge': 'Tu cuenta de socio', 'dash.jobs': 'Ver empleos',
+    'dash.stat1': 'Recomendadas', 'dash.stat2': 'En proceso', 'dash.stat3': 'Contratadas',
+    'dash.how': 'Cómo funciona',
+    'dash.step3': 'Lo contratan y recibes tu pago',
+    'dash.step3b': 'Cuando una persona que recomendaste es contratada, recibes tu pago.',
+    'dash.sendTitle': 'Enviar directo', 'dash.email': 'Correo',
     'dash.copyFail': 'No se pudo copiar. Mantén presionado el enlace para copiarlo.'
   };
   var en = {
@@ -286,6 +292,12 @@
     'dash.applied': 'Applied {date}',
     'dash.updated': 'Updates automatically while this page is open.',
     'dash.retry': 'Try again',
+    'dash.badge': 'Your partner account', 'dash.jobs': 'See jobs',
+    'dash.stat1': 'Referred', 'dash.stat2': 'In process', 'dash.stat3': 'Hired',
+    'dash.how': 'How it works',
+    'dash.step3': 'They get hired and you get paid',
+    'dash.step3b': 'When someone you referred is hired, you get paid.',
+    'dash.sendTitle': 'Send it directly', 'dash.email': 'Email',
     'dash.copyFail': 'Couldn’t copy. Press and hold the link to copy it.'
   };
   window.site.dict = { es: es, en: en };
