@@ -1320,3 +1320,24 @@ body.dash-page .bar-cta { white-space: nowrap; }
   .role:hover .role-foot { background: #ed1c24; }
   .role:hover .role-ico { background: #d71920; border-color: #d71920; color: #fff; }
 }
+
+/* ── Job cards: Apply now + Share job ──────────────────────
+   The footer is now two buttons side by side: a shorter red "Apply now" and an outlined "Share job" that opens
+   WhatsApp with a ready-made message about the role. The share link sits beside the card button (a link cannot
+   live inside a button), pinned over the footer's right end. On narrow phones it shrinks to the icon alone. */
+.role .role-foot { margin-right: 152px; }
+.role-share {
+  position: absolute; right: 22px; bottom: 22px; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  width: 142px; min-height: 48px; border: 1px solid #3f3f3f; border-radius: 10px; background: #161616; color: #f1f1f1;
+  font-size: 15px; font-weight: 600; text-decoration: none; transition: background-color .18s ease, border-color .18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.role-share svg { width: 22px; height: 22px; flex: none; fill: none; stroke: #25d366; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.role-share:focus-visible { outline: 2px solid #25d366; outline-offset: 2px; }
+.role-share:active { background: rgba(37, 211, 102, .16); border-color: #25d366; }
+@media (hover: hover) and (pointer: fine) { .role-share:hover { background: rgba(37, 211, 102, .12); border-color: #25d366; } }
+@media (max-width: 400px) {
+  .role .role-foot { margin-right: 58px; }
+  .role-share { width: 48px; }
+  .role-share span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}

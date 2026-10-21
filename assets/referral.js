@@ -121,7 +121,11 @@
         el('span', { class: 'role-foot', 'aria-hidden': 'true' }, [el('span', { text: t('cta.apply') }), el('span', { class: 'role-go' })])
       ]);
       button.addEventListener('click', function () { openForm('apply', opening.title); });
-      var item = el('li', {}, [button]);
+      var shareText = t('careers.shareMsg').replace('{role}', title).replace('{url}', location.origin + '/#careers');
+      var share = el('a', { class: 'role-share', href: 'https://wa.me/?text=' + encodeURIComponent(shareText), target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('careers.share') + ': ' + title }, [
+        svgIcon('i-whatsapp'), el('span', { text: t('careers.share') })
+      ]);
+      var item = el('li', {}, [button, share]);
       item.style.setProperty('--i', Math.min(list.children.length, 8)); // cascade order if the list hasn't revealed yet
       list.appendChild(item);
     });
