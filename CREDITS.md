@@ -24,3 +24,13 @@ The About the team section uses these stock photos (none show named people from 
 | `team-atencion.*` | [Unsplash photo 1766066014237](https://images.unsplash.com/photo-1766066014237-00645c74e9c6) | BaljkanN4 |
 | `team-reclutamiento.*` | [Unsplash photo 1698047682091](https://images.unsplash.com/photo-1698047682091-782b1e5c6536) | Resume Genius |
 | `team-marketing.*` | [Unsplash photo 1586936893354](https://images.unsplash.com/photo-1586936893354-362ad6ae47ba) | UX Indonesia |
+
+The Puerto Rico sales agent page (/salesagent) uses these Old San Juan stock photos (none show named people from the company):
+
+| File | Source | Photographer |
+| --- | --- | --- |
+| `pr-hero-*` | [Unsplash photo 1717263209162](https://images.unsplash.com/photo-1717263209162-ea0cda01ff70) | Nils Huenerfuerst |
+| `pr-flag-*` | [Unsplash photo 1716512717499](https://images.unsplash.com/photo-1716512717499-bf31c6b3bcea) | Nils Huenerfuerst |
+| `pr-balcony-*` | [Unsplash photo 1783039139354](https://images.unsplash.com/photo-1783039139354-56e2a260cdad) | Jameson Berrios |
+| `pr-street-*` | [Unsplash photo 1589402249680](https://images.unsplash.com/photo-1589402249680-5ff95f2ac3bd) | Zixi Zhou |
+| `pr-coast-*` | [Unsplash photo 1734883930520](https://images.unsplash.com/photo-1734883930520-651a5ba0539f) | Zixi Zhou |

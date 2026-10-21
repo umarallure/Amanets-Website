@@ -1352,3 +1352,41 @@ body.dash-page .bar-cta { white-space: nowrap; }
   .dash-link-side .send { grid-column: 1; grid-row: 2; }
   .dash-link-side .dash-qr { grid-column: 2; grid-row: 1 / span 2; }
 }
+
+/* ── /salesagent: Puerto Rico sales agents ─────────────────
+   Same system as the home page (hero stage, alternating photo and red cards, scroll story, red closing band),
+   with the island worked in: the Puerto Rico flag as a small mark, the flag's red, white and blue in thin
+   accents only, the "787" area code as the watermark, and plain, confident sales language. Photos are Old San
+   Juan stock images. The page has no partner band, so motion.js is not loaded here. */
+.pr-flag { display: inline-block; width: 26px; height: 17px; flex: none; margin-right: 10px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,255,255,.3); }
+.hero-stage .sa-hero { grid-template-areas: "copy" "side" "fit"; }
+.hero-stage .sa-hero .hero-eyebrow { display: inline-flex; align-items: center; justify-self: start; }
+.hero-photo img { object-position: 42% 40%; }
+.sa-fit {
+  grid-area: fit; display: grid; gap: 14px; padding: 22px; border: 1px solid rgba(255,255,255,.22); border-radius: 16px;
+  background: rgba(9,9,9,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 24px 60px rgba(0,0,0,.45);
+}
+.sa-fit h2 { font-size: 1.35rem; letter-spacing: -.02em; }
+.sa-fit ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.sa-fit li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; font-weight: 600; }
+.sa-fit li svg { width: 28px; height: 28px; padding: 5px; border-radius: 50%; background: #d71920; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.sa-fit p { padding-top: 14px; border-top: 1px solid #2f2f2f; color: #ff8a8f; font-weight: 700; }
+@media (min-width: 900px) {
+  .hero-stage .sa-hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); grid-template-areas: "copy fit" "side fit"; }
+  .sa-fit { align-self: center; justify-self: end; width: min(100%, 400px); padding: 28px; }
+}
+/* the red cards: "787" and the logo as watermarks */
+.sa-why .merida-usd::after { content: "787"; content: "787" / ""; }
+/* manifesto */
+.sa-manifesto { position: relative; overflow: hidden; padding: clamp(56px, 9vw, 120px) var(--gutter); background: #090909; }
+.sa-manifesto::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, #ed0000 0 33.34%, #fff 33.34% 66.67%, #0050f0 66.67%); }
+.sa-manifesto::after {
+  content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: clamp(120px, 34vw, 460px); background: #0050f0; opacity: .2;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%); pointer-events: none;
+}
+.sa-manifesto-inner { position: relative; z-index: 1; display: grid; gap: 22px; justify-items: start; max-width: var(--max); margin: 0 auto; }
+.sa-manifesto h2 { max-width: 12em; font-size: clamp(2.2rem, 7vw, 4.8rem); font-weight: 700; line-height: 1; letter-spacing: -.04em; }
+.sa-manifesto p { max-width: 30em; font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: var(--ink-soft); }
+
+/* phones: a deeper shade so the intro text holds up over the bright coast photo */
+@media (max-width: 899px) { .hero-stage:has(> .sa-hero)::after { background: linear-gradient(180deg, rgba(9,9,9,.62) 0%, rgba(9,9,9,.84) 42%, #090909 92%); } }
