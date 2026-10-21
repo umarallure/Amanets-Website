@@ -31,7 +31,7 @@
   // The fold: hide the options and show the card, or the reverse.
   function settle() {
     var ok = qualifies() && !reviewing;
-    body.classList.toggle('done', ok);
+    body.classList.toggle('qualified', ok);
     result.hidden = !ok;
     hint.hidden = ok;
     boxes.forEach(function (box) { box.tabIndex = ok ? -1 : 0; });

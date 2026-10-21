@@ -1105,7 +1105,7 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
   .dash-stats { gap: 8px; }
   .stat { padding: 12px; }
   .stat span:last-child { letter-spacing: .06em; }
-}
+}
 body.dash-page .bar-cta { white-space: nowrap; }
 @media (max-width: 560px) { body.dash-page .bar-cta { display: none; } }
 
@@ -1427,8 +1427,10 @@ body.dash-page .bar-cta { white-space: nowrap; }
    the grid-rows trick and fades it; the card then rises in. Reduced motion gets the same states without movement. */
 .fit-collapse { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .55s var(--ease-out), opacity .35s ease, margin .55s var(--ease-out); }
 .fit-collapse-in { min-height: 0; overflow: hidden; }
-.sa-fit-body.done .fit-collapse { grid-template-rows: 0fr; opacity: 0; margin-bottom: -16px; pointer-events: none; }
-.sa-fit-body.done .fit-row { visibility: hidden; transition: visibility 0s .55s; }
+.sa-fit-body.qualified .fit-collapse { grid-template-rows: 0fr; opacity: 0; pointer-events: none; }
+.sa-fit-body { transition: row-gap .55s var(--ease-out); }
+.sa-fit-body.qualified { row-gap: 0; }
+.sa-fit-body.qualified .fit-row { visibility: hidden; transition: visibility 0s .55s; }
 .fit-result { position: relative; overflow: hidden; }
 .fit-result > * { position: relative; z-index: 1; }
 .fit-logo { display: block; width: min(60%, 170px); height: auto; margin-bottom: 6px; }
@@ -1439,5 +1441,5 @@ body.dash-page .bar-cta { white-space: nowrap; }
 .fit-tick { width: 44px; height: 44px; padding: 9px; border-radius: 50%; background: #fff; fill: none; stroke: #d71920; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .fit-result svg.fit-tick { margin-top: 4px; }
 .fit-edit { padding: 6px 0; border: 0; background: none; color: rgba(255,255,255,.9); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 44px; }
-@media (prefers-reduced-motion: reduce) { .fit-collapse, .sa-fit-body.done .fit-row { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .fit-collapse, .sa-fit-body.qualified .fit-row { transition: none; } }
 .fit-result h3, .fit-result p { text-align: left; }
