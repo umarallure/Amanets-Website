@@ -41,6 +41,16 @@
     document.documentElement.classList.add('reveal-ready');
   }
   if (ref) document.getElementById('invite').hidden = false;
+  // Illustrative referral card in the partner band. Its QR opens this page without any ?ref= code,
+  // so scanning the example can never attribute an application to a made-up partner.
+  (function () {
+    var qr = document.getElementById('ref-qr');
+    var host = document.getElementById('ref-host');
+    if (host) host.textContent = location.host;
+    var data = qr && site.qr(location.origin + '/', 6);
+    if (data) qr.src = data; else if (qr) qr.hidden = true;
+  })();
+
 
   /* ── Roles and video from the CRM ─────────────────────────── */
   function loadConfig() {
@@ -72,12 +82,13 @@
     openings.forEach(function (opening) {
       var title = site.pick(opening.title, opening.title_es);
       var description = site.pick(opening.description, opening.description_es);
-      var meta = [opening.location, opening.vacancies > 1 ? t('careers.openings').replace('{n}', opening.vacancies) : opening.vacancies === 1 ? t('careers.opening') : ''].filter(Boolean);
+      var vacancy = opening.vacancies > 1 ? t('careers.openings').replace('{n}', opening.vacancies) : opening.vacancies === 1 ? t('careers.opening') : '';
+      var meta = [opening.location ? el('span', { text: opening.location }) : null, vacancy ? el('span', { class: 'role-chip', text: vacancy }) : null].filter(Boolean);
       var button = el('button', { type: 'button', class: 'role', 'aria-label': t('careers.applyRole') + ': ' + title }, [
         el('span', { class: 'role-title', text: title }),
-        meta.length ? el('span', { class: 'role-meta' }, meta.map(function (m) { return el('span', { text: m }); })) : null,
+        meta.length ? el('span', { class: 'role-meta' }, meta) : null,
         description ? el('span', { class: 'role-desc', text: description }) : null,
-        el('span', { class: 'role-go', 'aria-hidden': 'true' })
+        el('span', { class: 'role-foot', 'aria-hidden': 'true' }, [el('span', { text: t('cta.apply') }), el('span', { class: 'role-go' })])
       ]);
       button.addEventListener('click', function () { openForm('apply', opening.title); });
       var item = el('li', {}, [button]);
