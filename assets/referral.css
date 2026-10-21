@@ -885,3 +885,60 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
   .merida .merida-team { grid-column: 5 / span 4; grid-row: 3; }
   .merida .merida-refer { grid-column: 9 / span 4; grid-row: 3; }
 }
+
+/* ── How to apply: scroll story ────────────────────────────
+   Left: the heading, a step counter, a progress bar and the Apply button, pinned while you read.
+   Right: the three steps, large. The one crossing the middle of the screen lights up in red; the
+   others stay readable (not faded to near-invisible). Without script every step shows at full
+   strength, and the text is always in the page for assistive tech. On phones the side column
+   dissolves into the flow: heading, steps, then the button. */
+.how { position: relative; padding-block: clamp(56px, 8vw, 104px); background: #090909; }
+.how > .how-bg { position: absolute; inset: 0; max-width: none; margin: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.how-bg img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 30% 60%; opacity: .34; filter: saturate(.85); }
+.how-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, #090909 14%, rgba(9,9,9,.5) 62%, rgba(9,9,9,.7)), linear-gradient(0deg, #090909, transparent 24%, transparent 76%, #090909);
+}
+.how > .how-wrap { position: relative; z-index: 1; display: grid; gap: 8px; }
+.how-side { display: contents; }
+.how-side h2 { margin-bottom: 14px; }
+.how-count, .how-prog { display: none; }
+.how-cta { justify-self: start; margin-top: 22px; order: 3; }
+.how-steps { order: 2; }
+
+.how-steps { list-style: none; margin: 0; padding: 0; display: grid; }
+.how-step { display: grid; grid-template-columns: 52px 1fr; gap: 6px 18px; padding: 26px 0; border-top: 1px solid #262626; align-content: center; }
+.how-n { padding-top: 12px; font-size: 14px; font-weight: 600; letter-spacing: .18em; color: #bdbdbd; font-variant-numeric: tabular-nums; }
+.how-ico { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 14px; border: 1px solid #d71920; color: #ed1c24; }
+.how-ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.how-step h3 { margin-bottom: 10px; font-size: clamp(1.7rem, 7vw, 2.6rem); letter-spacing: -.03em; line-height: 1.05; }
+.how-step p { max-width: 30em; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.55; color: #d6d6d6; }
+
+/* With script: the step in the middle band is lit, the rest sit back but stay legible (4.9:1). */
+.how-js .how-step:not(.is-active) h3, .how-js .how-step:not(.is-active) p { color: #858585; }
+.how-js .how-step:not(.is-active) .how-ico { border-color: #3a3a3a; color: #6d6d6d; }
+.how-js .how-step.is-active h3 { color: #ff4a50; }
+.how-js .how-step.is-active .how-n { color: #ff4a50; }
+.how-js .how-step.is-done .how-n { color: #d71920; }
+@media (prefers-reduced-motion: no-preference) {
+  .how-js .how-step h3, .how-js .how-step p, .how-js .how-n, .how-js .how-ico { transition: color .4s ease, border-color .4s ease; }
+  .how-js .how-step > div { transition: transform .5s var(--ease-out); }
+  .how-js .how-step.is-active > div { transform: translateX(8px); }
+  .how-count b { display: inline-block; animation: how-tick .35s var(--ease-out); }
+}
+@keyframes how-tick { from { transform: translateY(40%); opacity: 0; } to { transform: none; opacity: 1; } }
+
+@media (max-width: 899px) {
+  .how-js .how-step { padding: 22px 0; }
+}
+@media (min-width: 900px) {
+  .how > .how-wrap { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); column-gap: clamp(40px, 6vw, 80px); align-items: start; }
+  .how-side { display: grid; gap: 18px; align-content: start; position: sticky; top: 112px; }
+  .how-side h2 { margin-bottom: 0; max-width: 8em; }
+  .how-count { display: flex; align-items: baseline; gap: 10px; margin: 14px 0 0; font-size: 12px; font-weight: 600; letter-spacing: .2em; color: #bdbdbd; }
+  .how-count b { font-size: clamp(2.4rem, 4vw, 3rem); letter-spacing: -.02em; color: #fff; font-variant-numeric: tabular-nums; }
+  .how-prog { display: block; width: min(240px, 100%); height: 3px; background: #2c2c2c; }
+  .how-prog i { display: block; height: 100%; width: 33.3%; background: #d71920; transition: width .6s var(--ease-out); }
+  .how-cta { margin-top: 10px; }
+  .how-step { min-height: clamp(220px, 42vh, 400px); padding: 30px 0; grid-template-columns: 64px 1fr; gap: 6px 22px; }
+}
