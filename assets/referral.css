@@ -1168,3 +1168,15 @@ body.dash-page .bar-cta { white-space: nowrap; }
   .dash-save { order: 3; }
   .dash-people { order: 4; }
 }
+
+/* ── Share card: QR first, small send icons underneath ─────
+   The direct-send buttons sit at the bottom of the card, beneath the QR and its download link, as small icon
+   buttons (44px tap size). The app name is the hover label and stays in the page for screen readers. */
+.dash-link-side { display: grid; gap: 16px; justify-items: start; align-content: start; }
+.send { gap: 8px; }
+.send-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.send-tile { position: relative; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; gap: 0; border-radius: 12px; }
+.send-tile > span:not(.send-ico) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.send-ico { width: 24px; height: 24px; }
+.send-ico svg { width: 22px; height: 22px; }
+@media (min-width: 1100px) { .dash-link-grid { align-items: center; } }

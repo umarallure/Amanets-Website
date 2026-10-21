@@ -84,7 +84,7 @@
     return el('div', { class: 'send' }, [
       el('p', { class: 'send-title', text: t('dash.sendTitle') }),
       el('div', { class: 'send-row' }, tiles.map(function (x) {
-        var attrs = { class: 'send-tile send-' + x[4], href: x[2] };
+        var attrs = { class: 'send-tile send-' + x[4], href: x[2], title: x[1] };
         if (x[3]) { attrs.target = '_blank'; attrs.rel = 'noopener noreferrer'; }
         return el('a', attrs, [icon(x[0], 'send-ico'), el('span', { text: x[1] })]);
       }))
@@ -179,8 +179,8 @@
       el('div', { class: 'dash-card-top' }, [icon('i-link'), el('h2', { text: t('dash.shareTitle') })]),
       el('p', { text: t('dash.shareBody') }),
       el('div', { class: 'dash-link-grid' }, [
-        el('div', { class: 'dash-link-main' }, [el('code', { class: 'dash-url', text: link }), share, sendTiles(link)]),
-        qrFigure
+        el('div', { class: 'dash-link-main' }, [el('code', { class: 'dash-url', text: link }), share]),
+        el('div', { class: 'dash-link-side' }, [qrFigure, sendTiles(link)])
       ])
     ]);
 
