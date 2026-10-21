@@ -43,15 +43,13 @@
   if (ref) document.getElementById('invite').hidden = false;
 
   /* ── Roles and video from the CRM ─────────────────────────── */
-  // retry = true when the visitor taps "Try again": only the role list is redrawn, so a video that
-  // is already playing from the default URL is never remounted.
-  function loadConfig(retry) {
+  function loadConfig() {
     fetch(site.API + '/api/referrals?roles=1', { cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
-      .then(function (data) { configFailed = false; config = data.formConfig; openings = data.roles || []; renderRoles(); renderVideo(); })
-      .catch(function () { configFailed = true; renderRoles(); if (!retry) renderVideo(); });
+      .then(function (data) { configFailed = false; config = data.formConfig; openings = data.roles || []; renderRoles(); })
+      .catch(function () { configFailed = true; renderRoles(); });
   }
-  loadConfig(false);
+  loadConfig();
 
   function renderRoles() {
     var list = document.getElementById('roles');
@@ -64,7 +62,7 @@
         retry.addEventListener('click', function () {
           retry.disabled = true;
           retry.textContent = t('careers.loading');
-          loadConfig(true);
+          loadConfig();
         });
         empty.appendChild(retry);
       }
@@ -97,31 +95,23 @@
     if ((m = url.match(/loom\.com\/(?:share|embed)\/([\w]+)/))) return 'https://www.loom.com/embed/' + m[1] + '?autoplay=1';
     return '';
   }
-  function renderVideo() {
+  // The thumbnail and play button are plain HTML, so they show before any script or API answer.
+  // Nothing from the player loads until the visitor taps it. If the CRM has not answered yet, the
+  // default video starts; the CRM's choice only differs when recruiting has swapped the video.
+  function startVideo() {
     var url = config && config.videoUrl || DEFAULT_VIDEO_URL;
     var frame = document.getElementById('video-frame');
     var cap = url.match(/^https?:\/\/(?:www\.)?cap\.so\/(?:s|embed)\/([\w-]+)/i);
-    if (cap) {
-      frame.textContent = '';
-      mountVideo(frame, 'https://cap.so/api/playlist?videoId=' + encodeURIComponent(cap[1]) + '&videoType=mp4');
-      return;
-    }
-    if (/\.(mp4|webm|ogg)(\?|$)/i.test(url)) {
-      frame.textContent = '';
-      mountVideo(frame, url);
-      return;
-    }
-    if (!embedUrl(url)) return;
-    // The player loads on tap: a third-party iframe up front costs a phone on mobile data seconds.
-    var play = el('button', { type: 'button', class: 'video-play', 'data-i18n-attr': 'aria-label:video.play', 'aria-label': t('video.play') });
-    play.innerHTML = '<div class="orb" aria-hidden="true"><span class="orb-corona"></span><span class="orb-ring"></span><span class="orb-orbit"><i></i></span><span class="orb-disc"></span></div><span class="video-play-icon" aria-hidden="true"></span>';
-    play.addEventListener('click', function () {
-      frame.textContent = '';
-      frame.appendChild(el('iframe', { src: embedUrl(url), title: t('video.watch'), allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: true }));
-    });
     frame.textContent = '';
-    frame.appendChild(play);
+    if (cap) return mountVideo(frame, 'https://cap.so/api/playlist?videoId=' + encodeURIComponent(cap[1]) + '&videoType=mp4');
+    if (/\.(mp4|webm|ogg)(\?|$)/i.test(url)) return mountVideo(frame, url);
+    if (embedUrl(url)) {
+      frame.appendChild(el('iframe', { src: embedUrl(url), title: t('video.watch'), allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: true }));
+      return;
+    }
+    frame.appendChild(el('div', { class: 'video-loading', role: 'status' }, [el('p', { 'data-i18n': 'video.soon', text: t('video.soon') })]));
   }
+  document.getElementById('video-start').addEventListener('click', startVideo);
   function mountVideo(frame, url) {
     frame.dataset.state = 'loading';
     var video = el('video', { src: url, controls: true, playsinline: true, preload: 'metadata', title: t('video.watch') });
@@ -139,6 +129,8 @@
       site.apply(loading);
     });
     frame.append(video, loading);
+    var started = video.play(); // inside the tap, so sound is allowed
+    if (started && started.catch) started.catch(function () { /* controls are on; they can press play */ });
   }
 
   site.onLang(function () {
