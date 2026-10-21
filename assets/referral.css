@@ -1287,3 +1287,36 @@ body.dash-page .bar-cta { white-space: nowrap; }
   content: ""; position: absolute; right: -12%; bottom: 6%; width: 96%; aspect-ratio: 392 / 72;
   background: url("/assets/brand/amanet-white.png") center / contain no-repeat; opacity: .13; pointer-events: none;
 }
+
+/* ── Job cards: icon header, tags, strong Apply button ─────
+   Each card now opens with a role icon (picked from the title) and the openings badge, then the title, tags
+   for place and schedule (read from the location text), the description, and a full-width red Apply button.
+   The whole card is still one button. The icon tile and the button react to hover, nothing else moves. */
+.role { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+.role-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+.role-ico {
+  display: grid; place-items: center; width: 48px; height: 48px; flex: none; border: 1px solid #3a3a3a; color: #ed1c24;
+  transition: background-color .25s, color .25s, border-color .25s;
+}
+.role-ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: square; stroke-linejoin: miter; }
+.role-chip { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; background: rgba(215, 25, 32, .16); border-color: #d71920; color: #ff8a8f; font-size: 13px; font-weight: 700; }
+.role-chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #ff4a50; }
+@media (prefers-reduced-motion: no-preference) { .role-chip::before { animation: pulse 1.6s ease-in-out infinite; } }
+.role-meta { gap: 8px; margin-bottom: 2px; text-transform: none; letter-spacing: 0; }
+.role-tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border: 1px solid #353535; border-radius: 999px; font-size: 13px; font-weight: 600; letter-spacing: .02em; color: #e2e2e2; }
+.role-tag svg { width: 14px; height: 14px; flex: none; fill: none; stroke: #ed1c24; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.role-desc { margin-bottom: 8px; }
+.role .role-foot {
+  margin-top: auto; padding: 0 18px; min-height: 48px; border: 0; border-radius: 10px; background: #d71920; color: #fff;
+  font-size: 15px; font-weight: 700; letter-spacing: .01em; transition: background-color .18s ease;
+}
+.role .role-foot .role-go, .role:hover .role-foot .role-go, .role:active .role-foot .role-go {
+  position: relative; right: auto; top: auto; width: 18px; height: 20px; margin: 0; border: 0; border-radius: 0; background: none; color: #fff;
+}
+.role .role-foot .role-go::before { content: ""; position: absolute; left: 0; top: 9px; width: 17px; height: 2px; background: currentColor; }
+.role .role-foot .role-go::after { left: 7px; top: 5.5px; width: 9px; height: 9px; }
+.role:active .role-foot { background: #b9151b; }
+@media (hover: hover) and (pointer: fine) {
+  .role:hover .role-foot { background: #ed1c24; }
+  .role:hover .role-ico { background: #d71920; border-color: #d71920; color: #fff; }
+}

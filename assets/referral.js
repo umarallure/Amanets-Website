@@ -61,6 +61,27 @@
   }
   loadConfig();
 
+  // Role icons: picked from words in the title (English or Spanish), with a briefcase as the fallback.
+  var ROLE_ICONS = [
+    [/sales|ventas|vendedor/i, 'i-r-sales'],
+    [/support|soporte|atenci|customer|servicio|cliente/i, 'i-r-support'],
+    [/recruit|reclut|talent|talento/i, 'i-r-people'],
+    [/market|content|social|contenido/i, 'i-r-mkt'],
+    [/admin|assistant|asistente|operations|operaci|complian|cumplim/i, 'i-r-admin']
+  ];
+  function roleIcon(text) {
+    for (var i = 0; i < ROLE_ICONS.length; i++) if (ROLE_ICONS[i][0].test(text)) return ROLE_ICONS[i][1];
+    return 'i-r-job';
+  }
+  function svgIcon(id) {
+    var NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'), use = document.createElementNS(NS, 'use');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    use.setAttribute('href', '#' + id);
+    svg.appendChild(use);
+    return svg;
+  }
+
   function renderRoles() {
     var list = document.getElementById('roles');
     list.textContent = '';
@@ -83,10 +104,19 @@
       var title = site.pick(opening.title, opening.title_es);
       var description = site.pick(opening.description, opening.description_es);
       var vacancy = opening.vacancies > 1 ? t('careers.openings').replace('{n}', opening.vacancies) : opening.vacancies === 1 ? t('careers.opening') : '';
-      var meta = [opening.location ? el('span', { text: opening.location }) : null, vacancy ? el('span', { class: 'role-chip', text: vacancy }) : null].filter(Boolean);
+      // Tags come from the location text ("Mérida · Part time" becomes two tags). A pin marks a place, a clock marks a schedule.
+      var tags = String(opening.location || '').split(/\s*[·•|]\s*/).filter(Boolean).map(function (part) {
+        var schedule = /part|full|medio|complet|tiempo|hour|hora/i.test(part);
+        return el('span', { class: 'role-tag' }, [svgIcon(schedule ? 'i-clock' : 'i-pin'), el('span', { text: part })]);
+      });
+      var top = el('span', { class: 'role-top' }, [
+        el('span', { class: 'role-ico', 'aria-hidden': 'true' }, [svgIcon(roleIcon(opening.title + ' ' + (opening.title_es || '')))]),
+        vacancy ? el('span', { class: 'role-chip', text: vacancy }) : null
+      ]);
       var button = el('button', { type: 'button', class: 'role', 'aria-label': t('careers.applyRole') + ': ' + title }, [
+        top,
         el('span', { class: 'role-title', text: title }),
-        meta.length ? el('span', { class: 'role-meta' }, meta) : null,
+        tags.length ? el('span', { class: 'role-meta' }, tags) : null,
         description ? el('span', { class: 'role-desc', text: description }) : null,
         el('span', { class: 'role-foot', 'aria-hidden': 'true' }, [el('span', { text: t('cta.apply') }), el('span', { class: 'role-go' })])
       ]);
