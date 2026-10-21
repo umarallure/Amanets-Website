@@ -42,6 +42,19 @@
   }
   if (ref) document.getElementById('invite').hidden = false;
 
+  var qrImage = document.getElementById('careers-qr');
+  if (qrImage && window.qrcode) {
+    try {
+      var qrUrl = new URL('/', location.origin);
+      if (ref) qrUrl.searchParams.set('ref', ref);
+      qrUrl.searchParams.set('src', 'careers-qr');
+      var qr = window.qrcode(0, 'M');
+      qr.addData(qrUrl.toString());
+      qr.make();
+      qrImage.src = qr.createDataURL(5, 2);
+    } catch (_) { qrImage.hidden = true; }
+  }
+
   /* ── Roles and video from the CRM ─────────────────────────── */
   // retry = true when the visitor taps "Try again": only the role list is redrawn, so a video that
   // is already playing from the default URL is never remounted.
