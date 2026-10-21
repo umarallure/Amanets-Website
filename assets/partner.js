@@ -109,6 +109,14 @@
     ]);
   }
 
+  // A spinner in the middle of the page; the words stay in the page for screen readers.
+  function loadingBlock() {
+    return el('div', { class: 'dash-loading', role: 'status' }, [
+      el('span', { class: 'dash-spinner', 'aria-hidden': 'true' }),
+      el('span', { class: 'sr-only', text: t('dash.loading') })
+    ]);
+  }
+
   function backdrop() {
     var bg = el('div', { class: 'dash-bg', 'aria-hidden': 'true' });
     bg.innerHTML = '<picture><source type="image/webp" srcset="/assets/img/valley-800.webp" /><img src="/assets/img/valley-800.jpg" alt="" width="800" height="602" decoding="async" /></picture>';
@@ -133,7 +141,7 @@
     if (!data) {
       main.appendChild(band('dash-body', [error
         ? el('section', { class: 'dash-card dash-notice' }, [el('p', { class: 'form-status', role: 'alert', text: error }), retry()])
-        : el('p', { class: 'dash-loading', text: t('dash.loading') })]));
+        : loadingBlock()]));
       return;
     }
 
