@@ -915,7 +915,7 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
 .how-step p { max-width: 30em; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.55; color: #d6d6d6; }
 
 /* With script: the step in the middle band is lit, the rest sit back but stay legible (4.9:1). */
-.how-js .how-step:not(.is-active) h3, .how-js .how-step:not(.is-active) p { color: #858585; }
+.how-js .how-step:not(.is-active) h3, .how-js .how-step:not(.is-active) p { color: #9c9c9c; }
 .how-js .how-step:not(.is-active) .how-ico { border-color: #3a3a3a; color: #6d6d6d; }
 .how-js .how-step.is-active h3 { color: #ff4a50; }
 .how-js .how-step.is-active .how-n { color: #ff4a50; }
@@ -991,4 +991,31 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
 @media (max-width: 640px) {
   .foot { display: grid; grid-template-columns: 1fr; gap: 8px; }
   .foot-tag { display: none; }
+}
+
+/* ── Phone readability pass (reference screen: iPhone 16 Pro Max, 440 x 956) ──
+   Measured at that size: side margins 20px and line lengths of 38 to 48 characters were fine, but
+   (1) card titles were 17.9px against 17px body text, (2) the "How to apply" step titles matched the
+   section headings, (3) the six Mérida cards used about 1,500px because each stacks its icon above
+   the title, (4) sections were 96px apart against 12px between cards, and (5) some labels were 11px.
+   Desktop is unchanged. */
+.partner-inner { padding-block: clamp(40px, 8vw, 104px); }
+.careers, .merida { padding-block: clamp(40px, 8vw, 104px); }
+.how { padding-block: clamp(44px, 8vw, 104px); }
+.privacy { padding-block: clamp(48px, 7vw, 96px) clamp(40px, 6vw, 80px); }
+.video-cta-label { font-size: 12px; }
+.ref-card-top em { font-size: 12px; }
+
+@media (max-width: 899px) {
+  .how-step h3 { font-size: clamp(1.5rem, 6vw, 1.8rem); }
+}
+@media (max-width: 759px) {
+  .merida .merida-grid h3 { font-size: 1.25rem; }
+  .merida .merida-lead h3 { font-size: 1.5rem; }
+  /* Plain cards: icon beside the text instead of above it. Photo cards keep the icon on top. */
+  .merida .merida-grid article:not(.has-photo) {
+    grid-template-columns: 46px 1fr; column-gap: 16px; row-gap: 6px; align-content: start; padding: 20px;
+  }
+  .merida .merida-grid article:not(.has-photo) .ico { grid-row: span 2; margin: 0; align-self: start; }
+  .merida .merida-grid article:not(.has-photo) h3 { align-self: center; }
 }
