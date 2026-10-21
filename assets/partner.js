@@ -70,6 +70,45 @@
     ]);
   }
 
+
+  // Direct-send links. The message is the existing share text plus the partner's own link.
+  function sendTiles(link) {
+    var message = t('dash.shareText') + ' ' + link;
+    var enc = encodeURIComponent;
+    var tiles = [
+      ['i-whatsapp', 'WhatsApp', 'https://wa.me/?text=' + enc(message), true, 'wa'],
+      ['i-telegram', 'Telegram', 'https://t.me/share/url?url=' + enc(link) + '&text=' + enc(t('dash.shareText')), true, 'tg'],
+      ['i-sms', 'SMS', 'sms:?&body=' + enc(message), false, 'sms'],
+      ['i-mail', t('dash.email'), 'mailto:?subject=' + enc('Amanet') + '&body=' + enc(message), false, 'mail']
+    ];
+    return el('div', { class: 'send' }, [
+      el('p', { class: 'send-title', text: t('dash.sendTitle') }),
+      el('div', { class: 'send-row' }, tiles.map(function (x) {
+        var attrs = { class: 'send-tile send-' + x[4], href: x[2] };
+        if (x[3]) { attrs.target = '_blank'; attrs.rel = 'noopener noreferrer'; }
+        return el('a', attrs, [icon(x[0], 'send-ico'), el('span', { text: x[1] })]);
+      }))
+    ]);
+  }
+
+  // Three steps, top to bottom. The last one is the point of the programme.
+  function processCard() {
+    var steps = [
+      ['i-share', 'partner.s2', 'partner.s2b'],
+      ['i-eye', 'partner.s3', 'partner.s3b'],
+      ['i-usd', 'dash.step3', 'dash.step3b']
+    ];
+    return el('section', { class: 'dash-card dash-how' }, [
+      el('h2', { text: t('dash.how') }),
+      el('ol', { class: 'dash-steps' }, steps.map(function (x, i) {
+        return el('li', { class: i === steps.length - 1 ? 'is-last' : '' }, [
+          icon(x[0], 'step-ico'),
+          el('div', {}, [el('small', { text: '0' + (i + 1) }), el('b', { text: t(x[1]) }), el('span', { text: t(x[2]) })])
+        ]);
+      }))
+    ]);
+  }
+
   function backdrop() {
     var bg = el('div', { class: 'dash-bg', 'aria-hidden': 'true' });
     bg.innerHTML = '<picture><source type="image/webp" srcset="/assets/img/valley-800.webp" /><img src="/assets/img/valley-800.jpg" alt="" width="800" height="602" decoding="async" /></picture>';
@@ -132,15 +171,17 @@
       copyButton(location.href, 'dash.copyPrivate', 'btn btn-red')
     ]);
 
+    var qrFigure = qr ? el('figure', { class: 'dash-qr' }, [
+      el('img', { src: qr, width: '200', height: '200', alt: 'QR' }),
+      el('a', { class: 'linkish', href: qr, download: 'amanet-' + data.partner.code + '.gif', text: t('dash.download') })
+    ]) : null;
     var linkCard = el('section', { class: 'dash-card dash-link' }, [
       el('div', { class: 'dash-card-top' }, [icon('i-link'), el('h2', { text: t('dash.shareTitle') })]),
       el('p', { text: t('dash.shareBody') }),
-      el('code', { class: 'dash-url', text: link }),
-      share,
-      qr ? el('figure', { class: 'dash-qr' }, [
-        el('img', { src: qr, width: '200', height: '200', alt: 'QR' }),
-        el('a', { class: 'linkish', href: qr, download: 'amanet-' + data.partner.code + '.gif', text: t('dash.download') })
-      ]) : null
+      el('div', { class: 'dash-link-grid' }, [
+        el('div', { class: 'dash-link-main' }, [el('code', { class: 'dash-url', text: link }), share, sendTiles(link)]),
+        qrFigure
+      ])
     ]);
 
     var listBody = people.length
@@ -153,14 +194,7 @@
           el('small', { text: t('dash.applied').replace('{date}', dateFormat.format(new Date(p.applied_at))) })
         ]);
       }))
-      : el('div', { class: 'dash-empty' }, [
-        icon('i-share'),
-        el('p', { text: t('dash.empty') }),
-        el('ol', { class: 'dash-hints' }, [
-          el('li', {}, [el('b', { text: t('partner.s2') }), el('span', { text: t('partner.s2b') })]),
-          el('li', {}, [el('b', { text: t('partner.s3') }), el('span', { text: t('partner.s3b') })])
-        ])
-      ]);
+      : el('div', { class: 'dash-empty' }, [icon('i-user'), el('p', { text: t('dash.empty') })]);
 
     var peopleCard = el('section', { class: 'dash-card dash-people' }, [
       el('div', { class: 'dash-people-head' }, [el('h2', { text: t('dash.people') }), el('span', { class: 'dash-count', text: String(people.length) })]),
@@ -168,7 +202,7 @@
       el('p', { class: 'dash-auto' }, [el('i', { class: 'live', 'aria-hidden': 'true' }), el('span', { text: t('dash.updated') })])
     ]);
 
-    var inner = [save, el('div', { class: 'dash-grid' }, [linkCard, peopleCard])];
+    var inner = [save, el('div', { class: 'dash-grid' }, [processCard(), linkCard]), peopleCard];
     if (error) inner.unshift(el('p', { class: 'form-status', role: 'alert', text: error }));
     main.append(hero, band('dash-body', inner));
   }

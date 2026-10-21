@@ -1108,3 +1108,50 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
 }
 body.dash-page .bar-cta { white-space: nowrap; }
 @media (max-width: 560px) { body.dash-page .bar-cta { display: none; } }
+
+/* ── Dashboard: process on the left, sharing on the right ──
+   Left: the three steps as a vertical path, ending on "they get hired and you get paid". Right: the share card
+   with the link, Share and Copy, direct-send tiles (WhatsApp, Telegram, SMS, Email) and the QR beside them on
+   wide screens. The referral list now has its own full-width row, so nothing leaves an empty block. */
+.dash-grid { display: grid; gap: 18px; }
+@media (min-width: 900px) {
+  .dash-grid { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: stretch; }
+  .dash-link { position: static; }
+}
+.dash-how { align-content: start; gap: 22px; }
+.dash-steps { display: grid; margin: 0; padding: 0; list-style: none; }
+.dash-steps li { position: relative; display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 16px; padding-bottom: 28px; }
+.dash-steps li:last-child { padding-bottom: 0; }
+.dash-steps li::before { content: ""; position: absolute; left: 22px; top: 50px; bottom: 4px; width: 2px; background: linear-gradient(#d71920, #3a3a3a); }
+.dash-steps li:last-child::before { display: none; }
+.dash .step-ico { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid #d71920; color: #ed1c24; background: #111; z-index: 1; }
+.dash .step-ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.dash-steps .is-last .step-ico { background: #d71920; border-color: #d71920; color: #fff; box-shadow: 0 0 0 5px rgba(215,25,32,.18); }
+.dash-steps div { display: grid; gap: 2px; align-content: start; padding-top: 2px; }
+.dash-steps small { font-size: 12px; font-weight: 600; letter-spacing: .16em; color: #ff6a6f; }
+.dash-steps b { font-size: 1.1rem; letter-spacing: -.01em; }
+.dash-steps .is-last b { color: #ff4a50; }
+.dash-steps span { font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+
+.dash-link-grid { display: grid; gap: 22px; align-items: start; }
+.dash-link-main { display: grid; gap: 16px; min-width: 0; }
+@media (min-width: 1100px) { .dash-link-grid { grid-template-columns: minmax(0, 1fr) auto; column-gap: 32px; } }
+.send { display: grid; gap: 10px; }
+.send-title { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+.send-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.send-tile { display: grid; justify-items: center; gap: 8px; padding: 14px 6px 12px; border: 1px solid #2c2c2c; border-radius: 12px; background: #151515; color: #e8e8e8; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: .02em; transition: border-color .2s, background-color .2s, transform .25s var(--ease-out); }
+.send-ico { display: grid; place-items: center; width: 40px; height: 40px; }
+.send-ico svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.send-wa .send-ico { color: #25d366; }
+.send-tg .send-ico { color: #5bb8f0; }
+.send-sms .send-ico, .send-mail .send-ico { color: #ff6a6f; }
+@media (hover: hover) and (pointer: fine) { .send-tile:hover { border-color: #d71920; background: #1b1b1b; transform: translateY(-2px); } }
+.send-tile:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.dash-qr { justify-items: start; }
+
+.dash-people { padding-bottom: clamp(18px, 3vw, 26px); }
+@media (min-width: 1100px) {
+  .dash-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+}
+.dash-empty { grid-template-columns: auto 1fr; align-items: center; justify-items: start; gap: 16px; padding: 6px 0; }
+.dash-empty > p { margin: 0; max-width: 38em; }
