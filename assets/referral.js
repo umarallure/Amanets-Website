@@ -10,6 +10,8 @@
   var MAX_CV = 4 * 1024 * 1024;
   var config = null, openings = [], configFailed = false;
   var DEFAULT_VIDEO_URL = 'https://cap.so/s/n2rw42bn43s38qm';
+  // Visitors reading the page in Spanish get the Spanish recording; everyone else gets the CRM's video or the default.
+  var SPANISH_VIDEO_URL = 'https://cap.so/s/jwrjg5ms09wpnn3';
   var sheet = document.getElementById('sheet');
 
   site.apply();
@@ -147,7 +149,7 @@
   // Nothing from the player loads until the visitor taps it. If the CRM has not answered yet, the
   // default video starts; the CRM's choice only differs when recruiting has swapped the video.
   function startVideo() {
-    var url = config && config.videoUrl || DEFAULT_VIDEO_URL;
+    var url = (site.lang === 'es' && SPANISH_VIDEO_URL) || config && config.videoUrl || DEFAULT_VIDEO_URL;
     var frame = document.getElementById('video-frame');
     var cap = url.match(/^https?:\/\/(?:www\.)?cap\.so\/(?:s|embed)\/([\w-]+)/i);
     frame.textContent = '';
@@ -185,7 +187,10 @@
   site.onLang(function () {
     if (config || configFailed) renderRoles();
     relabel(sheet);
-    site.apply(document.getElementById('video-frame'));
+    var frame = document.getElementById('video-frame');
+    site.apply(frame);
+    // A video that is already loaded switches to the new language's recording. An untouched thumbnail needs nothing.
+    if (frame && frame.dataset.state && frame.dataset.state !== 'idle') startVideo();
   });
 
   /* ── Forms ─────────────────────────────────────────────────── */
