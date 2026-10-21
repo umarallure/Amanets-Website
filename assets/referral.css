@@ -1443,3 +1443,11 @@ body.dash-page .bar-cta { white-space: nowrap; }
 .fit-edit { padding: 6px 0; border: 0; background: none; color: rgba(255,255,255,.9); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 44px; }
 @media (prefers-reduced-motion: reduce) { .fit-collapse, .sa-fit-body.qualified .fit-row { transition: none; } }
 .fit-result h3, .fit-result p { text-align: left; }
+
+/* Once the visitor qualifies, the heading, helper text and counter go away and only the congratulations card stays,
+   centred on larger screens. "Review my answers" brings them all back. */
+.sa-fit-sec.qualified .sa-fit-head { display: none; }
+@media (min-width: 900px) {
+  .sa-fit-sec.qualified .sa-fit-wrap { grid-template-columns: minmax(0, 1fr); }
+  .sa-fit-sec.qualified .sa-fit-body { width: 100%; max-width: 680px; margin-inline: auto; }
+}
