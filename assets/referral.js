@@ -4,12 +4,13 @@
   var params = new URLSearchParams(location.search);
   var ref = (params.get('ref') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
   // "Keller" is the CEO's own QR code; printed codes without ?src= are his.
-  var source = (params.get('src') || 'Keller').slice(0, 40);
+  var source = (params.get('src') || (PAGE === 'salesagent' ? 'PR-SalesAgent' : 'Keller')).slice(0, 40);
   var OTHER_SCHOOL = 'Other university';
   var MAX_CV = 4 * 1024 * 1024;
   var config = null, openings = [], configFailed = false;
   var DEFAULT_VIDEO_URL = 'https://cap.so/s/n2rw42bn43s38qm';
   var sheet = document.getElementById('sheet');
+  var PAGE = document.body.getAttribute('data-page') || '';
 
   site.apply();
   requestAnimationFrame(function () { document.documentElement.classList.add('ready'); });
@@ -40,7 +41,8 @@
     waiting.forEach(function (el) { seen.observe(el); });
     document.documentElement.classList.add('reveal-ready');
   }
-  if (ref) document.getElementById('invite').hidden = false;
+  var inviteNote = document.getElementById('invite');
+  if (ref && inviteNote) inviteNote.hidden = false;
   // Illustrative referral card in the partner band. Its QR opens this page without any ?ref= code,
   // so scanning the example can never attribute an application to a made-up partner.
   (function () {
@@ -84,6 +86,7 @@
 
   function renderRoles() {
     var list = document.getElementById('roles');
+    if (!list) return; // pages without a roles list (for example /salesagent)
     list.textContent = '';
     if (configFailed || !openings.length) {
       var key = configFailed ? 'careers.offline' : 'careers.none';
@@ -156,7 +159,8 @@
     }
     frame.appendChild(el('div', { class: 'video-loading', role: 'status' }, [el('p', { 'data-i18n': 'video.soon', text: t('video.soon') })]));
   }
-  document.getElementById('video-start').addEventListener('click', startVideo);
+  var videoStart = document.getElementById('video-start');
+  if (videoStart) videoStart.addEventListener('click', startVideo);
   function mountVideo(frame, url) {
     frame.dataset.state = 'loading';
     var video = el('video', { src: url, controls: true, playsinline: true, preload: 'metadata', title: t('video.watch') });
@@ -250,7 +254,7 @@
     var form = el('form', { class: 'form', novalidate: true });
 
     var code = el('select', { name: 'phone_code', class: 'phone-code', 'data-i18n-attr': 'aria-label:form.phoneCode', 'aria-label': t('form.phoneCode') });
-    fillCountries(code, 'VE');
+    fillCountries(code, PAGE === 'salesagent' ? 'PR' : 'VE');
     var local = el('input', { name: 'phone_local', type: 'tel', inputmode: 'tel', autocomplete: 'tel-national', maxlength: '20', 'data-i18n-attr': 'placeholder:form.phonePlaceholder', placeholder: t('form.phonePlaceholder') });
     var phone = field('form.phone', local, { required: true, wide: true });
     var codeWrap = el('div', { class: 'phone-code-wrap' }, [el('span', { class: 'phone-code-face', 'aria-hidden': 'true' }), code]);
@@ -270,7 +274,7 @@
       field('form.name', el('input', { name: 'name', maxlength: '140', autocomplete: 'name' }), { required: true, wide: true }),
       field(apply ? 'form.emailOptional' : 'form.email', el('input', { name: 'email', type: 'email', inputmode: 'email', maxlength: '254', autocomplete: 'email', spellcheck: 'false' }), { required: !apply }),
       phone,
-      field('form.city', el('input', { name: 'city', maxlength: '100', autocomplete: 'address-level2', value: 'Mérida' }), { required: true })
+      field('form.city', el('input', { name: 'city', maxlength: '100', autocomplete: 'address-level2', value: PAGE === 'salesagent' ? '' : 'Mérida' }), { required: true })
     ];
     if (!apply) about.push(field('form.age', el('input', { name: 'age', type: 'number', inputmode: 'numeric', min: '18', max: '100' }), { required: true }));
 
@@ -282,6 +286,11 @@
     if (apply) {
       var roleSelect = choice('role', openings.map(function (o) { return { value: o.title, es: o.title_es }; }), true);
       if (role) roleSelect.value = role;
+      else if (PAGE === 'salesagent') {
+        // On the sales agent page the role starts on the sales opening, if one is published.
+        var sales = openings.filter(function (o) { return /sales|ventas/i.test(o.title + ' ' + (o.title_es || '')); })[0];
+        if (sales) roleSelect.value = sales.title;
+      }
       form.appendChild(section('form.position', [
         field('form.role', roleSelect, { required: true, wide: true }),
         field('form.english', choice('english', cfg.englishOptions, true), { required: true }),
