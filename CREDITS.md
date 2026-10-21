@@ -34,3 +34,13 @@ The Puerto Rico sales agent page (/salesagent) uses these Old San Juan stock pho
 | `pr-balcony-*` | [Unsplash photo 1783039139354](https://images.unsplash.com/photo-1783039139354-56e2a260cdad) | Jameson Berrios |
 | `pr-street-*` | [Unsplash photo 1589402249680](https://images.unsplash.com/photo-1589402249680-5ff95f2ac3bd) | Zixi Zhou |
 | `pr-coast-*` | [Unsplash photo 1734883930520](https://images.unsplash.com/photo-1734883930520-651a5ba0539f) | Zixi Zhou |
+
+The Kosovo developers page (/developers) uses these stock photos (none show named people from the company):
+
+| File | Source | Photographer |
+| --- | --- | --- |
+| `dev-hero-*` | [Unsplash photo 1741182622764](https://images.unsplash.com/photo-1741182622764-d01a97882742) | Fajar Al Hadi |
+| `dev-city-*` | [Unsplash photo 1687869545075](https://images.unsplash.com/photo-1687869545075-d8a613c04647) | Jonathan Ansel Moy de Vitry |
+| `dev-flag-*` | [Unsplash photo 1663296160098](https://images.unsplash.com/photo-1663296160098-62b9731e122c) | aboodi vesakaran |
+| `dev-hills-*` | [Unsplash photo 1597428983834](https://images.unsplash.com/photo-1597428983834-58c4ec5640fb) | Besart Ademi |
+| `dev-mountain-*` | [Unsplash photo 1605454091459](https://images.unsplash.com/photo-1605454091459-f525dbe3b035) | Besart Ademi |
