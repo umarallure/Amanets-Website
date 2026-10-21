@@ -41,6 +41,16 @@
     document.documentElement.classList.add('reveal-ready');
   }
   if (ref) document.getElementById('invite').hidden = false;
+  // Illustrative referral card in the partner band. Its QR opens this page without any ?ref= code,
+  // so scanning the example can never attribute an application to a made-up partner.
+  (function () {
+    var qr = document.getElementById('ref-qr');
+    var host = document.getElementById('ref-host');
+    if (host) host.textContent = location.host;
+    var data = qr && site.qr(location.origin + '/', 6);
+    if (data) qr.src = data; else if (qr) qr.hidden = true;
+  })();
+
 
   /* ── Roles and video from the CRM ─────────────────────────── */
   function loadConfig() {

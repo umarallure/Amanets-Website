@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/referral.css?v=20261021-hero2" />
+<link rel="stylesheet" href="/assets/referral.css?v=20261021-partner" />
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false"><defs>
@@ -90,6 +90,14 @@
       <div class="partner-body" data-reveal>
         <p data-i18n="partner.body">¿Conoces a alguien en Mérida que encajaría en el equipo? Regístrate, comparte tu enlace personal y sigue el progreso de cada persona que recomiendes. No necesitas trabajar con nosotros para recomendar.</p>
         <button type="button" class="btn btn-ink btn-lg" data-open="partner" data-i18n="partner.cta">Crear mi cuenta de socio</button>
+      </div>
+      <div class="ref-card" data-reveal aria-hidden="true">
+        <div class="ref-card-top"><b data-i18n="dash.shareTitle">Tu enlace para recomendar</b><em data-i18n="partner.example">Ejemplo</em></div>
+        <div class="ref-card-main">
+          <img class="ref-qr" id="ref-qr" alt="" width="112" height="112" />
+          <div class="ref-link"><span class="ref-host" id="ref-host"></span><span class="ref-code" data-i18n="partner.exCode">?ref=TU-CODIGO</span></div>
+        </div>
+        <p data-i18n="dash.shareBody">Quien se postule con este enlace o con tu código QR quedará vinculado a ti automáticamente.</p>
       </div>
       <ol class="steps steps-on-red" data-reveal="stagger" aria-labelledby="partner-title">
         <li><b data-i18n="partner.s1">Crea tu cuenta</b><span data-i18n="partner.s1b">Toma un minuto. Recibes un enlace y un código QR personal.</span></li>
@@ -184,7 +192,7 @@
 <script src="/assets/vendor/qrcode.min.js" defer></script>
 <script src="/assets/starfield.js" defer></script>
 <script src="/assets/site.js" defer></script>
-<script src="/assets/i18n.js?v=20261021-hero2" defer></script>
-<script src="/assets/referral.js?v=20261021-hero2" defer></script>
+<script src="/assets/i18n.js?v=20261021-partner" defer></script>
+<script src="/assets/referral.js?v=20261021-partner" defer></script>
 </body>
 </html>

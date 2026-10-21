@@ -730,3 +730,41 @@ body.dash-page #starfield, body.dash-page .grain { display: none; }
 
 /* The tagline has no room beside the language switch on phones; at 440px it was crushed and clipped. */
 @media (max-width: 700px) { .brand-tag { display: none; } }
+
+/* ── Partner band: one heading style, one content edge, and the product on show ──
+   Sections used to start at three different left edges (padding sat inside the width cap in some
+   and outside in others), and this heading alone was uppercase. Now every section shares the
+   hero's 1180px content edge, and the band shows what a partner actually gets: a personal link
+   and QR. The card is an example (labelled), hidden from assistive tech: the steps say it all. */
+.hero-stage .hero { max-width: 1292px; }
+.partner-band { padding-inline: var(--gutter); }
+.partner-inner { padding-inline: 0; }
+.careers, .how, .privacy { max-width: none; padding-inline: var(--gutter); }
+.careers > *, .how > *, .privacy > * { max-width: var(--max); margin-inline: auto; }
+.partner-band h2 { font-size: clamp(1.9rem, 5.6vw, 3.2rem); font-weight: 700; letter-spacing: -.03em; text-transform: none; max-width: 13em; }
+
+.ref-card {
+  display: grid; gap: 16px; width: 100%; max-width: 460px; padding: 22px;
+  border: 1px solid #303030; border-radius: 16px; background: linear-gradient(160deg, #1a1a1a 0%, #111 100%);
+  box-shadow: 0 24px 60px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.ref-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.ref-card-top b { font-weight: 600; color: #fff; }
+.ref-card-top em { font-style: normal; font-size: 11px; padding: 4px 9px; border: 1px dashed rgba(255,255,255,.4); color: var(--ink-soft); white-space: nowrap; }
+.ref-card-main { display: flex; align-items: center; gap: 18px; }
+.ref-qr { flex: none; width: 112px; height: 112px; padding: 6px; border-radius: 10px; background: #fff; image-rendering: pixelated; }
+.ref-link { display: grid; gap: 6px; min-width: 0; }
+.ref-host { font-size: 14px; color: var(--ink-soft); overflow-wrap: anywhere; }
+.ref-code { font-size: clamp(18px, 4.6vw, 22px); font-weight: 600; letter-spacing: .02em; color: #ff4a50; }
+.ref-card p { padding-top: 14px; border-top: 1px solid #2a2a2a; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
+
+@media (min-width: 900px) {
+  .partner-inner {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); grid-template-areas: "title card" "body card" "steps steps";
+    align-items: center; row-gap: 22px; column-gap: clamp(32px, 5vw, 72px);
+  }
+  .partner-inner > h2 { grid-area: title; align-self: end; }
+  .partner-inner > .partner-body { grid-area: body; align-self: start; }
+  .partner-inner > .ref-card { grid-area: card; justify-self: end; }
+  .partner-inner > .steps { grid-area: steps; margin-top: 18px; }
+}
