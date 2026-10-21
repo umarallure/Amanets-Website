@@ -1359,22 +1359,8 @@ body.dash-page .bar-cta { white-space: nowrap; }
    accents only, the "787" area code as the watermark, and plain, confident sales language. Photos are Old San
    Juan stock images. The page has no partner band, so motion.js is not loaded here. */
 .pr-flag { display: inline-block; width: 26px; height: 17px; flex: none; margin-right: 10px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,255,255,.3); }
-.hero-stage .sa-hero { grid-template-areas: "copy" "side" "fit"; }
 .hero-stage .sa-hero .hero-eyebrow { display: inline-flex; align-items: center; justify-self: start; }
 .hero-photo img { object-position: 42% 40%; }
-.sa-fit {
-  grid-area: fit; display: grid; gap: 14px; padding: 22px; border: 1px solid rgba(255,255,255,.22); border-radius: 16px;
-  background: rgba(9,9,9,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 24px 60px rgba(0,0,0,.45);
-}
-.sa-fit h2 { font-size: 1.35rem; letter-spacing: -.02em; }
-.sa-fit ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.sa-fit li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; font-weight: 600; }
-.sa-fit li svg { width: 28px; height: 28px; padding: 5px; border-radius: 50%; background: #d71920; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.sa-fit p { padding-top: 14px; border-top: 1px solid #2f2f2f; color: #ff8a8f; font-weight: 700; }
-@media (min-width: 900px) {
-  .hero-stage .sa-hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); grid-template-areas: "copy fit" "side fit"; }
-  .sa-fit { align-self: center; justify-self: end; width: min(100%, 400px); padding: 28px; }
-}
 /* the red cards: "787" and the logo as watermarks */
 .sa-why .merida-usd::after { content: "787"; content: "787" / ""; }
 /* manifesto */
@@ -1390,3 +1376,68 @@ body.dash-page .bar-cta { white-space: nowrap; }
 
 /* phones: a deeper shade so the intro text holds up over the bright coast photo */
 @media (max-width: 899px) { .hero-stage:has(> .sa-hero)::after { background: linear-gradient(180deg, rgba(9,9,9,.62) 0%, rgba(9,9,9,.84) 42%, #090909 92%); } }
+
+/* Privacy notice popup: short text, so a compact bottom sheet on phones and a centred card on larger screens
+   (the application form keeps the full-height drawer). */
+#privacy-sheet { height: auto; max-height: 85%; inset: auto 0 0 0; border-radius: 18px 18px 0 0; border-top: 1px solid var(--line-strong); }
+@media (min-width: 760px) {
+  #privacy-sheet { inset: 0; margin: auto; width: min(560px, 92vw); max-height: 80%; border: 1px solid var(--line-strong); border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+}
+
+/* ── /salesagent: video in the hero, and the "Are you a fit?" checklist ─
+   The hero now matches the home page (video first on phones, large on the right on desktop). The checklist moved
+   out of the hero into its own section: tick the four items and a congratulations card with the Apply button
+   appears. It is a self-check, not an approval. */
+.sa-fit-sec { padding: clamp(44px, 8vw, 104px) var(--gutter); background: #0d0d0d; border-top: 1px solid #1c1c1c; }
+.sa-fit-wrap { display: grid; gap: 26px; max-width: var(--max); margin: 0 auto; }
+.sa-fit-head { display: grid; gap: 14px; align-content: start; }
+.sa-fit-head h2 { font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -.03em; }
+.sa-fit-head > p:nth-of-type(1) { max-width: 26em; color: var(--ink-soft); }
+.fit-meter { height: 6px; max-width: 320px; border-radius: 999px; background: #262626; overflow: hidden; }
+.fit-meter i { display: block; width: 0; height: 100%; background: #d71920; transition: width .35s var(--ease-out); }
+.fit-count { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #bdbdbd; }
+.sa-fit-body { display: grid; gap: 16px; align-content: start; }
+.fit-list { display: grid; gap: 10px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.fit-row {
+  position: relative; display: grid; grid-template-columns: 30px 1fr; gap: 16px; align-items: center; min-height: 64px; padding: 14px 18px;
+  border: 1px solid #2c2c2c; border-radius: 14px; background: #111; font-size: 1.05rem; font-weight: 600; cursor: pointer;
+  transition: border-color .2s, background-color .2s; -webkit-tap-highlight-color: transparent;
+}
+.fit-row input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.fit-box { display: block; width: 30px; height: 30px; border: 2px solid #4a4a4a; border-radius: 50%; transition: background-color .2s, border-color .2s; }
+.fit-row.on { border-color: #d71920; background: rgba(215, 25, 32, .12); }
+.fit-row.on .fit-box {
+  border-color: #d71920; background: #d71920 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 12.5l4.5 4.5L18.5 7.5'/%3E%3C/svg%3E") center / 72% no-repeat;
+}
+.fit-row:has(input:focus-visible) { outline: 2px solid #fff; outline-offset: 3px; }
+.fit-hint { color: var(--ink-soft); font-size: 15px; }
+.fit-result { display: grid; gap: 10px; justify-items: start; padding: 24px; border-radius: 16px; background: linear-gradient(135deg, #d71920, #b9151b); color: #fff; box-shadow: 0 18px 50px rgba(215, 25, 32, .35); }
+.fit-result[hidden], .fit-hint[hidden] { display: none; }
+.fit-result h3 { font-size: clamp(1.4rem, 5vw, 1.9rem); line-height: 1.1; letter-spacing: -.02em; }
+.fit-result p { color: rgba(255, 255, 255, .92); }
+.fit-result .btn { margin-top: 6px; }
+@media (prefers-reduced-motion: no-preference) { .fit-result:not([hidden]) { animation: fit-pop .5s var(--ease-out) .3s both; } }
+@keyframes fit-pop { 0% { opacity: 0; transform: translateY(10px) scale(.97); } 100% { opacity: 1; transform: none; } }
+@media (min-width: 900px) {
+  .sa-fit-wrap { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); column-gap: clamp(32px, 5vw, 72px); align-items: start; }
+}
+
+/* Checklist, round two: Puerto Rico first, the options fold away once the visitor qualifies (Puerto Rico plus at
+   least two more), and the congratulations card carries the Amanet logo. The fold animates the list's height with
+   the grid-rows trick and fades it; the card then rises in. Reduced motion gets the same states without movement. */
+.fit-collapse { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .55s var(--ease-out), opacity .35s ease, margin .55s var(--ease-out); }
+.fit-collapse-in { min-height: 0; overflow: hidden; }
+.sa-fit-body.done .fit-collapse { grid-template-rows: 0fr; opacity: 0; margin-bottom: -16px; pointer-events: none; }
+.sa-fit-body.done .fit-row { visibility: hidden; transition: visibility 0s .55s; }
+.fit-result { position: relative; overflow: hidden; }
+.fit-result > * { position: relative; z-index: 1; }
+.fit-logo { display: block; width: min(60%, 170px); height: auto; margin-bottom: 6px; }
+.fit-result::after {
+  content: ""; position: absolute; right: -14%; bottom: -4%; width: 90%; aspect-ratio: 392 / 72; z-index: 0; pointer-events: none;
+  background: url("/assets/brand/amanet-white.png") center / contain no-repeat; opacity: .12;
+}
+.fit-tick { width: 44px; height: 44px; padding: 9px; border-radius: 50%; background: #fff; fill: none; stroke: #d71920; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.fit-result svg.fit-tick { margin-top: 4px; }
+.fit-edit { padding: 6px 0; border: 0; background: none; color: rgba(255,255,255,.9); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 44px; }
+@media (prefers-reduced-motion: reduce) { .fit-collapse, .sa-fit-body.done .fit-row { transition: none; } }
+.fit-result h3, .fit-result p { text-align: left; }
