@@ -32,6 +32,7 @@
   function settle() {
     var ok = qualifies() && !reviewing;
     body.classList.toggle('qualified', ok);
+    section.classList.toggle('qualified', ok); // also hides the heading block, so only the card shows
     result.hidden = !ok;
     hint.hidden = ok;
     boxes.forEach(function (box) { box.tabIndex = ok ? -1 : 0; });
