@@ -25,6 +25,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/referral.css?v=20261021-dev2" />
+<link rel="stylesheet" href="/assets/dev.css?v=2" />
 </head>
 <body data-page="developers" data-title="dev.meta.title">
 <svg class="sprite" aria-hidden="true" focusable="false"><defs>
@@ -107,8 +108,8 @@
           <span class="ln" style="--n:8">  ],</span>
           <span class="ln" style="--n:9">};</span>
           <span class="ln" style="--n:10">&nbsp;</span>
-          <span class="ln" style="--n:11"><b class="k">await</b> hiring.<b class="f">apply</b>({ track: <b class="s">"backend"</b> });</span>
-          <span class="ln" style="--n:12"><b class="c">// ✓ your challenge is on its way to your inbox</b><i class="caret"></i></span>
+          <span class="ln" style="--n:11"><b class="k">await</b> hiring.<b class="f">apply</b>({ track: <b class="s" data-cycle>"backend"</b> });</span>
+          <span class="ln" id="dev-ok" style="--n:12"><b class="c">// ✓ your challenge is on its way to your inbox</b><i class="caret"></i></span>
         </code></pre>
       </div>
     </section>
@@ -220,29 +221,32 @@
       </div>
       <div class="dev-chals" data-reveal="stagger">
         <article class="dev-chal">
-          <p class="dev-chal-meta"><span>FRONTEND</span><span>60 MIN</span><em>Sample</em></p>
+          <p class="dev-chal-meta"><span>FRONTEND</span><span><svg class="dev-ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="rt" cx="10" cy="10" r="8"/><circle class="rf" cx="10" cy="10" r="8" pathLength="100"/></svg>60 MIN</span><em>Sample</em></p>
           <h3>Interface rebuild</h3>
           <p>Recreate a responsive product screen from a visual reference. Keep it accessible and keep it fast.</p>
           <pre class="dev-snip"><code><b class="c">// match the reference, keep it accessible</b>
 <b class="k">export function</b> <b class="f">PlanCard</b>({ plan }) {
   <b class="k">return</b> &lt;article aria-labelledby={plan.id} /&gt;;
 }</code></pre>
+          <div class="dev-demo dm-ui" aria-hidden="true"><div class="dm-sk"><i></i><i></i><i></i></div><div class="dm-real"><b>PlanCard</b><span>rendered, accessible</span><em>&#10003;</em></div></div>
         </article>
         <article class="dev-chal">
-          <p class="dev-chal-meta"><span>BACKEND</span><span>75 MIN</span><em>Sample</em></p>
+          <p class="dev-chal-meta"><span>BACKEND</span><span><svg class="dev-ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="rt" cx="10" cy="10" r="8"/><circle class="rf" cx="10" cy="10" r="8" pathLength="100"/></svg>75 MIN</span><em>Sample</em></p>
           <h3>API under pressure</h3>
           <p>Investigate an endpoint that fails under load, find out why, and make it behave in realistic conditions.</p>
           <pre class="dev-snip"><code>GET /api/quotes  <b class="k">&rarr;</b>  <b class="n">503</b>
 <b class="c">// find the failure mode, then fix it</b>
 <b class="k">await</b> pool.<b class="f">query</b>(sql, params);</code></pre>
+          <div class="dev-demo dm-api" aria-hidden="true"><code>GET /api/quotes</code><span class="st bad">503</span><span class="st ok">200 &#10003;</span></div>
         </article>
         <article class="dev-chal">
-          <p class="dev-chal-meta"><span>FULL-STACK</span><span>90 MIN</span><em>Sample</em></p>
+          <p class="dev-chal-meta"><span>FULL-STACK</span><span><svg class="dev-ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="rt" cx="10" cy="10" r="8"/><circle class="rf" cx="10" cy="10" r="8" pathLength="100"/></svg>90 MIN</span><em>Sample</em></p>
           <h3>System design sprint</h3>
           <p>Plan a practical technical approach for a product feature, with real constraints and room to grow.</p>
           <pre class="dev-snip"><code><b class="c">// explain the trade-offs</b>
 queue <b class="k">&rarr;</b> worker <b class="k">&rarr;</b> db
           <b class="k">&searr;</b> retries + alerts</code></pre>
+          <div class="dev-demo dm-flow" aria-hidden="true"><span>queue</span><i class="wire"><u></u></i><span>worker</span><i class="wire"><u></u></i><span>db</span></div>
         </article>
       </div>
     </div>
@@ -295,8 +299,12 @@ queue <b class="k">&rarr;</b> worker <b class="k">&rarr;</b> db
   </section>
 
   <section class="merida dev-ks" id="kosovo" aria-labelledby="ks-title">
-    <div class="merida-head" data-reveal>
+    <div class="merida-head dev-ks-head" data-reveal>
       <h2 id="ks-title">Built in Kosovo, shipped worldwide.</h2>
+      <figure class="ks-map" aria-hidden="true">
+        <svg viewBox="0 0 360 300"><path class="ks-outline" pathLength="100" d="M58.96,152.294L60.529,149.631L61.052,146.967L60.529,144.303L60.529,140.972L61.052,139.306L62.62,136.306L64.712,131.306L64.189,130.305L63.143,128.304L54.778,120.297L53.209,117.293L53.209,113.286L54.778,111.617L57.392,109.279L58.96,108.276L60.529,107.274L65.757,108.61L71.509,111.951L76.214,113.62L79.874,109.279L79.874,107.608L79.874,105.604L79.874,103.599L80.92,101.593L82.489,100.925L87.717,98.585L99.743,96.578L111.768,93.903L118.565,91.227L122.225,86.543L121.179,84.869L120.657,82.526L117.519,80.517L114.905,77.838L116.474,72.479L118.565,69.128L121.179,68.458L123.794,68.458L126.408,67.452L127.976,66.446L128.499,65.105L130.068,62.088L131.114,60.411L132.682,60.746L134.251,61.082L136.342,61.082L138.956,58.063L143.139,52.024L146.276,45.645L146.799,40.608L145.753,39.264L144.185,39.264L142.616,39.6L141.571,39.264L140.525,37.92L139.479,35.904L138.433,31.534L136.865,27.836L136.342,25.818L137.388,23.127L138.433,22.118L143.139,22.118L146.276,20.772L157.779,12.02L161.439,10.674L165.099,10L167.19,10.674L168.759,11.347L171.373,13.704L172.942,15.051L173.987,16.397L175.033,19.089L174.51,19.089L173.464,18.753L171.373,20.435L171.896,21.445L171.373,24.136L170.85,26.827L170.327,26.827L171.373,28.508L181.83,34.896L193.856,41.615L195.424,42.623L198.561,43.966L207.972,44.302L210.587,46.317L212.678,51.017L214.769,61.417L216.338,63.764L218.952,65.441L221.044,64.435L222.612,62.758L225.226,63.429L227.318,67.787L227.841,73.819L228.364,80.182L232.546,84.869L234.115,85.539L237.775,85.539L239.343,85.873L240.912,86.877L243.526,89.22L245.095,90.223L249.8,91.227L252.938,91.227L253.983,92.9L253.983,93.903L253.983,97.916L253.46,101.259L251.369,107.942L250.846,110.949L250.323,111.951L249.8,112.619L249.8,113.286L251.369,114.288L253.46,114.956L255.552,114.956L259.212,114.622L273.329,116.625L276.989,117.961L279.08,119.963L283.786,125.636L286.4,127.304L288.491,127.304L294.765,124.635L297.903,124.301L302.085,125.302L303.131,125.969L305.745,127.971L306.791,132.306L306.268,133.973L304.7,134.973L303.131,135.64L301.563,136.973L301.563,137.306L301.04,141.305L300.517,141.971L300.517,142.304L299.471,142.97L298.948,143.304L299.471,144.303L300.517,145.968L300.517,146.634L298.948,151.296L291.628,163.274L285.877,169.259L284.831,171.254L284.308,174.245L285.354,180.556L284.308,183.545L281.694,186.533L272.806,189.188L269.669,192.506L269.669,197.151L275.42,205.771L276.466,211.073L270.192,212.729L267.054,212.729L264.963,211.073L263.394,212.729L262.872,213.392L261.303,213.06L259.735,211.735L258.166,211.073L255.552,212.398L256.075,214.054L257.12,216.041L257.12,217.035L255.552,217.366L250.846,215.379L248.232,215.71L247.186,216.372L246.14,217.035L237.775,230.273L237.252,231.927L237.775,232.919L238.298,234.242L238.298,235.895L238.298,239.862L238.298,240.192L238.298,241.514L236.729,241.845L230.455,240.523L229.409,240.523L227.841,239.201L227.318,238.54L226.272,235.895L223.658,231.927L218.429,226.634L213.201,222.332L211.11,221.339L210.064,221.008L209.018,221.008L205.358,223.325L200.653,228.288L199.084,229.942L195.424,231.596L191.241,233.249L180.784,236.556L167.19,241.184L163.53,243.497L160.916,246.801L159.347,251.094L157.256,260.667L157.256,265.286L158.825,271.222L159.347,272.87L158.825,276.825L158.302,277.814L157.256,281.438L154.642,285.39L153.073,287.037L151.505,288.683L148.368,290L147.322,289.012L144.185,285.061L143.139,284.073L142.093,284.732L140.525,287.695L139.479,288.683L136.865,288.683L135.296,287.695L132.159,284.073L132.159,282.756L131.114,280.45L131.114,278.802L132.159,276.496L132.682,275.507L133.728,274.848L135.296,273.2L136.342,269.573L136.342,267.265L135.819,264.626L135.296,260.667L130.591,248.783L129.545,245.149L129.545,238.87L129.545,235.233L127.976,229.942L122.225,218.028L119.611,214.385L118.565,213.06L115.951,210.41L98.174,197.151L95.56,196.819L85.626,197.151L84.057,196.819L83.011,195.492L81.443,192.175L81.443,190.847L81.443,188.192L81.443,186.533L80.397,185.537L78.306,183.545L77.783,182.217L77.783,180.888L79.351,178.563L79.351,177.235L78.306,175.574L76.737,173.58L75.692,172.583L71.509,162.609L69.417,159.616L62.097,155.29Z"/><circle class="ks-ping" cx="218.8" cy="129.2" r="5"/><circle class="ks-dot" cx="218.8" cy="129.2" r="4"/></svg>
+        <figcaption>Prishtina &middot; 42.66&deg; N 21.17&deg; E</figcaption>
+      </figure>
     </div>
     <div class="merida-grid" data-reveal="stagger">
       <article class="merida-lead has-photo">
@@ -369,6 +377,7 @@ queue <b class="k">&rarr;</b> worker <b class="k">&rarr;</b> db
 <script src="/assets/i18n.js?v=20261021-dev2" defer></script>
 <script src="/assets/referral.js?v=20261023-roles" defer></script>
 <script src="/assets/developers.js?v=20261021-dev2" defer></script>
+<script src="/assets/dev.js?v=1" defer></script>
 <script src="/assets/how.js?v=20261021-dev2" defer></script>
 </body>
 </html>
