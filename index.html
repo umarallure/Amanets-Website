@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/referral.css?v=20261021-dev2" />
-<link rel="stylesheet" href="/assets/home.css?v=5" />
+<link rel="stylesheet" href="/assets/home.css?v=8" />
 </head>
 <body id="top" data-page="home">
 <svg class="sprite" aria-hidden="true" focusable="false"><defs>
@@ -89,11 +89,18 @@
       <img src="/assets/img/valley-1600.jpg" srcset="/assets/img/valley-800.jpg 800w, /assets/img/valley-1600.jpg 1600w" sizes="100vw" alt="" width="1600" height="1205" decoding="async" fetchpriority="high" />
     </picture>
     <section class="home-hero" aria-labelledby="hero-title">
-      <h1 id="hero-title" data-i18n="hero.h1">Find your place.</h1>
-      <p class="home-lede" data-i18n="hero.lede">Work with a US company from Kosovo or Venezuela. Real work, real training, room to grow.</p>
-      <div class="home-actions">
-        <a class="btn btn-red btn-lg" href="#opportunities" data-i18n="hero.cta1">See open roles</a>
-        <a class="btn btn-line btn-lg" href="/merida#partner" data-i18n="hero.cta2">Refer someone</a>
+      <div class="home-copy">
+        <h1 id="hero-title"><span data-i18n="hero.h1a">Find your</span> <em data-i18n="hero.h1b">place.</em></h1>
+        <p class="home-lede" data-i18n="hero.lede">Work with a US company from Kosovo, Venezuela or Puerto Rico. Real work, real training, room to grow.</p>
+        <div class="home-actions">
+          <a class="btn btn-red btn-lg" href="#opportunities" data-i18n="hero.cta1">See open roles</a>
+          <a class="btn btn-line btn-lg" href="/merida#partner" data-i18n="hero.cta2">Refer someone</a>
+        </div>
+      </div>
+      <div class="home-mosaic" aria-hidden="true">
+        <figure class="mo-a"><picture><source type="image/webp" srcset="/assets/img/team-main.webp" /><img src="/assets/img/team-main.jpg" alt="" width="1100" height="733" decoding="async" /></picture></figure>
+        <figure class="mo-b"><picture><source type="image/webp" srcset="/assets/img/students-1000.webp" /><img src="/assets/img/students-1000.jpg" alt="" width="1000" height="666" decoding="async" /></picture></figure>
+        <figure class="mo-c"><span data-i18n="hero.m1">3 countries</span><b data-i18n="hero.m2">One US company.</b></figure>
       </div>
     </section>
   </div>
@@ -266,7 +273,7 @@
 </footer>
 
 <script src="/assets/starfield.js" defer></script>
-<script src="/assets/home.js?v=4" defer></script>
+<script src="/assets/home.js?v=5" defer></script>
 <script src="/assets/globe.js?v=2" defer></script>
 </body>
 </html>
