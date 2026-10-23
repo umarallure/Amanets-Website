@@ -84,6 +84,12 @@
   if (burger && nav) burger.addEventListener('click', function () {
     var open = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', String(open));
   });
+  // In the phone menu "Careers" is only a label for the links under it, so keep it out of the tab order.
+  if (dropBtn) {
+    var mq = matchMedia('(max-width: 1059px)');
+    var label = function () { if (mq.matches) { dropBtn.setAttribute('tabindex', '-1'); dropBtn.setAttribute('aria-hidden', 'true'); } else { dropBtn.removeAttribute('tabindex'); dropBtn.removeAttribute('aria-hidden'); } };
+    label(); (mq.addEventListener ? mq.addEventListener('change', label) : mq.addListener(label));
+  }
   if (dropBtn) {
     dropBtn.addEventListener('click', function () { dropBtn.setAttribute('aria-expanded', String(dropBtn.getAttribute('aria-expanded') !== 'true')); });
     document.addEventListener('click', function (e) { if (!e.target.closest('.hdrop')) dropBtn.setAttribute('aria-expanded', 'false'); });

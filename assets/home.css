@@ -47,8 +47,12 @@
   .bar .bar-cta { display: inline-flex; }
 }
 
+/* keyboard focus on the white bar */
+.hnav a:focus-visible, .hdrop-btn:focus-visible, .hburger:focus-visible, .hlink:focus-visible, .hcard:focus-visible, .hcontact a:focus-visible { outline: 2px solid #d71920; outline-offset: 2px; }
+
 /* ── Hero ── */
-.home-stage { min-height: min(86svh, 760px); display: grid; align-items: end; }
+.home-stage { min-height: min(70svh, 760px); display: grid; align-items: end; }
+@media (min-width: 900px) { .home-stage { min-height: min(86svh, 760px); } }
 .home-hero {
   display: grid; gap: 18px; justify-items: start; width: 100%; max-width: 1320px; margin: 0 auto;
   padding: clamp(96px, 20vw, 180px) var(--gutter) clamp(44px, 8vw, 96px);
