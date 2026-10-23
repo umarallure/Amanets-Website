@@ -72,9 +72,10 @@
 .hhead h2 { max-width: 14em; font-size: clamp(1.9rem, 5.6vw, 3.6rem); line-height: 1.02; letter-spacing: -.035em; }
 
 .hwhy, .hopp, .hsteps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.hwhy { gap: 0; border-top: 1px solid #292929; }
 .hwhy li {
-  display: grid; grid-template-columns: 48px 1fr; gap: 2px 16px; align-items: start; padding: 20px;
-  background: #111; border: 1px solid #292929; border-radius: 2px;
+  display: grid; grid-template-columns: 48px 1fr; gap: 2px 16px; align-items: start; padding: 22px 0;
+  border-bottom: 1px solid #292929;
 }
 .hwhy .hico { grid-row: span 2; }
 .hico { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid #d71920; color: #ed1c24; }
@@ -86,8 +87,8 @@
   display: grid; height: 100%; overflow: hidden; color: inherit; text-decoration: none;
   background: #111; border: 1px solid #292929; border-radius: 2px; transition: border-color .2s, transform .25s var(--ease-out);
 }
-.hcard .m-photo, .hteam .m-photo, .hcard-static .m-photo { position: relative; inset: auto; }
-.hcard .m-photo::after, .hteam .m-photo::after, .hcard-static .m-photo::after { display: none; }
+.hcard .m-photo { position: relative; inset: auto; }
+.hcard .m-photo::after { display: none; }
 .hcard .m-photo { display: block; aspect-ratio: 16 / 10; overflow: hidden; }
 .hcard .m-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-out); }
 .hcard-body { display: grid; gap: 8px; align-content: start; padding: 18px 18px 20px; }
@@ -109,8 +110,9 @@
 .hsteps p { margin: 0; max-width: 30em; color: #d6d6d6; line-height: 1.5; }
 
 @media (min-width: 720px) {
-  .hwhy { grid-template-columns: repeat(3, 1fr); }
-  .hwhy li { grid-template-columns: 1fr; gap: 14px; padding: 26px; }
+  .hwhy { grid-template-columns: repeat(3, 1fr); border-top: 0; column-gap: 40px; }
+  .hwhy li { grid-template-columns: 1fr; gap: 14px; padding: 28px 0 0; border-bottom: 0; border-top: 1px solid #333; }
+  .hwhy h3 { font-size: 1.4rem; }
   .hwhy .hico { grid-row: auto; }
   .hopp { grid-template-columns: repeat(2, 1fr); }
   .hsteps { grid-template-columns: repeat(3, 1fr); gap: 28px; }
@@ -120,16 +122,55 @@
 
 /* ── Team, locations, contact sections ── */
 .hlead { margin: 0; max-width: 40em; font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.55; color: #d6d6d6; }
-.hteam, .hloc, .hcontact { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.hteam li, .hcard-static, .hcontact li { display: grid; overflow: hidden; background: #111; border: 1px solid #292929; border-radius: 2px; }
-.hteam .m-photo, .hcard-static .m-photo { display: block; aspect-ratio: 16 / 10; overflow: hidden; }
-.hteam .m-photo img, .hcard-static .m-photo img { width: 100%; height: 100%; object-fit: cover; }
+.hteam, .hcontact { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.hteam li, .hcontact li { display: grid; overflow: hidden; background: #111; border: 1px solid #292929; border-radius: 2px; }
+.hteam .m-photo, .hplace .m-photo { position: relative; inset: auto; display: block; overflow: hidden; }
+.hteam .m-photo { aspect-ratio: 16 / 10; }
+.hteam .m-photo::after, .hplace .m-photo::after, .hmission .m-photo::after { display: none; }
+.hteam .m-photo img, .hplace .m-photo img { width: 100%; height: 100%; object-fit: cover; }
 .hteam-body { display: grid; gap: 6px; align-content: start; padding: 18px 18px 20px; }
 .hteam-body b { font-size: 1.25rem; letter-spacing: -.02em; line-height: 1.15; }
 .hteam-body > span:not(.hteam-kind) { color: #cfcfcf; font-size: 16px; line-height: 1.5; }
 .hteam-kind { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #ff4a50; }
-.hlink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 4px; font-weight: 600; color: #ff4a50; text-decoration: none; }
+
+/* Mission and vision: two statements set large. Mission sits on the team photo, vision on the brand red. */
+.hmv { display: grid; gap: 12px; }
+.hmission, .hvision { position: relative; isolation: isolate; overflow: hidden; display: grid; align-items: end; min-height: clamp(320px, 62vw, 460px); border-radius: 2px; }
+.hmission { background: #111; border: 1px solid #292929; }
+.hmission .m-photo { position: absolute; inset: 0; z-index: -2; }
+.hmission .m-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: saturate(.8); }
+.hmission::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(9,9,9,.97) 6%, rgba(9,9,9,.82) 46%, rgba(9,9,9,.35) 100%); }
+.hvision { background: linear-gradient(135deg, #d71920 0%, #b9151b 100%); }
+.hvision::before { content: ""; position: absolute; z-index: -1; right: -18%; top: -30%; width: 80%; aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(255,255,255,.22); box-shadow: 0 0 0 clamp(26px, 5vw, 56px) rgba(255,255,255,.04), 0 0 0 clamp(52px, 10vw, 112px) rgba(255,255,255,.03); }
+.hmv-body { display: grid; gap: 14px; padding: clamp(22px, 4vw, 40px); }
+.hmv-kind { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #ff4a50; }
+.hvision .hmv-kind { color: #1a0508; }
+.hmv-body h3 { max-width: 7em; font-size: clamp(2.3rem, 7vw, 3.9rem); font-weight: 700; line-height: .98; letter-spacing: -.035em; }
+.hmv-text { margin: 0; max-width: 24em; font-size: clamp(1.05rem, 2.2vw, 1.3rem); line-height: 1.45; color: #ececec; }
+.hvision .hmv-text { color: #fff; }
+.hchips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 0; padding: 0; }
+.hchips li { padding: 7px 14px; border: 1px solid rgba(255,255,255,.4); border-radius: 999px; font-size: 13px; font-weight: 600; letter-spacing: .06em; color: #fff; background: rgba(9,9,9,.35); }
+.hvision .hchips li { background: transparent; border-color: rgba(255,255,255,.7); }
+
+/* Locations: globe + the two offices */
+.hloc-wrap { display: grid; gap: clamp(20px, 4vw, 48px); align-items: center; }
+.hglobe { width: min(100%, 560px); aspect-ratio: 1; margin-inline: auto; }
+.hglobe canvas { display: block; width: 100%; height: 100%; }
+.hloc { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.hplace { display: grid; grid-template-columns: 112px 1fr; overflow: hidden; background: #111; border: 1px solid #292929; border-radius: 2px; transition: border-color .25s, background-color .25s; cursor: default; }
+.hplace.is-on { border-color: #d71920; background: #151112; }
+.hplace .m-photo { height: 100%; min-height: 100%; }
+.hplace .m-photo img { position: absolute; inset: 0; }
+.hplace-body { display: grid; gap: 6px; align-content: start; padding: 16px 16px 14px; }
+.hplace-body b { font-size: 1.2rem; letter-spacing: -.02em; line-height: 1.15; }
+.hplace-text { color: #cfcfcf; font-size: 15px; line-height: 1.5; }
+.hplace-time { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #bdbdbd; font-variant-numeric: tabular-nums; }
+.hplace-time svg { width: 15px; height: 15px; fill: none; stroke: #ed1c24; stroke-width: 2; }
+.hplace-time time { color: #fff; font-weight: 600; }
+.hlink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; color: #ff4a50; text-decoration: none; }
 .hlink svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform .2s var(--ease-out); }
+@media (max-width: 420px) { .hplace { grid-template-columns: 1fr; } .hplace .m-photo { aspect-ratio: 16 / 9; height: auto; } }
+
 .hcontact a { display: grid; grid-template-columns: 1fr 24px; gap: 4px 12px; align-items: center; min-height: 44px; padding: 20px; color: inherit; text-decoration: none; height: 100%; }
 .hcontact a b, .hcontact li:not(:has(a)) b { grid-column: 1; font-size: 1.15rem; letter-spacing: -.01em; }
 .hcontact a span { grid-column: 1; color: #cfcfcf; font-size: 16px; line-height: 1.5; }
@@ -141,11 +182,13 @@
   .hlink:hover svg { transform: translateX(4px); }
 }
 @media (min-width: 720px) {
-  .hteam { grid-template-columns: repeat(6, 1fr); }
-  .hteam li { grid-column: span 2; }
-  .hteam .hteam-big { grid-column: span 3; }
-  .hloc { grid-template-columns: repeat(2, 1fr); }
+  .hteam { grid-template-columns: repeat(3, 1fr); }
+  .hmv { grid-template-columns: 1.25fr 1fr; }
   .hcontact { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 980px) {
+  .hloc-wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .hglobe { width: 100%; max-width: 600px; }
 }
 @media (min-width: 1100px) { .hcontact { grid-template-columns: repeat(4, 1fr); } }
 

@@ -27,15 +27,19 @@
     'how.b': 'Envía tu solicitud', 'how.bb': 'Toma unos minutos. El CV es opcional.',
     'how.c': 'Te contactamos', 'how.cb': 'Leemos cada solicitud y te respondemos.',
     'close.h': 'El siguiente paso es tuyo.', 'close.cta': 'Postularme ahora',
-    'team.kicker': 'Nuestro equipo', 'team.title': 'Las personas primero, siempre.', 'team.lead': 'Encontramos talento donde esté y le damos el trabajo, la capacitación y el apoyo para tener éxito.',
-    'team.mk': 'Misión', 'team.m': 'Abrir oportunidades', 'team.mb': 'Encontrar gente con talento donde esté y darle el trabajo, la capacitación y el apoyo para tener éxito.',
-    'team.vk': 'Visión', 'team.v': 'Dar el primer paso', 'team.vb': 'Un equipo formado por los mejores: profesionales capaces y confiables de todo el mundo.',
+    'team.kicker': 'Nuestro equipo', 'team.title': 'Las personas primero, siempre.', 'team.lead': 'Amanet es una empresa de EE. UU. que contrata y capacita a personas con talento en Kosovo, Mérida y Puerto Rico, y las pone a trabajar para clientes en todo Estados Unidos.',
+    'team.mk': 'Misión', 'team.m': 'Abrir oportunidades.', 'team.mb': 'Encontramos personas con talento donde estén y les damos lo necesario para que tengan éxito.',
+    'team.mc1': 'Trabajo', 'team.mc2': 'Capacitación', 'team.mc3': 'Apoyo',
+    'team.vk': 'Visión', 'team.v': 'Dar el primer paso.', 'team.vb': 'Un equipo formado por los mejores: profesionales capaces y confiables de todo el mundo.',
+    'team.vc1': 'Capaces', 'team.vc2': 'Confiables', 'team.vc3': 'Sin fronteras',
     'team.ck': 'Cultura', 'team.c1': 'Personas primero', 'team.c1b': 'Leemos cada solicitud y te respondemos.',
     'team.c2': 'Estudia y trabaja', 'team.c2b': 'Horarios de medio tiempo y tiempo completo que respetan tus clases.',
     'team.c3': 'Crecemos juntos', 'team.c3b': 'Trabajo real desde el primer día y habilidades por encima del currículum.',
     'loc.kicker': 'Ubicaciones', 'loc.title': 'Dos oficinas. Un equipo.', 'loc.lead': 'Atendemos a clientes de EE. UU. desde ambos lugares, así que siempre hay alguien trabajando en horario estadounidense.',
-    'loc.a': 'Kosovo', 'loc.ab': 'Nuestro equipo de software crea y entrega para clientes de EE. UU. Contratación por retos, revisada por ingenieros.',
-    'loc.b': 'Mérida', 'loc.bb': 'Rodero Plaza, cerca de la universidad y del centro. Puestos de ventas, soporte y administración.', 'loc.cta': 'Puestos abiertos aquí',
+    'loc.globe': 'Un globo terráqueo con Kosovo y Mérida marcados y un arco entre ambos.',
+    'loc.a': 'Equipo de software', 'loc.ab': 'Ingenieros que crean y entregan para clientes de EE. UU. Contratación por retos reales, revisada por ingenieros.',
+    'loc.b': 'Oficina de ventas y soporte', 'loc.bb': 'Rodero Plaza, cerca de la universidad y del centro. Puestos de ventas, soporte y administración.',
+    'loc.time': 'Hora local', 'loc.cta': 'Puestos abiertos aquí',
     'contact.kicker': 'Contacto', 'contact.title': '¿Cómo podemos ayudarte?', 'contact.lead': 'Elige el tema que corresponda y te llevamos al lugar correcto.',
     'contact.a': 'Pregunta sobre empleos', 'contact.ab': 'Puestos, pago, horarios y cómo funciona postularse.',
     'contact.b': 'Socios de referidos', 'contact.bb': 'Crea tu enlace y sigue tus referidos.',
@@ -43,8 +47,10 @@
     'contact.d': 'Universidades y negocios', 'contact.db': 'Alianzas y consultas comerciales. Nuestro correo y formulario llegan pronto.',
     'foot.privacy': 'Aviso de privacidad'
   };
-  var en = {};
+  var en = {}, enAria = {};
   document.querySelectorAll('[data-i18n]').forEach(function (el) { en[el.getAttribute('data-i18n')] = en[el.getAttribute('data-i18n')] || el.textContent; });
+
+  document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { enAria[el.getAttribute('data-i18n-aria')] = el.getAttribute('aria-label'); });
 
   function pick() {
     var forced = new URLSearchParams(location.search).get('lang');
@@ -62,6 +68,7 @@
       var k = el.getAttribute('data-i18n');
       el.textContent = lang === 'es' && es[k] ? es[k] : en[k];
     });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { var k = el.getAttribute('data-i18n-aria'); el.setAttribute('aria-label', lang === 'es' && es[k] ? es[k] : enAria[k]); });
     document.querySelectorAll('.lang-switch [data-lang]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
   }
 
