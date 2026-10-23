@@ -56,11 +56,38 @@
   })();
 
 
+  /* ── Which roles and schools each page offers ──────────────────
+     The CRM holds every position and school; each landing page shows only its own. Titles are matched
+     case-insensitively against the CRM's titles so the value sent back is always the CRM's own. If a
+     page's list would come out empty (for example a position was renamed in the CRM) the CRM's full
+     list is used rather than showing nothing. */
+  var CITY_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Representative', 'Customer Support Manager']; // Mérida and Puerto Rico
+  var DEV_ROLES = ['Frontend UI/UX Web Developer', 'Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)']; // Kosovo
+  var KOSOVO_SCHOOLS = ['Not in university', 'Starting university next year',
+    'Universiteti i Prishtinës “Hasan Prishtina”', 'Universiteti i Prizrenit “Ukshin Hoti”', 'Universiteti i Pejës “Haxhi Zeka”',
+    'Universiteti i Mitrovicës “Isa Boletini”', 'Universiteti i Gjilanit “Kadri Zeka”', 'Universiteti i Gjakovës “Fehmi Agani”',
+    'Universiteti i Shkencave të Aplikuara – Ferizaj', 'Kolegji AAB', 'Kolegji UBT', 'Kolegji Universum – UNI', 'RIT Kosovo – A.U.K',
+    'Cacttus Education', 'PROED Academy', 'Shkolla Profesionale e UBT-së', OTHER_SCHOOL];
+  function norm(text) { return String(text || '').trim().toLowerCase(); }
+  function shapeRoles(all) {
+    var wanted = PAGE === 'developers' ? DEV_ROLES : CITY_ROLES;
+    var out = wanted.map(function (title) {
+      var hit = all.filter(function (o) { return norm(o.title) === norm(title); })[0];
+      return hit || (PAGE === 'developers' ? { title: title, title_es: title, vacancies: 0, location: 'Kosovo' } : null);
+    }).filter(Boolean);
+    return out.length ? out : all;
+  }
+  function shapeConfig(cfg) {
+    cfg = cfg || {};
+    if (PAGE === 'developers') cfg.schoolOptions = KOSOVO_SCHOOLS.map(function (name) { return { value: name, es: name }; });
+    return cfg;
+  }
+
   /* ── Roles and video from the CRM ─────────────────────────── */
   function loadConfig() {
     fetch(site.API + '/api/referrals?roles=1', { cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
-      .then(function (data) { configFailed = false; config = data.formConfig; openings = data.roles || []; renderRoles(); })
+      .then(function (data) { configFailed = false; config = shapeConfig(data.formConfig); openings = shapeRoles(data.roles || []); renderRoles(); })
       .catch(function () { configFailed = true; renderRoles(); });
   }
   loadConfig();
