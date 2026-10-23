@@ -45,6 +45,12 @@
     'contact.b': 'Socios de referidos', 'contact.bb': 'Crea tu enlace y sigue tus referidos.',
     'contact.c': 'Desarrolladores', 'contact.cb': 'Comienza el proceso por retos.',
     'contact.d': 'Universidades y negocios', 'contact.db': 'Alianzas y consultas comerciales. Nuestro correo y formulario llegan pronto.',
+    'privacy.kicker': 'Legal', 'privacy.title': 'Aviso de privacidad', 'privacy.lead': 'Cómo usa Amanet la información que envías al postularte o registrarte como socio de referidos.',
+    'privacy.l1': 'Uso', 'privacy.l2': 'Acceso', 'privacy.l3': 'Tu socio',
+    'privacy.p1': 'Usamos tu información solo para revisar tu solicitud o gestionar tu cuenta de socio.',
+    'privacy.p2': 'El equipo de selección autorizado puede ver tu solicitud.',
+    'privacy.p3': 'Si llegaste por el enlace de un socio, esa persona solo ve tu nombre, el puesto al que te postulaste y la etapa de tu proceso.',
+    'privacy.back': 'Volver al inicio',
     'foot.privacy': 'Aviso de privacidad'
   };
   var en = {}, enAria = {};
@@ -109,7 +115,7 @@
   var links = {};
   document.querySelectorAll('.hnav a[href^="#"], .hnav a[href="/"]').forEach(function (a) { links[a.getAttribute('href').replace(/^\//, '#top')] = a; });
   function mark(id) { Object.keys(links).forEach(function (k) { if (k === '#' + id) links[k].setAttribute('aria-current', 'true'); else links[k].removeAttribute('aria-current'); }); }
-  if ('IntersectionObserver' in window) {
+  if ('IntersectionObserver' in window && document.getElementById('team')) {
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.id); });
     }, { rootMargin: '-45% 0px -50% 0px' });
