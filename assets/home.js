@@ -10,8 +10,8 @@
     'nav.skip': 'Saltar al contenido', 'nav.home': 'Inicio', 'nav.team': 'Nuestro equipo', 'nav.locations': 'Ubicaciones', 'nav.contact': 'Contacto',
     'nav.careers': 'Carreras', 'nav.merida': 'Empleos en Mérida', 'nav.pr': 'Agentes en Puerto Rico', 'nav.dev': 'Desarrolladores', 'nav.partners': 'Socios de referidos',
     'cta.apply': 'Postularme',
-    'hero.h1': 'Encuentra tu lugar.',
-    'hero.lede': 'Trabaja con una empresa de Estados Unidos desde Kosovo o Venezuela. Trabajo real, capacitación real y espacio para crecer.',
+    'hero.h1a': 'Encuentra tu', 'hero.h1b': 'lugar.', 'hero.m1': '3 países', 'hero.m2': 'Una empresa de EE. UU.',
+    'hero.lede': 'Trabaja con una empresa de Estados Unidos desde Kosovo, Venezuela o Puerto Rico. Trabajo real, capacitación real y espacio para crecer.',
     'hero.cta1': 'Ver puestos abiertos', 'hero.cta2': 'Recomendar a alguien',
     'why.kicker': 'Por qué Amanet', 'why.title': 'Una empresa hecha para las personas.',
     'why.a': 'Una empresa de EE. UU.', 'why.ab': 'Trabaja para clientes en Estados Unidos sin salir de casa.',
@@ -27,11 +27,30 @@
     'how.b': 'Envía tu solicitud', 'how.bb': 'Toma unos minutos. El CV es opcional.',
     'how.c': 'Te contactamos', 'how.cb': 'Leemos cada solicitud y te respondemos.',
     'close.h': 'El siguiente paso es tuyo.', 'close.cta': 'Postularme ahora',
-    'foot.privacy': 'Aviso de privacidad',
-    'soon.badge': 'Próximamente', 'soon.body': 'Estamos construyendo esta página. Mientras tanto, mira los puestos abiertos o vuelve al inicio.', 'soon.home': 'Volver al inicio'
+    'team.kicker': 'Nuestro equipo', 'team.title': 'Las personas primero, siempre.', 'team.lead': 'Amanet es una empresa de EE. UU. que contrata y capacita a personas con talento en Kosovo, Mérida y Puerto Rico, y las pone a trabajar para clientes en todo Estados Unidos.',
+    'team.mk': 'Misión', 'team.m': 'Abrir oportunidades.', 'team.mb': 'Encontramos personas con talento donde estén y les damos lo necesario para que tengan éxito.',
+    'team.mc1': 'Trabajo', 'team.mc2': 'Capacitación', 'team.mc3': 'Apoyo',
+    'team.vk': 'Visión', 'team.v': 'Dar el primer paso.', 'team.vb': 'Un equipo formado por los mejores: profesionales capaces y confiables de todo el mundo.',
+    'team.vc1': 'Capaces', 'team.vc2': 'Confiables', 'team.vc3': 'Sin fronteras',
+    'team.ck': 'Cultura', 'team.c1': 'Personas primero', 'team.c1b': 'Leemos cada solicitud y te respondemos.',
+    'team.c2': 'Estudia y trabaja', 'team.c2b': 'Horarios de medio tiempo y tiempo completo que respetan tus clases.',
+    'team.c3': 'Crecemos juntos', 'team.c3b': 'Trabajo real desde el primer día y habilidades por encima del currículum.',
+    'loc.kicker': 'Ubicaciones', 'loc.title': 'Dos oficinas. Un equipo.', 'loc.lead': 'Atendemos a clientes de EE. UU. desde ambos lugares, así que siempre hay alguien trabajando en horario estadounidense.',
+    'loc.globe': 'Un globo terráqueo con Kosovo y Mérida marcados y un arco entre ambos.',
+    'loc.a': 'Equipo de software', 'loc.ab': 'Ingenieros que crean y entregan para clientes de EE. UU. Contratación por retos reales, revisada por ingenieros.',
+    'loc.b': 'Oficina de ventas y soporte', 'loc.bb': 'Rodero Plaza, cerca de la universidad y del centro. Puestos de ventas, soporte y administración.',
+    'loc.time': 'Hora local', 'loc.cta': 'Puestos abiertos aquí',
+    'contact.kicker': 'Contacto', 'contact.title': '¿Cómo podemos ayudarte?', 'contact.lead': 'Elige el tema que corresponda y te llevamos al lugar correcto.',
+    'contact.a': 'Pregunta sobre empleos', 'contact.ab': 'Puestos, pago, horarios y cómo funciona postularse.',
+    'contact.b': 'Socios de referidos', 'contact.bb': 'Crea tu enlace y sigue tus referidos.',
+    'contact.c': 'Desarrolladores', 'contact.cb': 'Comienza el proceso por retos.',
+    'contact.d': 'Universidades y negocios', 'contact.db': 'Alianzas y consultas comerciales. Nuestro correo y formulario llegan pronto.',
+    'foot.privacy': 'Aviso de privacidad'
   };
-  var en = {};
+  var en = {}, enAria = {};
   document.querySelectorAll('[data-i18n]').forEach(function (el) { en[el.getAttribute('data-i18n')] = en[el.getAttribute('data-i18n')] || el.textContent; });
+
+  document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { enAria[el.getAttribute('data-i18n-aria')] = el.getAttribute('aria-label'); });
 
   function pick() {
     var forced = new URLSearchParams(location.search).get('lang');
@@ -49,6 +68,7 @@
       var k = el.getAttribute('data-i18n');
       el.textContent = lang === 'es' && es[k] ? es[k] : en[k];
     });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { var k = el.getAttribute('data-i18n-aria'); el.setAttribute('aria-label', lang === 'es' && es[k] ? es[k] : enAria[k]); });
     document.querySelectorAll('.lang-switch [data-lang]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
   }
 
@@ -71,13 +91,32 @@
   if (burger && nav) burger.addEventListener('click', function () {
     var open = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', String(open));
   });
+  // In the phone menu "Careers" is only a label for the links under it, so keep it out of the tab order.
+  if (dropBtn) {
+    var mq = matchMedia('(max-width: 1059px)');
+    var label = function () { if (mq.matches) { dropBtn.setAttribute('tabindex', '-1'); dropBtn.setAttribute('aria-hidden', 'true'); } else { dropBtn.removeAttribute('tabindex'); dropBtn.removeAttribute('aria-hidden'); } };
+    label(); (mq.addEventListener ? mq.addEventListener('change', label) : mq.addListener(label));
+  }
   if (dropBtn) {
     dropBtn.addEventListener('click', function () { dropBtn.setAttribute('aria-expanded', String(dropBtn.getAttribute('aria-expanded') !== 'true')); });
     document.addEventListener('click', function (e) { if (!e.target.closest('.hdrop')) dropBtn.setAttribute('aria-expanded', 'false'); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { dropBtn.setAttribute('aria-expanded', 'false'); if (nav) nav.classList.remove('open'); if (burger) burger.setAttribute('aria-expanded', 'false'); } });
   }
-  var cur = document.querySelector('.hnav a[href="' + (location.pathname) + '"]');
-  if (cur) cur.setAttribute('aria-current', 'page');
+  // Section links scroll in place; close the phone menu after a tap and light the section in view.
+  if (nav) nav.addEventListener('click', function (e) {
+    if (e.target.closest('a')) { nav.classList.remove('open'); if (burger) burger.setAttribute('aria-expanded', 'false'); }
+  });
+  var links = {};
+  document.querySelectorAll('.hnav a[href^="#"], .hnav a[href="/"]').forEach(function (a) { links[a.getAttribute('href').replace(/^\//, '#top')] = a; });
+  function mark(id) { Object.keys(links).forEach(function (k) { if (k === '#' + id) links[k].setAttribute('aria-current', 'true'); else links[k].removeAttribute('aria-current'); }); }
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    ['team', 'locations', 'contact'].forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+    window.addEventListener('scroll', function () { if (window.scrollY < 200) mark('top'); }, { passive: true });
+    mark('top');
+  }
 
   // Scroll reveal; content stays visible without IntersectionObserver or with reduced motion.
   var items = document.querySelectorAll('[data-hreveal]');
