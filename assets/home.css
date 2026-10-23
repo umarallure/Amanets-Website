@@ -8,7 +8,7 @@
   display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border: 0; background: none;
   font: 600 15px/1 var(--font); color: #333; text-decoration: none; cursor: pointer;
 }
-.hnav a[aria-current="page"], .hnav a:hover, .hdrop-btn:hover, .hdrop-btn[aria-expanded="true"] { color: #d71920; }
+.hnav a[aria-current], .hnav a:hover, .hdrop-btn:hover, .hdrop-btn[aria-expanded="true"] { color: #d71920; }
 .hdrop { position: relative; }
 .hdrop-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform .2s var(--ease-out); }
 .hdrop-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
@@ -82,6 +82,8 @@
   display: grid; height: 100%; overflow: hidden; color: inherit; text-decoration: none;
   background: #111; border: 1px solid #292929; border-radius: 2px; transition: border-color .2s, transform .25s var(--ease-out);
 }
+.hcard .m-photo, .hteam .m-photo, .hcard-static .m-photo { position: relative; inset: auto; }
+.hcard .m-photo::after, .hteam .m-photo::after, .hcard-static .m-photo::after { display: none; }
 .hcard .m-photo { display: block; aspect-ratio: 16 / 10; overflow: hidden; }
 .hcard .m-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-out); }
 .hcard-body { display: grid; gap: 8px; align-content: start; padding: 18px 18px 20px; }
@@ -112,11 +114,36 @@
 }
 @media (min-width: 1100px) { .hopp { grid-template-columns: repeat(4, 1fr); } }
 
-/* ── Coming-soon sub pages ── */
-.hsoon { min-height: 62svh; display: grid; align-items: center; }
-.hsoon .hwrap { justify-items: start; }
-.hsoon h1 { font-size: clamp(2.6rem, 10vw, 5rem); letter-spacing: -.04em; line-height: 1; }
-.hsoon .btn { text-decoration: none; }
+/* ── Team, locations, contact sections ── */
+.hlead { margin: 0; max-width: 40em; font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.55; color: #d6d6d6; }
+.hteam, .hloc, .hcontact { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.hteam li, .hcard-static, .hcontact li { display: grid; overflow: hidden; background: #111; border: 1px solid #292929; border-radius: 2px; }
+.hteam .m-photo, .hcard-static .m-photo { display: block; aspect-ratio: 16 / 10; overflow: hidden; }
+.hteam .m-photo img, .hcard-static .m-photo img { width: 100%; height: 100%; object-fit: cover; }
+.hteam-body { display: grid; gap: 6px; align-content: start; padding: 18px 18px 20px; }
+.hteam-body b { font-size: 1.25rem; letter-spacing: -.02em; line-height: 1.15; }
+.hteam-body > span:not(.hteam-kind) { color: #cfcfcf; font-size: 16px; line-height: 1.5; }
+.hteam-kind { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #ff4a50; }
+.hlink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 4px; font-weight: 600; color: #ff4a50; text-decoration: none; }
+.hlink svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform .2s var(--ease-out); }
+.hcontact a { display: grid; grid-template-columns: 1fr 24px; gap: 4px 12px; align-items: center; min-height: 44px; padding: 20px; color: inherit; text-decoration: none; height: 100%; }
+.hcontact a b, .hcontact li:not(:has(a)) b { grid-column: 1; font-size: 1.15rem; letter-spacing: -.01em; }
+.hcontact a span { grid-column: 1; color: #cfcfcf; font-size: 16px; line-height: 1.5; }
+.hcontact a svg { grid-column: 2; grid-row: 1 / span 2; width: 22px; height: 22px; fill: none; stroke: #ff4a50; stroke-width: 2; }
+.hcontact-soon { display: grid; gap: 4px; padding: 20px; align-content: center; }
+.hcontact-soon span { color: #cfcfcf; font-size: 16px; line-height: 1.5; }
+@media (hover: hover) and (pointer: fine) {
+  .hcontact li:has(a):hover { border-color: #d71920; }
+  .hlink:hover svg { transform: translateX(4px); }
+}
+@media (min-width: 720px) {
+  .hteam { grid-template-columns: repeat(6, 1fr); }
+  .hteam li { grid-column: span 2; }
+  .hteam .hteam-big { grid-column: span 3; }
+  .hloc { grid-template-columns: repeat(2, 1fr); }
+  .hcontact { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1100px) { .hcontact { grid-template-columns: repeat(4, 1fr); } }
 
 /* ── Footer ── */
 .hfoot .foot-links a { min-height: 44px; }

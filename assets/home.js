@@ -27,8 +27,21 @@
     'how.b': 'Envía tu solicitud', 'how.bb': 'Toma unos minutos. El CV es opcional.',
     'how.c': 'Te contactamos', 'how.cb': 'Leemos cada solicitud y te respondemos.',
     'close.h': 'El siguiente paso es tuyo.', 'close.cta': 'Postularme ahora',
-    'foot.privacy': 'Aviso de privacidad',
-    'soon.badge': 'Próximamente', 'soon.body': 'Estamos construyendo esta página. Mientras tanto, mira los puestos abiertos o vuelve al inicio.', 'soon.home': 'Volver al inicio'
+    'team.kicker': 'Nuestro equipo', 'team.title': 'Las personas primero, siempre.', 'team.lead': 'Encontramos talento donde esté y le damos el trabajo, la capacitación y el apoyo para tener éxito.',
+    'team.mk': 'Misión', 'team.m': 'Abrir oportunidades', 'team.mb': 'Encontrar gente con talento donde esté y darle el trabajo, la capacitación y el apoyo para tener éxito.',
+    'team.vk': 'Visión', 'team.v': 'Dar el primer paso', 'team.vb': 'Un equipo formado por los mejores: profesionales capaces y confiables de todo el mundo.',
+    'team.ck': 'Cultura', 'team.c1': 'Personas primero', 'team.c1b': 'Leemos cada solicitud y te respondemos.',
+    'team.c2': 'Estudia y trabaja', 'team.c2b': 'Horarios de medio tiempo y tiempo completo que respetan tus clases.',
+    'team.c3': 'Crecemos juntos', 'team.c3b': 'Trabajo real desde el primer día y habilidades por encima del currículum.',
+    'loc.kicker': 'Ubicaciones', 'loc.title': 'Dos oficinas. Un equipo.', 'loc.lead': 'Atendemos a clientes de EE. UU. desde ambos lugares, así que siempre hay alguien trabajando en horario estadounidense.',
+    'loc.a': 'Kosovo', 'loc.ab': 'Nuestro equipo de software crea y entrega para clientes de EE. UU. Contratación por retos, revisada por ingenieros.',
+    'loc.b': 'Mérida', 'loc.bb': 'Rodero Plaza, cerca de la universidad y del centro. Puestos de ventas, soporte y administración.', 'loc.cta': 'Puestos abiertos aquí',
+    'contact.kicker': 'Contacto', 'contact.title': '¿Cómo podemos ayudarte?', 'contact.lead': 'Elige el tema que corresponda y te llevamos al lugar correcto.',
+    'contact.a': 'Pregunta sobre empleos', 'contact.ab': 'Puestos, pago, horarios y cómo funciona postularse.',
+    'contact.b': 'Socios de referidos', 'contact.bb': 'Crea tu enlace y sigue tus referidos.',
+    'contact.c': 'Desarrolladores', 'contact.cb': 'Comienza el proceso por retos.',
+    'contact.d': 'Universidades y negocios', 'contact.db': 'Alianzas y consultas comerciales. Nuestro correo y formulario llegan pronto.',
+    'foot.privacy': 'Aviso de privacidad'
   };
   var en = {};
   document.querySelectorAll('[data-i18n]').forEach(function (el) { en[el.getAttribute('data-i18n')] = en[el.getAttribute('data-i18n')] || el.textContent; });
@@ -76,8 +89,21 @@
     document.addEventListener('click', function (e) { if (!e.target.closest('.hdrop')) dropBtn.setAttribute('aria-expanded', 'false'); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { dropBtn.setAttribute('aria-expanded', 'false'); if (nav) nav.classList.remove('open'); if (burger) burger.setAttribute('aria-expanded', 'false'); } });
   }
-  var cur = document.querySelector('.hnav a[href="' + (location.pathname) + '"]');
-  if (cur) cur.setAttribute('aria-current', 'page');
+  // Section links scroll in place; close the phone menu after a tap and light the section in view.
+  if (nav) nav.addEventListener('click', function (e) {
+    if (e.target.closest('a')) { nav.classList.remove('open'); if (burger) burger.setAttribute('aria-expanded', 'false'); }
+  });
+  var links = {};
+  document.querySelectorAll('.hnav a[href^="#"], .hnav a[href="/"]').forEach(function (a) { links[a.getAttribute('href').replace(/^\//, '#top')] = a; });
+  function mark(id) { Object.keys(links).forEach(function (k) { if (k === '#' + id) links[k].setAttribute('aria-current', 'true'); else links[k].removeAttribute('aria-current'); }); }
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    ['team', 'locations', 'contact'].forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+    window.addEventListener('scroll', function () { if (window.scrollY < 200) mark('top'); }, { passive: true });
+    mark('top');
+  }
 
   // Scroll reveal; content stays visible without IntersectionObserver or with reduced motion.
   var items = document.querySelectorAll('[data-hreveal]');

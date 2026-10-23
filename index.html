@@ -17,9 +17,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/referral.css?v=20261021-dev2" />
-<link rel="stylesheet" href="/assets/home.css?v=1" />
+<link rel="stylesheet" href="/assets/home.css?v=3" />
 </head>
-<body data-page="home">
+<body id="top" data-page="home">
 <svg class="sprite" aria-hidden="true" focusable="false"><defs>
   <linearGradient id="eclipse-grad" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd2a8"/><stop offset=".5" stop-color="#f2879a"/><stop offset="1" stop-color="#b2506f"/></linearGradient>
   <linearGradient id="done-grad" x1="0" y1="0" x2="84" y2="84" gradientUnits="userSpaceOnUse"><stop stop-color="#ff9aa8"/><stop offset="1" stop-color="#d4607e"/></linearGradient>
@@ -58,10 +58,10 @@
     <span class="brand-tag">PEOPLE &amp; POSSIBILITY</span>
   </a>
   <nav class="hnav" id="hnav" aria-label="Amanet">
-    <a href="/" data-i18n="nav.home" data-cur>Home</a>
-    <a href="/team" data-i18n="nav.team">Our Team</a>
-    <a href="/locations" data-i18n="nav.locations">Locations</a>
-    <a href="/contact" data-i18n="nav.contact">Contact</a>
+    <a href="#top" data-i18n="nav.home">Home</a>
+    <a href="#team" data-i18n="nav.team">Our Team</a>
+    <a href="#locations" data-i18n="nav.locations">Locations</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
     <div class="hdrop">
       <button type="button" class="hdrop-btn" aria-expanded="false" aria-controls="hdrop-menu"><span data-i18n="nav.careers">Careers</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chev"/></svg></button>
       <div class="hdrop-menu" id="hdrop-menu">
@@ -144,6 +144,38 @@
     </div>
   </section>
 
+
+  <section class="hsec hsec-alt" id="team" aria-labelledby="team-title">
+    <div class="hwrap">
+      <header class="hhead" data-hreveal>
+        <p class="hkicker" data-i18n="team.kicker">Our team</p>
+        <h2 id="team-title" data-i18n="team.title">People first, always.</h2>
+        <p class="hlead" data-i18n="team.lead">We find talented people wherever they are and give them the work, training and support to succeed.</p>
+      </header>
+      <ul class="hteam" data-hreveal="stagger">
+        <li class="hteam-big"><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/team-main.webp" /><img src="/assets/img/team-main.jpg" alt="" width="1100" height="733" loading="lazy" decoding="async" /></picture><span class="hteam-body"><span class="hteam-kind" data-i18n="team.mk">Mission</span><b data-i18n="team.m">Open opportunities</b><span data-i18n="team.mb">To find talented people wherever they are and give them the work, training and support to succeed.</span></span></li>
+        <li class="hteam-big"><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/team-marketing.webp" /><img src="/assets/img/team-marketing.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async" /></picture><span class="hteam-body"><span class="hteam-kind" data-i18n="team.vk">Vision</span><b data-i18n="team.v">Take the first step</b><span data-i18n="team.vb">A team made of the best: skilled, reliable professionals from around the world.</span></span></li>
+        <li><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/team-atencion.webp" /><img src="/assets/img/team-atencion.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async" /></picture><span class="hteam-body"><span class="hteam-kind" data-i18n="team.ck">Culture</span><b data-i18n="team.c1">People first</b><span data-i18n="team.c1b">We read every application and get back to you.</span></span></li>
+        <li><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/campus-1000.webp" /><img src="/assets/img/campus-1000.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async" /></picture><span class="hteam-body"><span class="hteam-kind" data-i18n="team.ck">Culture</span><b data-i18n="team.c2">Study and work</b><span data-i18n="team.c2b">Part-time and full-time schedules that fit your classes.</span></span></li>
+        <li><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/team-ventas.webp" /><img src="/assets/img/team-ventas.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async" /></picture><span class="hteam-body"><span class="hteam-kind" data-i18n="team.ck">Culture</span><b data-i18n="team.c3">We grow together</b><span data-i18n="team.c3b">Real work from day one, and skills over résumés.</span></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="hsec" id="locations" aria-labelledby="loc-title">
+    <div class="hwrap">
+      <header class="hhead" data-hreveal>
+        <p class="hkicker" data-i18n="loc.kicker">Locations</p>
+        <h2 id="loc-title" data-i18n="loc.title">Two offices. One team.</h2>
+        <p class="hlead" data-i18n="loc.lead">We serve US clients from both locations, so someone is always at work during US business hours.</p>
+      </header>
+      <ul class="hloc" data-hreveal="stagger">
+        <li class="hcard-static"><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/dev-city-1000.webp" /><img src="/assets/img/dev-city-1000.jpg" alt="" width="1000" height="750" loading="lazy" decoding="async" /></picture><span class="hcard-body"><span class="hcard-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg>Kosovo</span><b data-i18n="loc.a">Kosovo</b><span data-i18n="loc.ab">Our software team builds and ships for US clients. Challenge-based hiring, reviewed by engineers.</span><a class="hlink" href="/developers"><span data-i18n="loc.cta">Open roles here</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a></span></li>
+        <li class="hcard-static"><picture class="m-photo" aria-hidden="true"><source type="image/webp" srcset="/assets/img/office-1000.webp" /><img src="/assets/img/office-1000.jpg" alt="" width="1000" height="750" loading="lazy" decoding="async" /></picture><span class="hcard-body"><span class="hcard-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg>Mérida</span><b data-i18n="loc.b">Mérida</b><span data-i18n="loc.bb">Rodero Plaza, near the university and the city centre. Sales, support and admin roles.</span><a class="hlink" href="/merida"><span data-i18n="loc.cta">Open roles here</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a></span></li>
+      </ul>
+    </div>
+  </section>
+
   <section class="hsec" aria-labelledby="how-title">
     <div class="hwrap hhow">
       <header class="hhead" data-hreveal>
@@ -158,13 +190,30 @@
     </div>
   </section>
 
+
+  <section class="hsec hsec-alt" id="contact" aria-labelledby="contact-title">
+    <div class="hwrap">
+      <header class="hhead" data-hreveal>
+        <p class="hkicker" data-i18n="contact.kicker">Contact</p>
+        <h2 id="contact-title" data-i18n="contact.title">How can we help?</h2>
+        <p class="hlead" data-i18n="contact.lead">Pick the topic that fits and we’ll point you to the right place.</p>
+      </header>
+      <ul class="hcontact" data-hreveal="stagger">
+        <li><a href="/merida#careers"><b data-i18n="contact.a">Job question</b><span data-i18n="contact.ab">Roles, pay, schedules and how applying works.</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        <li><a href="/merida#partner"><b data-i18n="contact.b">Referral partners</b><span data-i18n="contact.bb">Create your link and follow your referrals.</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        <li><a href="/developers"><b data-i18n="contact.c">Developers</b><span data-i18n="contact.cb">Start the challenge-based process.</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        <li class="hcontact-soon"><b data-i18n="contact.d">Universities &amp; business</b><span data-i18n="contact.db">Partnerships and business inquiries. Our contact email and form are coming soon.</span></li>
+      </ul>
+    </div>
+  </section>
+
   <section class="closing" aria-labelledby="closing-title">
     <div class="closing-inner" data-hreveal>
       <p class="pill"><i class="dot" aria-hidden="true"></i><span>People &amp; Possibility</span></p>
       <h2 id="closing-title" data-i18n="close.h">The next step is yours.</h2>
       <div class="closing-actions">
         <a class="btn btn-white btn-lg" href="/merida#careers" data-i18n="close.cta">Apply now</a>
-        <a class="btn btn-outline-white btn-lg" href="/contact" data-i18n="nav.contact">Contact</a>
+        <a class="btn btn-outline-white btn-lg" href="#contact" data-i18n="nav.contact">Contact</a>
       </div>
     </div>
   </section>
@@ -176,15 +225,15 @@
     <span class="foot-tag">PEOPLE &amp; POSSIBILITY</span>
   </div>
   <nav class="foot-links" aria-label="Amanet">
-    <a href="/team" data-i18n="nav.team">Our Team</a>
-    <a href="/locations" data-i18n="nav.locations">Locations</a>
-    <a href="/contact" data-i18n="nav.contact">Contact</a>
+    <a href="#team" data-i18n="nav.team">Our Team</a>
+    <a href="#locations" data-i18n="nav.locations">Locations</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
     <a href="/merida#privacy" data-i18n="foot.privacy">Privacy notice</a>
     <span>© <span id="year">2026</span> Amanet</span>
   </nav>
 </footer>
 
 <script src="/assets/starfield.js" defer></script>
-<script src="/assets/home.js?v=1" defer></script>
+<script src="/assets/home.js?v=2" defer></script>
 </body>
 </html>
