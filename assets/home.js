@@ -118,6 +118,27 @@
     mark('top');
   }
 
+  // Hero mosaic: each tile cross-fades through its photos, the two tiles offset so they never change together.
+  var tiles = document.querySelectorAll('.home-mosaic [data-slides]');
+  if (tiles.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('js-mosaic');
+    var onScreen = true;
+    var heroEl = document.querySelector('.home-stage');
+    if ('IntersectionObserver' in window && heroEl) new IntersectionObserver(function (e) { onScreen = e[0].isIntersecting; }).observe(heroEl);
+    tiles.forEach(function (tile) {
+      var slides = tile.querySelectorAll('.mo-slide'), i = 0;
+      if (slides.length < 2) return;
+      setTimeout(function () {
+        setInterval(function () {
+          if (!onScreen || document.hidden) return;
+          var old = slides[i]; old.classList.remove('on'); old.classList.add('prev');
+          i = (i + 1) % slides.length; slides[i].classList.remove('prev'); slides[i].classList.add('on');
+          setTimeout(function () { old.classList.remove('prev'); }, 1500);
+        }, 5200);
+      }, +tile.getAttribute('data-offset') || 0);
+    });
+  }
+
   // Scroll reveal; content stays visible without IntersectionObserver or with reduced motion.
   var items = document.querySelectorAll('[data-hreveal]');
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {

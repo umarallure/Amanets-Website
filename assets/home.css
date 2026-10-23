@@ -77,13 +77,23 @@
 
 .home-mosaic { container-type: inline-size; display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1fr 1fr; gap: 10px; aspect-ratio: 1.1; width: 100%; }
 .home-mosaic figure { position: relative; margin: 0; overflow: hidden; border: 1px solid #2c2c2c; background: #111; }
-.home-mosaic picture, .home-mosaic img { display: block; width: 100%; height: 100%; }
-.home-mosaic img { object-fit: cover; }
+.home-mosaic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* tiles that cycle through photos: stacked, cross-faded, with a slow settle-in zoom */
+.mo-slide { position: absolute; inset: 0; display: block; opacity: 0; }
+.mo-slide.prev { opacity: 1; z-index: 1; }
+.mo-slide.on { opacity: 1; z-index: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .mo-slide { transition: opacity 1.3s ease; }
+  .mo-slide img { transform: scale(1.09); transition: transform 7s linear; }
+  .mo-slide.on img, .mo-slide.prev img { transform: scale(1); }
+}
 .mo-a { grid-row: span 2; }
 .mo-a img { object-position: 38% 40%; }
-.mo-c { display: grid; align-content: end; gap: 6px; padding: clamp(12px, 2.4vw, 22px); background: #d71920 !important; border-color: #d71920 !important; }
+.mo-c { position: relative; isolation: isolate; display: grid; align-content: end; gap: 6px; padding: clamp(12px, 2.4vw, 22px); background: #d71920 !important; border-color: #d71920 !important; }
 .mo-c span { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #1a0508; }
 .mo-c b { overflow-wrap: anywhere; font-size: clamp(1.1rem, 6.4cqw, 2.4rem); font-weight: 700; line-height: 1; letter-spacing: -.03em; color: #fff; }
+/* Amanet mark as a transparent watermark on the red tile */
+.mo-c::before { content: ""; position: absolute; z-index: -1; right: -22%; top: -6%; width: 125%; aspect-ratio: 984 / 576; background: url("/assets/brand/amanet-mark.svg") center / contain no-repeat; opacity: .14; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
   .home-mosaic figure { animation: mo-in .8s var(--ease-out) both; }
   .mo-b { animation-delay: .1s !important; } .mo-c { animation-delay: .2s !important; }

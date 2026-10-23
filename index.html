@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/referral.css?v=20261021-dev2" />
-<link rel="stylesheet" href="/assets/home.css?v=11" />
+<link rel="stylesheet" href="/assets/home.css?v=13" />
 </head>
 <body id="top" data-page="home">
 <svg class="sprite" aria-hidden="true" focusable="false"><defs>
@@ -98,8 +98,8 @@
         </div>
       </div>
       <div class="home-mosaic" aria-hidden="true">
-        <figure class="mo-a"><picture><source type="image/webp" srcset="/assets/img/team-main.webp" /><img src="/assets/img/team-main.jpg" alt="" width="1100" height="733" decoding="async" /></picture></figure>
-        <figure class="mo-b"><picture><source type="image/webp" srcset="/assets/img/students-1000.webp" /><img src="/assets/img/students-1000.jpg" alt="" width="1000" height="666" decoding="async" /></picture></figure>
+        <figure class="mo-a" data-slides><picture class="mo-slide on"><source type="image/webp" srcset="/assets/img/team-main.webp" /><img src="/assets/img/team-main.jpg" alt="" width="1100" height="733" decoding="async" fetchpriority="high" /></picture><picture class="mo-slide"><source type="image/webp" srcset="/assets/img/team-ventas.webp" /><img src="/assets/img/team-ventas.jpg" alt="" width="1000" height="667" decoding="async" fetchpriority="low" /></picture><picture class="mo-slide"><source type="image/webp" srcset="/assets/img/team-atencion.webp" /><img src="/assets/img/team-atencion.jpg" alt="" width="1000" height="667" decoding="async" fetchpriority="low" /></picture></figure>
+        <figure class="mo-b" data-slides data-offset="2600"><picture class="mo-slide on"><source type="image/webp" srcset="/assets/img/students-1000.webp" /><img src="/assets/img/students-1000.jpg" alt="" width="1000" height="666" decoding="async" fetchpriority="low" /></picture><picture class="mo-slide"><source type="image/webp" srcset="/assets/img/office-1000.webp" /><img src="/assets/img/office-1000.jpg" alt="" width="1000" height="750" decoding="async" fetchpriority="low" /></picture><picture class="mo-slide"><source type="image/webp" srcset="/assets/img/campus-1000.webp" /><img src="/assets/img/campus-1000.jpg" alt="" width="1000" height="667" decoding="async" fetchpriority="low" /></picture></figure>
         <figure class="mo-c"><span data-i18n="hero.m1">3 countries</span><b data-i18n="hero.m2">One US company.</b></figure>
       </div>
     </section>
@@ -273,7 +273,7 @@
 </footer>
 
 <script src="/assets/starfield.js" defer></script>
-<script src="/assets/home.js?v=5" defer></script>
+<script src="/assets/home.js?v=7" defer></script>
 <script src="/assets/globe.js?v=2" defer></script>
 </body>
 </html>
