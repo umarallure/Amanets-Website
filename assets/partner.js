@@ -28,7 +28,7 @@
   }
 
   function publicLink() {
-    var url = new URL('/', location.origin);
+    var url = new URL('/merida', location.origin);
     url.searchParams.set('ref', data.partner.code);
     return url.toString();
   }

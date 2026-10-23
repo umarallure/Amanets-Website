@@ -3,6 +3,9 @@
 (function () {
   'use strict';
 
+  // Referral links and QR codes issued before the move point at /?ref=… — send them to the Mérida page.
+  if (location.pathname === '/' && /[?&](ref|src)=/.test(location.search)) { location.replace('/merida' + location.search + location.hash); return; }
+
   var es = {
     'nav.skip': 'Saltar al contenido', 'nav.home': 'Inicio', 'nav.team': 'Nuestro equipo', 'nav.locations': 'Ubicaciones', 'nav.contact': 'Contacto',
     'nav.careers': 'Carreras', 'nav.merida': 'Empleos en Mérida', 'nav.pr': 'Agentes en Puerto Rico', 'nav.dev': 'Desarrolladores', 'nav.partners': 'Socios de referidos',
@@ -73,7 +76,7 @@
     document.addEventListener('click', function (e) { if (!e.target.closest('.hdrop')) dropBtn.setAttribute('aria-expanded', 'false'); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { dropBtn.setAttribute('aria-expanded', 'false'); if (nav) nav.classList.remove('open'); if (burger) burger.setAttribute('aria-expanded', 'false'); } });
   }
-  var cur = document.querySelector('.hnav a[href="' + (location.pathname === '/home' ? '/' : location.pathname) + '"]');
+  var cur = document.querySelector('.hnav a[href="' + (location.pathname) + '"]');
   if (cur) cur.setAttribute('aria-current', 'page');
 
   // Scroll reveal; content stays visible without IntersectionObserver or with reduced motion.
