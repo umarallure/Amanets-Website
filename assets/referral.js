@@ -530,4 +530,5 @@
       closeSheet();
     }
   });
+  if (location.hash === '#partner') openForm('partner', null, null); // links from the company pages
 })();
