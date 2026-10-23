@@ -111,3 +111,13 @@ Power Policies CRM — this site renders it and posts to the CRM's `/api/referra
   Referrals → Setup. Every other word is in `assets/i18n.js`.
 - `/referral/partner#<token>` is the partner's private dashboard; the token never leaves the hash.
 - The homepage and partner dashboard use the Content-Security-Policy in `vercel.json` — add any new API or video host there.
+
+## Company home page (`/`)
+
+`index.html` + `assets/home.css` + `assets/home.js` (+ `assets/globe.js` for the Locations globe).
+Copy is English in the markup with Spanish in `assets/home.js`.
+
+**Hero photos.** The two photo tiles in the hero cross-fade through the `<picture class="mo-slide">`
+entries inside `figure.mo-a` and `figure.mo-b` in `index.html` (the first has class `on`). To use new
+photos (sales agents, developers, the office), save each as a 1000px-wide `.jpg` and `.webp` pair in
+`assets/img/` and point a slide at it; add or remove slides freely, 2–4 per tile works well.

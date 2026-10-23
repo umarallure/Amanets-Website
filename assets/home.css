@@ -77,13 +77,23 @@
 
 .home-mosaic { container-type: inline-size; display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1fr 1fr; gap: 10px; aspect-ratio: 1.1; width: 100%; }
 .home-mosaic figure { position: relative; margin: 0; overflow: hidden; border: 1px solid #2c2c2c; background: #111; }
-.home-mosaic picture, .home-mosaic img { display: block; width: 100%; height: 100%; }
-.home-mosaic img { object-fit: cover; }
+.home-mosaic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* tiles that cycle through photos: stacked, cross-faded, with a slow settle-in zoom */
+.mo-slide { position: absolute; inset: 0; display: block; opacity: 0; }
+.mo-slide.prev { opacity: 1; z-index: 1; }
+.mo-slide.on { opacity: 1; z-index: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .mo-slide { transition: opacity 1.3s ease; }
+  .mo-slide img { transform: scale(1.09); transition: transform 7s linear; }
+  .mo-slide.on img, .mo-slide.prev img { transform: scale(1); }
+}
 .mo-a { grid-row: span 2; }
 .mo-a img { object-position: 38% 40%; }
-.mo-c { display: grid; align-content: end; gap: 6px; padding: clamp(12px, 2.4vw, 22px); background: #d71920 !important; border-color: #d71920 !important; }
+.mo-c { position: relative; isolation: isolate; display: grid; align-content: end; gap: 6px; padding: clamp(12px, 2.4vw, 22px); background: #d71920 !important; border-color: #d71920 !important; }
 .mo-c span { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #1a0508; }
 .mo-c b { overflow-wrap: anywhere; font-size: clamp(1.1rem, 6.4cqw, 2.4rem); font-weight: 700; line-height: 1; letter-spacing: -.03em; color: #fff; }
+/* Amanet mark as a transparent watermark on the red tile */
+.mo-c::before { content: ""; position: absolute; z-index: -1; right: -22%; top: -6%; width: 125%; aspect-ratio: 984 / 576; background: url("/assets/brand/amanet-mark.svg") center / contain no-repeat; opacity: .14; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
   .home-mosaic figure { animation: mo-in .8s var(--ease-out) both; }
   .mo-b { animation-delay: .1s !important; } .mo-c { animation-delay: .2s !important; }
@@ -173,7 +183,9 @@
 .hmission .m-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: saturate(.8); }
 .hmission::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(9,9,9,.97) 6%, rgba(9,9,9,.82) 46%, rgba(9,9,9,.35) 100%); }
 .hvision { background: linear-gradient(135deg, #d71920 0%, #b9151b 100%); }
-.hvision::before { content: ""; position: absolute; z-index: -1; right: -18%; top: -30%; width: 80%; aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(255,255,255,.22); box-shadow: 0 0 0 clamp(26px, 5vw, 56px) rgba(255,255,255,.04), 0 0 0 clamp(52px, 10vw, 112px) rgba(255,255,255,.03); }
+/* Amanet wing mark as a transparent watermark on the red surfaces */
+.hvision::before { content: ""; position: absolute; z-index: -1; right: -14%; top: -8%; width: 86%; aspect-ratio: 984 / 576; background: url("/assets/brand/amanet-mark.svg") center / contain no-repeat; opacity: .13; pointer-events: none; }
+.closing::before { right: -6%; top: 50%; width: min(820px, 82vw); aspect-ratio: 984 / 576; height: auto; border: 0; border-radius: 0; box-shadow: none; transform: translateY(-50%); background: url("/assets/brand/amanet-mark.svg") center / contain no-repeat; opacity: .12; }
 .hmv-body { display: grid; gap: 14px; padding: clamp(22px, 4vw, 40px); }
 .hmv-kind { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #ff4a50; }
 .hvision .hmv-kind { color: #1a0508; }
@@ -236,3 +248,7 @@
   .h-ready [data-hreveal="stagger"].in > :nth-child(3) { transition-delay: .16s; }
   .h-ready [data-hreveal="stagger"].in > :nth-child(4) { transition-delay: .24s; }
 }
+
+/* closing band lines up with the other sections */
+.closing { padding-inline: max(var(--gutter), calc((100vw - 1292px) / 2)); }
+.closing-inner { max-width: none; margin: 0; }
