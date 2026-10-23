@@ -51,7 +51,7 @@
     var qr = document.getElementById('ref-qr');
     var host = document.getElementById('ref-host');
     if (host) host.textContent = location.host;
-    var data = qr && site.qr(location.origin + '/', 6);
+    var data = qr && site.qr(location.origin + '/merida', 6);
     if (data) qr.src = data; else if (qr) qr.hidden = true;
   })();
 
@@ -126,7 +126,7 @@
         el('span', { class: 'role-foot', 'aria-hidden': 'true' }, [el('span', { text: t('cta.apply') }), el('span', { class: 'role-go' })])
       ]);
       button.addEventListener('click', function () { openForm('apply', opening.title); });
-      var shareText = t('careers.shareMsg').replace('{role}', title).replace('{url}', location.origin + '/#careers');
+      var shareText = t('careers.shareMsg').replace('{role}', title).replace('{url}', location.origin + '/merida#careers');
       var share = el('a', { class: 'role-share', href: 'https://wa.me/?text=' + encodeURIComponent(shareText), target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('careers.share') + ': ' + title }, [
         svgIcon('i-whatsapp'), el('span', { text: t('careers.share') })
       ]);
