@@ -1,0 +1,136 @@
+/* /developers motion and polish. Everything that hides content until it animates is scoped to
+   .js-dev (set by dev.js only when motion is allowed), so without script or with reduced motion
+   the page shows its final state. */
+
+/* ── Edge alignment: header, content and sections share one 1292px edge, as on the home page ── */
+body[data-page="developers"] .bar { padding-inline: max(var(--gutter), calc((100vw - 1292px) / 2)); }
+body[data-page="developers"] .dev-wrap { max-width: 1292px; }
+
+/* ── A. Hero: the code panel runs, then keeps trying the six tracks ── */
+.dev-code .ln.flash b.c { animation: dev-ok 1.1s ease-out; }
+@keyframes dev-ok { 0% { color: #3ddc84; text-shadow: 0 0 14px rgba(61,220,132,.55); } 100% { color: inherit; text-shadow: none; } }
+.dev-code [data-cycle] { white-space: pre; }
+
+/* ── D. Tracks: sliding pill + staggered panel ── */
+.dev-tabs { position: relative; }
+.dev-pill { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; background: #d71920; box-shadow: 0 10px 28px rgba(215,25,32,.28); }
+.js-pill .dev-tabs button { position: relative; z-index: 1; }
+.js-pill .dev-tabs button[aria-selected="true"] { background: transparent; border-color: transparent; }
+@media (prefers-reduced-motion: no-preference) {
+  .dev-pill { transition: transform .38s var(--ease-out), width .38s var(--ease-out), height .38s var(--ease-out); }
+  .dev-panel:not([hidden]) > * { animation: dev-rise .5s var(--ease-out) both; }
+  .dev-panel:not([hidden]) > :nth-child(2) { animation-delay: .05s; }
+  .dev-panel:not([hidden]) > :nth-child(3) { animation-delay: .1s; }
+  .dev-panel:not([hidden]) > :nth-child(4) { animation-delay: .15s; }
+  .dev-panel:not([hidden]) > :nth-child(5) { animation-delay: .4s; }
+  .dev-panel:not([hidden]) .dev-tags li { animation: dev-pop .4s var(--ease-out) both; }
+  .dev-panel:not([hidden]) .dev-tags li:nth-child(1) { animation-delay: .2s; }
+  .dev-panel:not([hidden]) .dev-tags li:nth-child(2) { animation-delay: .25s; }
+  .dev-panel:not([hidden]) .dev-tags li:nth-child(3) { animation-delay: .3s; }
+  .dev-panel:not([hidden]) .dev-tags li:nth-child(4) { animation-delay: .35s; }
+  .dev-panel:not([hidden]) .dev-tags li:nth-child(5) { animation-delay: .4s; }
+  .dev-panel:not([hidden]) .dev-tags li:nth-child(n+6) { animation-delay: .45s; }
+}
+@keyframes dev-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes dev-pop { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+
+/* ── E. Challenges: timer ring + a small demo under each brief ── */
+.dev-chal-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.dev-ring { width: 14px; height: 14px; transform: rotate(-90deg); }
+.dev-ring circle { fill: none; stroke-width: 2.4; }
+.dev-ring .rt { stroke: #3a3a3a; }
+.dev-ring .rf { stroke: #ff4a50; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 25; }
+.dev-demo { position: relative; display: flex; align-items: center; gap: 10px; min-height: 58px; margin-top: 10px; padding: 12px 14px; overflow: hidden; border: 1px solid #1f1f22; border-radius: 10px; background: #0b0b0d; font: 12.5px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #cfcfcf; }
+.dev-demo code { font: inherit; color: #9d9da5; }
+/* final (static) state: built UI, 200, flow drawn */
+.dm-sk { display: none; }
+.dm-real { display: flex; align-items: center; gap: 10px; width: 100%; }
+.dm-real b { color: #fff; font-weight: 600; }
+.dm-real span { color: #9d9da5; }
+.dm-real em { margin-left: auto; font-style: normal; color: #3ddc84; font-weight: 700; }
+.dm-api .st { font-weight: 700; }
+.dm-api .bad { display: none; color: #ff4a50; }
+.dm-api .ok { color: #3ddc84; }
+.dm-flow { justify-content: space-between; }
+.dm-flow > span { padding: 4px 9px; border: 1px solid #2c2c2c; border-radius: 6px; color: #fff; background: #111; }
+.dm-flow .wire { position: relative; flex: 1; height: 2px; background: #2c2c2c; }
+.dm-flow .wire u { position: absolute; top: -2px; left: 0; width: 6px; height: 6px; border-radius: 50%; background: #ff4a50; display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .js-dev .dev-chal .dev-ring .rf { stroke-dashoffset: 100; }
+  .js-dev .dev-chal.play .dev-ring .rf { animation: dev-ring 2.6s var(--ease-out) forwards; }
+  /* UI: skeleton shimmers, then resolves into the built card, on a loop */
+  .js-dev .dm-ui .dm-sk { display: grid; gap: 7px; width: 100%; position: absolute; inset: 12px 14px; align-content: center; }
+  .js-dev .dm-sk i { height: 8px; border-radius: 4px; background: linear-gradient(90deg, #1c1c1f 0%, #2c2c31 50%, #1c1c1f 100%); background-size: 200% 100%; }
+  .js-dev .dm-sk i:nth-child(1) { width: 38%; } .js-dev .dm-sk i:nth-child(2) { width: 82%; } .js-dev .dm-sk i:nth-child(3) { width: 58%; }
+  .js-dev .dm-ui .dm-real { opacity: 0; }
+  .js-dev .dev-chal.play .dm-sk { animation: dm-out 7s infinite; }
+  .js-dev .dev-chal.play .dm-sk i { animation: dm-shimmer 1.2s linear infinite; }
+  .js-dev .dev-chal.play .dm-ui .dm-real { animation: dm-in 7s infinite; }
+  /* API: 503 flips to 200 */
+  .js-dev .dm-api .bad { display: inline; position: absolute; right: 14px; opacity: 1; }
+  .js-dev .dm-api .ok { position: absolute; right: 14px; opacity: 0; }
+  .js-dev .dev-chal.play .dm-api .bad { animation: dm-bad 6s infinite; }
+  .js-dev .dev-chal.play .dm-api .ok { animation: dm-ok 6s infinite; }
+  /* flow: packets travel queue → worker → db */
+  .js-dev .dm-flow .wire u { display: block; opacity: 0; }
+  .js-dev .dev-chal.play .dm-flow .wire u { animation: dm-travel 2.4s linear infinite; }
+  .js-dev .dev-chal.play .dm-flow .wire:nth-of-type(2) u { animation-delay: .8s; }
+}
+@keyframes dev-ring { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 25; } }
+@keyframes dm-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes dm-out { 0%, 40% { opacity: 1; } 48%, 92% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes dm-in { 0%, 40% { opacity: 0; transform: translateY(6px); } 50%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes dm-bad { 0%, 38% { opacity: 1; } 46%, 94% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes dm-ok { 0%, 38% { opacity: 0; } 46%, 90% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes dm-travel { 0% { left: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: calc(100% - 6px); opacity: 0; } }
+
+/* ── F. Review: a scan line ticks each criterion ── */
+.dev-run { position: relative; }
+.dev-run::after { content: ""; position: absolute; left: 0; right: 0; top: -50px; height: 50px; pointer-events: none; opacity: 0; background: linear-gradient(180deg, transparent, rgba(61,220,132,.16), transparent); }
+@media (prefers-reduced-motion: no-preference) {
+  .js-dev .dev-run .dev-run-row i { opacity: 0; transform: scale(.3); }
+  .js-dev .dev-run .dev-run-row b, .js-dev .dev-run .dev-run-row span { opacity: .35; }
+  .js-dev .dev-run .dev-run-sum { opacity: 0; }
+  .dev-run-row:nth-of-type(2) { --r: 0; } .dev-run-row:nth-of-type(3) { --r: 1; } .dev-run-row:nth-of-type(4) { --r: 2; } .dev-run-row:nth-of-type(5) { --r: 3; }
+  .js-dev .dev-run.play::after { animation: dev-scan 2.4s ease-in-out .3s forwards; }
+  .js-dev .dev-run.play .dev-run-row i { animation: dev-tick .35s var(--ease-out) forwards; animation-delay: calc(.55s + var(--r) * .5s); }
+  .js-dev .dev-run.play .dev-run-row b, .js-dev .dev-run.play .dev-run-row span { animation: dev-lit .4s ease-out forwards; animation-delay: calc(.5s + var(--r) * .5s); }
+  .js-dev .dev-run.play .dev-run-sum { animation: dev-fade .5s ease-out 2.8s forwards; }
+}
+@keyframes dev-scan { from { top: -50px; opacity: 1; } to { top: 100%; opacity: 0; } }
+@keyframes dev-tick { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: none; } }
+@keyframes dev-lit { to { opacity: 1; } }
+@keyframes dev-fade { to { opacity: 1; } }
+
+/* ── H. Kosovo outline draws itself, Prishtina pings ── */
+.dev-ks-head { display: grid; gap: 22px; align-items: end; }
+.ks-map { margin: 0; width: min(100%, 260px); }
+.ks-map svg { display: block; width: 100%; height: auto; overflow: visible; }
+.ks-outline { fill: rgba(215,25,32,.1); stroke: #ff4a50; stroke-width: 1.6; stroke-linejoin: round; }
+.ks-dot { fill: #fff; }
+.ks-ping { fill: none; stroke: #ff4a50; stroke-width: 1.5; transform-box: fill-box; transform-origin: center; opacity: 0; }
+.ks-map figcaption { margin-top: 8px; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .04em; color: #9d9da5; }
+@media (min-width: 900px) { .dev-ks-head { grid-template-columns: minmax(0, 1fr) auto; } .ks-map { justify-self: end; } }
+@media (prefers-reduced-motion: no-preference) {
+  .js-dev .ks-outline { stroke-dasharray: 100; stroke-dashoffset: 100; fill-opacity: 0; }
+  .js-dev .ks-dot { opacity: 0; }
+  .js-dev .ks-map.play .ks-outline { animation: ks-draw 2.4s var(--ease-out) forwards, ks-fill .8s ease-out 1.9s forwards; }
+  .js-dev .ks-map.play .ks-dot { animation: dev-fade .4s ease-out 2.2s forwards; }
+  .js-dev .ks-map.play .ks-ping { animation: ks-ping 2.4s ease-out 2.4s infinite; }
+}
+@keyframes ks-draw { to { stroke-dashoffset: 0; } }
+@keyframes ks-fill { to { fill-opacity: 1; } }
+@keyframes ks-ping { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(4.2); opacity: 0; } }
+
+/* every block starts on the same edge as the header (see the home page) */
+body[data-page="developers"] .hero-stage .hero { padding-inline: var(--gutter); }
+@media (min-width: 1404px) { body[data-page="developers"] .hero-stage .hero { padding-inline: 0; } }
+body[data-page="developers"] .how,
+body[data-page="developers"] .merida,
+body[data-page="developers"] .closing { padding-inline: max(var(--gutter), calc((100vw - 1292px) / 2)); }
+body[data-page="developers"] .how > .how-wrap,
+body[data-page="developers"] .merida > .merida-head,
+body[data-page="developers"] .merida > .merida-grid,
+body[data-page="developers"] .merida > .merida-actions,
+body[data-page="developers"] .closing > .closing-inner { max-width: none; margin-inline: 0; }
