@@ -342,8 +342,8 @@
 
     form.appendChild(section('form.aboutYou', about));
     var working = field('form.working', choice('working_status', cfg.workStatusOptions, true), { required: true });
-    // Puerto Rico referral partners aren't asked for a university; applicants still are.
-    var studies = PAGE === 'salesagent' && !apply ? [working] : [field('form.school', school, { required: true }), other, working];
+    // Puerto Rico forms don't ask for a university.
+    var studies = PAGE === 'salesagent' ? [working] : [field('form.school', school, { required: true }), other, working];
     if (apply) studies.push(field('form.schedule', choice('work_schedule', cfg.scheduleOptions, true), { required: true }));
     form.appendChild(section('form.studies', studies));
 
