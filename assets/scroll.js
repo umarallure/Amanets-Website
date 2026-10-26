@@ -126,7 +126,7 @@
   var links = document.querySelectorAll('#nav a');
   function onScroll() {
     var y = scrollY, vh = innerHeight, max = document.documentElement.scrollHeight - vh;
-    if (heroImg && y < vh * 1.2) heroImg.style.backgroundPosition = '50% ' + Math.min(5, y / vh * 8).toFixed(1) + '%'; // stays near the top so the artist label below the art remains cropped
+    if (heroImg && y < vh * 1.2) heroImg.style.backgroundPosition = (innerWidth < 900 ? '78% ' : '100% ') + Math.min(5, y / vh * 8).toFixed(1) + '%'; // stays near the top so the artist label below the art remains cropped
     if (cross) cross.style.transform = 'translate3d(0,' + (60 + (vh - 150) * (max > 0 ? y / max : 0)).toFixed(1) + 'px,0)';
     var cur = 'hero';
     sections.forEach(function (s) { if (s.el && s.el.getBoundingClientRect().top < vh * 0.5) cur = s.id; });
