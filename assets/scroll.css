@@ -105,7 +105,7 @@ h1.serif { margin: 0; font: 400 min(12.2vw, 21svh)/.86 var(--serif); letter-spac
 .why-list h3 { margin: 12px 0 6px; font: 700 clamp(1.3rem, 2vw, 1.9rem)/1 var(--sans); letter-spacing: -.03em; text-transform: uppercase; }
 .why-list p { margin: 0; max-width: 28em; font: 500 13px/1.55 var(--mono); }
 .why-card { position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: #0b0b0b; clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%); }
-.why-card img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); transition: transform 1.6s var(--ease); }
+.why-card img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; filter: hue-rotate(-16deg) saturate(1.1); transform: scale(1.12); transition: transform 1.6s var(--ease); }
 .why-card.in img { transform: scale(1); }
 .why-card.c2 { border-right: 1px solid #0b0b0b; }
 
@@ -184,3 +184,5 @@ h1.serif { margin: 0; font: 400 min(12.2vw, 21svh)/.86 var(--serif); letter-spac
 .why-grid { position: relative; }
 @media (max-width: 900px) { .rail { left: 6px; width: 54px; height: 54px; } }
 @media (prefers-reduced-motion: reduce) { .rail svg { animation: none; } }
+
+.why-card figcaption { position: absolute; left: 18px; bottom: 16px; z-index: 3; padding: 6px 10px; background: #0b0b0b; color: #fff; font-size: 10px; }
