@@ -51,7 +51,7 @@
     var qr = document.getElementById('ref-qr');
     var host = document.getElementById('ref-host');
     if (host) host.textContent = location.host;
-    var data = qr && site.qr(location.origin + '/merida', 6);
+    var data = qr && site.qr(location.origin + location.pathname, 6);
     if (data) qr.src = data; else if (qr) qr.hidden = true;
   })();
 
