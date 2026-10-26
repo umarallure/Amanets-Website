@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Amanet | Section 2 design options (prototype)</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+:root { --red: #d71920; --red-hot: #ff4d55; --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; --sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #1a1a1c; color: #fff; font-family: var(--sans); padding: 40px 24px 80px; }
+.wrap { max-width: 1280px; margin: 0 auto; }
+h1.page { font: 700 22px var(--sans); margin: 0 0 6px; }
+.page-sub { margin: 0 0 40px; color: #aaa; font: 400 14px/1.5 var(--sans); max-width: 60em; }
+.opt { margin: 0 0 56px; }
+.opt-head { display: flex; gap: 16px; align-items: baseline; margin-bottom: 12px; }
+.opt-head b { font: 700 28px var(--sans); }
+.opt-head span { color: #bbb; font: 400 14px/1.45 var(--sans); max-width: 62em; }
+.opt-head em { font-style: normal; color: var(--red-hot); }
+
+.frame { position: relative; container-type: size; aspect-ratio: 16 / 9; width: 100%; overflow: hidden; background: var(--red); border-radius: 14px; border: 1px solid #333; color: #0b0b0b; }
+.layer { position: absolute; inset: 0; background-repeat: no-repeat; }
+.mono { font: 500 .85cqw/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin: 0; }
+h2 { margin: 1cqw 0 0; font: 700 6.4cqw/.88 var(--sans); letter-spacing: -.05em; text-transform: uppercase; }
+h3 { margin: .9cqw 0 .5cqw; font: 700 1.9cqw/1 var(--sans); letter-spacing: -.03em; text-transform: uppercase; }
+p.t { margin: 0; font: 500 .95cqw/1.55 var(--mono); }
+.hue { filter: hue-rotate(-16deg) saturate(1.1); }
+
+/* A: the whole section is the artwork; copy sits in a ruled row along the bottom */
+.a { background: #050505; color: #fff; }
+.a .layer { background-image: url("/assets/img/chess-sweep.webp"); background-size: 112% auto; background-position: 70% 0; filter: hue-rotate(-16deg) saturate(1.1); }
+.a .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,5,5,.9) 0%, rgba(5,5,5,.35) 45%, rgba(5,5,5,0) 70%), linear-gradient(0deg, rgba(5,5,5,.95) 0%, rgba(5,5,5,0) 55%); }
+.a .head { position: absolute; left: 4cqw; top: 5cqw; width: 52cqw; }
+.a .head .mono { color: var(--red-hot); }
+.a .row { position: absolute; left: 4cqw; right: 4cqw; bottom: 4cqw; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(255,255,255,.4); }
+.a .row div { padding: 1.6cqw 2cqw 0 0; }
+.a .row div + div { padding-left: 2cqw; border-left: 1px solid rgba(255,255,255,.25); }
+.a p.t { color: #d8d8d8; max-width: 24cqw; }
+
+/* B: red section kept; three artwork panels, one per benefit */
+.b .head { position: absolute; left: 4cqw; top: 4cqw; right: 4cqw; display: flex; justify-content: space-between; align-items: flex-end; }
+.b h2 { font-size: 5.4cqw; max-width: 50cqw; }
+.b .head .mono { max-width: 22cqw; text-align: right; }
+.b .panels { position: absolute; left: 4cqw; right: 4cqw; bottom: 4cqw; top: 23cqw; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4cqw; }
+.b .p { position: relative; overflow: hidden; background: #050505 no-repeat; background-size: auto 138%; background-position: 50% 0; color: #fff; clip-path: polygon(0 0, calc(100% - 2cqw) 0, 100% 2cqw, 100% 100%, 0 100%); filter: none; }
+.b .p::before { content: ""; position: absolute; inset: 0; background: inherit; filter: hue-rotate(-16deg) saturate(1.1); }
+.b .p::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(5,5,5,.95) 0%, rgba(5,5,5,.2) 55%, rgba(5,5,5,0) 100%); }
+.b .p > * { position: relative; z-index: 2; }
+.b .pc { position: absolute; left: 1.6cqw; right: 1.6cqw; bottom: 1.4cqw; z-index: 2; }
+.b .pc p.t { color: #dcdcdc; }
+.b .tag { position: absolute; z-index: 2; left: 1.2cqw; top: 1.2cqw; padding: .4cqw .8cqw; background: #050505; font: 500 .8cqw var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+
+/* C: the artwork melts into the red (screen blend) and one piece bleeds off the right edge */
+.c .art { position: absolute; right: -9cqw; top: -3cqw; width: 80cqw; height: 45cqw; background: url("/assets/img/chess-king.webp") 50% 0 / cover no-repeat; mix-blend-mode: screen; filter: hue-rotate(-16deg) saturate(1.3) contrast(1.1); -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, #000 70%, transparent 100%); }
+.c .art2 { position: absolute; left: 30cqw; bottom: -3cqw; width: 44cqw; height: 24.75cqw; background: url("/assets/img/chess-rook.png") 50% 0 / cover no-repeat; mix-blend-mode: screen; opacity: .55; filter: hue-rotate(-16deg) saturate(1.3); -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%); mask-image: linear-gradient(180deg, #000 55%, transparent 100%); }
+.c .head { position: absolute; left: 4cqw; top: 5cqw; width: 50cqw; }
+.c ol { position: absolute; left: 4cqw; bottom: 4cqw; margin: 0; padding: 0; list-style: none; width: 40cqw; }
+.c li { display: grid; grid-template-columns: 3cqw 1fr; gap: 1cqw; padding: 1.2cqw 0; border-top: 1px solid #0b0b0b; }
+.c li:last-child { border-bottom: 1px solid #0b0b0b; }
+.c li b { font: 600 1cqw var(--mono); }
+.c li h3 { margin: 0 0 .3cqw; font-size: 1.6cqw; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="page">Section 2 background options</h1>
+  <p class="page-sub">Same copy in each. The chess artwork becomes the background again, in three different ways. The artwork is a placeholder. Pick one and I will build it into <b>/scroll</b>.</p>
+
+  <section class="opt">
+    <div class="opt-head"><b>A</b><span><em>Full-bleed.</em> The whole section is the artwork on black, with the three benefits as a ruled row along the bottom. Most dramatic and the closest to the hero. Leaves the red brand colour out of this section.</span></div>
+    <div class="frame a">
+      <div class="layer"></div><div class="shade"></div>
+      <div class="head"><p class="mono">01 / Why Amanet</p><h2>A company built around people.</h2></div>
+      <div class="row">
+        <div><p class="mono" style="color:var(--red-hot)">A</p><h3>A US company</h3><p class="t">Work for clients in the United States without leaving home.</p></div>
+        <div><p class="mono" style="color:var(--red-hot)">B</p><h3>Hours that fit you</h3><p class="t">Part-time and full-time roles, flexible for students.</p></div>
+        <div><p class="mono" style="color:var(--red-hot)">C</p><h3>Grow with us</h3><p class="t">Training from day one and room to move up.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="opt-head"><b>B</b><span><em>Three panels.</em> The red section stays. Each benefit gets its own artwork panel as the background (rook, bishop, king), with the text over the bottom. Easiest to read and keeps the red/black rhythm of the page.</span></div>
+    <div class="frame b">
+      <div class="head"><div><p class="mono">01 / Why Amanet</p><h2>A company built around people.</h2></div><p class="mono">Three reasons people join, and stay.</p></div>
+      <div class="panels">
+        <div class="p" style="background-image:url('/assets/img/chess-rook.png')"><span class="tag">A</span><div class="pc"><h3>A US company</h3><p class="t">Work for clients in the United States without leaving home.</p></div></div>
+        <div class="p" style="background-image:url('/assets/img/chess-bishop.png')"><span class="tag">B</span><div class="pc"><h3>Hours that fit you</h3><p class="t">Part-time and full-time roles, flexible for students.</p></div></div>
+        <div class="p" style="background-image:url('/assets/img/chess-king.webp')"><span class="tag">C</span><div class="pc"><h3>Grow with us</h3><p class="t">Training from day one and room to move up.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="opt-head"><b>C</b><span><em>Melted into red.</em> The artwork is blended into the red so the black board disappears and the pieces glow, with the king bleeding off the right edge and a faint rook behind the list. Keeps the section red and feels the most designed. Least literal, so the pieces read as texture.</span></div>
+    <div class="frame c">
+      <div class="art"></div><div class="art2"></div>
+      <div class="head"><p class="mono">01 / Why Amanet</p><h2>A company built around people.</h2></div>
+      <ol>
+        <li><b>A</b><div><h3>A US company</h3><p class="t">Work for clients in the United States without leaving home.</p></div></li>
+        <li><b>B</b><div><h3>Hours that fit you</h3><p class="t">Part-time and full-time roles, flexible for students.</p></div></li>
+        <li><b>C</b><div><h3>Grow with us</h3><p class="t">Training from day one and room to move up.</p></div></li>
+      </ol>
+    </div>
+  </section>
+</div>
+</body>
+</html>
