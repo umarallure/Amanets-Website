@@ -11,10 +11,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/scroll.css?v=4" />
+<link rel="stylesheet" href="/assets/scroll.css?v=5" />
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body id="top">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="pc-n" viewBox="0 0 45 45"><path d="M14 36c0-8 1.6-12.6 6-16-3 0-5.8 1.4-8 4.8-.4-3.6 2.6-9.4 7-12L17.6 7l5 2.4c8-.2 13.2 6.6 12.4 26.6zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-r" viewBox="0 0 45 45"><path d="M12 19V9h4.6v3.4h4.2V9h3.4v3.4h4.2V9H33v10zM14.5 36V20h16v16zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-b" viewBox="0 0 45 45"><circle cx="22.5" cy="8.5" r="2.6"/><path d="M22.5 11.5c5.4 3.8 8.4 8.6 8.4 13 0 3-2 5-3.6 5.8 1 1.8 1.6 3.4 2.2 5.7H15.2c.6-2.3 1.2-3.9 2.2-5.7-1.6-.8-3.6-2.8-3.6-5.8 0-4.4 3.2-9.2 8.7-13zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-p" viewBox="0 0 45 45"><circle cx="22.5" cy="13" r="5.6"/><path d="M15.5 36c.6-8 3.4-11.6 7-13.4 3.6 1.8 6.4 5.4 7 13.4zM11 40h23v-4H11z"/></symbol>
+</defs></svg>
 
 <div class="loader" id="loader" role="status" aria-live="polite">
   <div class="loader-bar" aria-hidden="true"><i id="loader-fill"></i></div>
@@ -26,8 +32,9 @@
 <div class="hud" aria-hidden="true">
   <i class="hud-frame"></i>
   <span class="hud-burger"><i></i><i></i></span>
-  <span class="hud-cross" id="cross"><svg viewBox="0 0 40 40"><path d="M20 0v14M20 26v14M0 20h14M26 20h14"/><rect x="15" y="15" width="10" height="10" rx="2"/></svg></span>
-  <span class="hud-page" id="page-no">PAGE 001</span>
+  <span class="hud-cross" id="cross"><svg viewBox="0 0 45 45"><use href="#pc-n"/></svg></span>
+  <span class="hud-page" id="page-no">MOVE 01 · E4</span>
+  <span class="hud-files" id="files"></span><span class="hud-ranks" id="ranks"></span>
 </div>
 
 <header class="bar">
@@ -44,6 +51,7 @@
 <main id="main">
   <section class="hero" id="hero" aria-labelledby="hero-title">
     <div class="hero-img" id="hero-img"></div>
+    <div class="hero-checker" id="hero-checker" aria-hidden="true"></div>
     <p class="hero-intro">Amanet is a US company that hires and trains talented people in Kosovo, Mérida and Puerto Rico.</p>
     <h1 id="hero-title">
       <span class="ln" style="--i:0"><span><sup>01W</sup>Work.</span></span>
@@ -78,10 +86,10 @@
         <h2 id="doors-title">Pick the door that fits you.</h2>
       </div>
       <ul class="fan" id="fan">
-        <li><a href="/merida"><img src="/assets/img/office-1000.jpg" alt="" width="1000" height="667" loading="lazy" /><span class="tag mono">Mérida</span><b>Sales, support and admin</b><span class="go mono">See roles &rarr;</span></a></li>
-        <li><a href="/puerto-rico"><img src="/assets/img/pr-street-1000.jpg" alt="" width="1000" height="667" loading="lazy" /><span class="tag mono">Puerto Rico</span><b>Sales agents, from the island</b><span class="go mono">See roles &rarr;</span></a></li>
-        <li><a href="/developers"><img src="/assets/img/dev-city-1000.jpg" alt="" width="1000" height="667" loading="lazy" /><span class="tag mono">Kosovo</span><b>Developers. Your code is your CV.</b><span class="go mono">Start the process &rarr;</span></a></li>
-        <li><a href="/merida#partner"><img src="/assets/img/campus-1000.jpg" alt="" width="1000" height="667" loading="lazy" /><span class="tag mono">Referrals</span><b>Know someone great? Share your link.</b><span class="go mono">Become a partner &rarr;</span></a></li>
+        <li><a href="/merida"><img src="/assets/img/office-1000.jpg" alt="" width="1000" height="667" loading="lazy" /><span class="tag mono"><svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-r"/></svg>Mérida</span><b>Sales, support and admin</b><span class="go mono">See roles &rarr;</span></a></li>
+        <li><a href="/puerto-rico"><img src="/assets/img/pr-street-1000.jpg" alt="" width="1000" height="667" loading="lazy" /><span class="tag mono"><svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-n"/></svg>Puerto Rico</span><b>Sales agents, from the island</b><span class="go mono">See roles &rarr;</span></a></li>
+        <li><a href="/developers"><img src="/assets/img/dev-city-1000.jpg" alt="" width="1000" height="667" loading="lazy" /><span class="tag mono"><svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-b"/></svg>Kosovo</span><b>Developers. Your code is your CV.</b><span class="go mono">Start the process &rarr;</span></a></li>
+        <li><a href="/merida#partner"><img src="/assets/img/campus-1000.jpg" alt="" width="1000" height="667" loading="lazy" /><span class="tag mono"><svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-p"/></svg>Referrals</span><b>Know someone great? Share your link.</b><span class="go mono">Become a partner &rarr;</span></a></li>
       </ul>
     </div>
   </section>
@@ -96,6 +104,6 @@
   </section>
 </main>
 
-<script src="/assets/scroll.js?v=2"></script>
+<script src="/assets/scroll.js?v=3"></script>
 </body>
 </html>
