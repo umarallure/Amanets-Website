@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Amanet | Hero typography options (prototype)</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+:root { --red: #d71920; --red-hot: #ff4d55; --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; --sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif; --serif: "Instrument Serif", Georgia, serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #1a1a1c; color: #fff; font-family: var(--sans); padding: 40px 24px 80px; }
+.wrap { max-width: 1280px; margin: 0 auto; }
+h1.page { font: 700 22px var(--sans); margin: 0 0 6px; }
+.page-sub { margin: 0 0 40px; color: #aaa; font: 400 14px/1.5 var(--sans); max-width: 60em; }
+.opt { margin: 0 0 56px; }
+.opt-head { display: flex; gap: 16px; align-items: baseline; margin-bottom: 12px; }
+.opt-head b { font: 700 28px var(--sans); }
+.opt-head span { color: #bbb; font: 400 14px/1.45 var(--sans); max-width: 62em; }
+.opt-head em { font-style: normal; color: var(--red-hot); }
+
+/* One 16:9 hero. Everything inside scales with the frame (cqw), so it reads like the real page at any size. */
+.frame { position: relative; container-type: size; aspect-ratio: 16 / 9; width: 100%; overflow: hidden; background: #050505; border-radius: 14px; border: 1px solid #333; }
+.bg { position: absolute; inset: 0; background: #050505 url("/assets/img/chess-sweep.webp") 100% 0 / 118% auto no-repeat; filter: hue-rotate(-16deg) saturate(1.1); }
+.shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5, 5, 5, .94) 0%, rgba(5, 5, 5, .62) 34%, rgba(5, 5, 5, 0) 62%), linear-gradient(0deg, rgba(5, 5, 5, .85) 0%, rgba(5, 5, 5, 0) 30%); }
+.top { position: absolute; left: 3cqw; right: 3cqw; top: 2.4cqw; display: flex; align-items: center; justify-content: space-between; }
+.top img { height: 2.6cqw; width: auto; }
+.top nav { display: flex; gap: 2.4cqw; font: 500 .85cqw var(--mono); letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.top .pill { background: #fff; color: #0b0b0b; padding: .9cqw 1.8cqw; border-radius: 0 0 0 1.4cqw; font: 600 .95cqw var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.foot { position: absolute; left: 3cqw; right: 3cqw; bottom: 1.8cqw; display: flex; justify-content: space-between; font: 500 .8cqw var(--mono); letter-spacing: .14em; opacity: .75; }
+.mono { font: 500 .85cqw/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.btns { display: flex; gap: .9cqw; }
+.b { display: inline-block; padding: 1.15cqw 2.2cqw; border-radius: .5cqw; font: 600 1.05cqw var(--sans); }
+.b.red { background: var(--red); color: #fff; }
+.b.line { border: 1px solid rgba(255, 255, 255, .35); }
+
+/* A — Monolith: one heavy column, hard left edge, nothing staggered */
+.a .copy { position: absolute; left: 3cqw; top: 50%; transform: translateY(-48%); width: 46cqw; }
+.a h1 { margin: 1.4cqw 0 0; font: 700 10.4cqw/.84 var(--sans); letter-spacing: -.055em; text-transform: uppercase; }
+.a h1 i { font-style: normal; color: var(--red-hot); }
+.a .lede { margin: 2.2cqw 0 2cqw; max-width: 30cqw; font: 500 1cqw/1.6 var(--mono); color: #d8d8d8; }
+
+/* B — Editorial: a high-contrast serif against mono captions */
+.b-opt .copy { position: absolute; left: 3.4cqw; top: 52%; transform: translateY(-50%); width: 46cqw; }
+.b-opt h1 { margin: 1.2cqw 0 0; font: 400 12.2cqw/.84 var(--serif); letter-spacing: -.035em; }
+.b-opt h1 em { font-style: italic; color: var(--red-hot); }
+.b-opt .lede { margin: 1.8cqw 0 1.8cqw; max-width: 31cqw; font: 400 1.35cqw/1.55 var(--sans); color: #d8d8d8; }
+
+/* C — Notation: the three words are a move list across the bottom */
+.c .copy { position: absolute; left: 3cqw; top: 15cqw; width: 34cqw; }
+.c .lede { margin: 1.4cqw 0 1.8cqw; font: 500 1.1cqw/1.6 var(--mono); color: #d8d8d8; }
+.c ol { position: absolute; left: 3cqw; right: 3cqw; bottom: 4.6cqw; margin: 0; padding: 0; list-style: none; display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255, 255, 255, .35); padding-top: 1.2cqw; }
+.c li { font: 700 8.3cqw/.9 var(--sans); letter-spacing: -.05em; text-transform: uppercase; }
+.c li small { display: block; margin-bottom: .8cqw; font: 500 .85cqw var(--mono); letter-spacing: .14em; color: #bbb; }
+.c li.o { color: transparent; -webkit-text-stroke: .12cqw rgba(255, 255, 255, .85); }
+.c li.s { color: #fff; }
+.c li.s i { font-style: normal; color: var(--red-hot); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="page">Hero typography options</h1>
+  <p class="page-sub">Same full-bleed chess artwork behind each one, shifted right so the left stays dark for type. The artwork is a placeholder. Pick one (or mix) and I will build it into <b>/scroll</b>.</p>
+
+  <section class="opt">
+    <div class="opt-head"><b>A</b><span><em>Monolith.</em> One heavy column, hard left edge, no stagger. Loudest and clearest; the headline never collides with the intro line or the pieces. Safest read on a phone.</span></div>
+    <div class="frame a">
+      <div class="bg"></div><div class="shade"></div>
+      <div class="top"><img src="/assets/brand/amanet-white.png" alt="" /><nav><span>Home</span><span>People</span><span>Roles</span><span>Apply</span></nav><span class="pill">Apply</span></div>
+      <div class="copy">
+        <p class="mono">01 / Opening &middot; Amanet</p>
+        <h1>Work.<br>Train.<br>Grow<i>.</i></h1>
+        <p class="lede">A US company that hires and trains talented people in Kosovo, Mérida and Puerto Rico.</p>
+        <div class="btns"><span class="b red">See open roles</span><span class="b line">Refer someone</span></div>
+      </div>
+      <div class="foot"><span>MOVE 01 &middot; E4</span><span>SCROLL</span></div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="opt-head"><b>B</b><span><em>Editorial.</em> A refined serif for the three words with an italic red "Grow." and a plain sans paragraph. Reads premium and calm, closer to a chess club than a tech brand. Biggest change from the current look.</span></div>
+    <div class="frame b-opt">
+      <div class="bg"></div><div class="shade"></div>
+      <div class="top"><img src="/assets/brand/amanet-white.png" alt="" /><nav><span>Home</span><span>People</span><span>Roles</span><span>Apply</span></nav><span class="pill">Apply</span></div>
+      <div class="copy">
+        <p class="mono">01 / Opening &middot; Amanet</p>
+        <h1>Work.<br>Train.<br><em>Grow.</em></h1>
+        <p class="lede">A US company that hires and trains talented people in Kosovo, Mérida and Puerto Rico.</p>
+        <div class="btns"><span class="b red">See open roles</span><span class="b line">Refer someone</span></div>
+      </div>
+      <div class="foot"><span>MOVE 01 &middot; E4</span><span>SCROLL</span></div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="opt-head"><b>C</b><span><em>Notation.</em> The headline becomes a move list along the bottom: two outlined moves already played, the third solid. Leaves the whole artwork visible above it, and it ties directly to chess. Needs a stacked version on phones.</span></div>
+    <div class="frame c">
+      <div class="bg"></div><div class="shade"></div>
+      <div class="top"><img src="/assets/brand/amanet-white.png" alt="" /><nav><span>Home</span><span>People</span><span>Roles</span><span>Apply</span></nav><span class="pill">Apply</span></div>
+      <div class="copy">
+        <p class="mono">01 / Opening &middot; Amanet</p>
+        <p class="lede">A US company that hires and trains talented people in Kosovo, Mérida and Puerto Rico.</p>
+        <div class="btns"><span class="b red">See open roles</span><span class="b line">Refer someone</span></div>
+      </div>
+      <ol><li class="o"><small>1.</small>Work</li><li class="o"><small>2.</small>Train</li><li class="s"><small>3.</small>Grow<i>.</i></li></ol>
+      <div class="foot"><span>MOVE 01 &middot; E4</span><span>SCROLL</span></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

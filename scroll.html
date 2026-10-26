@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Amanet | Scroll experience (prototype)</title>
+<meta name="description" content="Prototype of a scroll-driven Amanet homepage: loader, framed hero, glyph transition and a card fan of open roles." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0b0b0b" />
+<link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/scroll.css?v=18" />
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body id="top">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="pc-n" viewBox="0 0 45 45"><path d="M14 36c0-8 1.6-12.6 6-16-3 0-5.8 1.4-8 4.8-.4-3.6 2.6-9.4 7-12L17.6 7l5 2.4c8-.2 13.2 6.6 12.4 26.6zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-r" viewBox="0 0 45 45"><path d="M12 19V9h4.6v3.4h4.2V9h3.4v3.4h4.2V9H33v10zM14.5 36V20h16v16zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-b" viewBox="0 0 45 45"><circle cx="22.5" cy="8.5" r="2.6"/><path d="M22.5 11.5c5.4 3.8 8.4 8.6 8.4 13 0 3-2 5-3.6 5.8 1 1.8 1.6 3.4 2.2 5.7H15.2c.6-2.3 1.2-3.9 2.2-5.7-1.6-.8-3.6-2.8-3.6-5.8 0-4.4 3.2-9.2 8.7-13zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-q" viewBox="0 0 45 45"><circle cx="9.5" cy="14" r="2.3"/><circle cx="16.5" cy="9.5" r="2.3"/><circle cx="22.5" cy="7.5" r="2.3"/><circle cx="28.5" cy="9.5" r="2.3"/><circle cx="35.5" cy="14" r="2.3"/><path d="M11.8 36 9.6 16.6l6.2 7 3.4-11.4 3.3 9.8 3.3-9.8 3.4 11.4 6.2-7L33.2 36zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-k" viewBox="0 0 45 45"><path d="M21 3h3v4.6h4.6v3H24V15h-3v-4.4h-4.6v-3H21z"/><path d="M22.5 15c6.6 0 12 4 12 9.6 0 3.6-2 6.4-4.4 8L32 36H13l1.9-3.4c-2.4-1.6-4.4-4.4-4.4-8C10.5 19 15.9 15 22.5 15zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-p" viewBox="0 0 45 45"><circle cx="22.5" cy="13" r="5.6"/><path d="M15.5 36c.6-8 3.4-11.6 7-13.4 3.6 1.8 6.4 5.4 7 13.4zM11 40h23v-4H11z"/></symbol>
+</defs></svg>
+
+<div class="loader" id="loader" role="status" aria-live="polite">
+  <div class="loader-bar" aria-hidden="true"><i id="loader-fill"></i></div>
+  <p class="loader-row"><span><b aria-hidden="true">&#9654;&#9654;</b> LOADING &ndash; <em id="loader-pct">0%</em></span><span id="loader-label">LOADING PEOPLE</span></p>
+  <button class="loader-enter" id="loader-enter" type="button" aria-label="Enter the site"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="34 6"/><path d="M20 20v12M24 17v18M28 22v8M32 19v14" stroke="currentColor" stroke-width="1.4"/></svg><span>Click to enter</span></button>
+</div>
+<canvas class="wipe" id="wipe" aria-hidden="true"></canvas>
+
+<div class="rail" id="cross" aria-hidden="true"><svg viewBox="0 0 45 45"><use href="#pc-n"/></svg></div>
+<div class="cursor" id="cursor" aria-hidden="true">View details</div>
+
+<div class="hud" aria-hidden="true">
+  <i class="hud-frame"></i>
+  <span class="hud-burger"><i></i><i></i></span>
+  
+  <span class="hud-page" id="page-no">MOVE 01 · E4</span>
+  <span class="hud-files" id="files"></span><span class="hud-ranks" id="ranks"></span>
+</div>
+
+<header class="bar">
+  <a class="brand" href="/" aria-label="Amanet home"><img src="/assets/brand/amanet-white.png" alt="Amanet" width="180" height="48" /></a>
+  <nav class="nav" id="nav" aria-label="Amanet">
+    <a href="#top" class="on" data-s="hero">Home</a>
+    <a href="#why" data-s="why">People</a>
+    <a href="#doors" data-s="doors">Roles</a>
+    <a href="#next" data-s="next">Apply</a>
+  </nav>
+  <a class="pill" href="/merida#careers">Apply</a>
+</header>
+
+<main id="main">
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="hero-img" id="hero-img"></div>
+    <div class="hero-checker" id="hero-checker" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <h1 id="hero-title" class="serif">
+        <span class="mv"><span>Work.</span></span>
+        <span class="mv"><span>Train.</span></span>
+        <span class="mv"><span><em>Grow.</em></span></span>
+      </h1>
+      <p class="hero-intro">A US company that hires and trains talented people in Kosovo, Mérida and Puerto Rico.</p>
+      <div class="hero-cta"><a class="pill pill-lg" href="#doors">See open roles</a><a class="ghost" href="/merida#partner">Refer someone</a></div>
+    </div>
+  </section>
+
+  <div class="strip" id="strip" aria-hidden="true"><canvas id="strip-c"></canvas></div>
+
+  <section class="why" id="why" aria-labelledby="why-title">
+    <div class="why-wrap">
+      <div class="why-top" data-in>
+        <div><p class="mono">01 / Why Amanet</p><h2 id="why-title">A company built around people.</h2></div>
+        <p class="mono why-note">Three reasons people join, and stay.</p>
+      </div>
+      <ul class="why-panels">
+        <li class="why-card" data-in><img src="/assets/img/chess-rook.png" alt="" width="1200" height="900" loading="lazy" /><span class="tag mono">A</span><div class="why-txt"><h3>A US company</h3><p>Work for clients in the United States without leaving home.</p></div></li>
+        <li class="why-card" data-in><img src="/assets/img/chess-bishop.png" alt="" width="1200" height="900" loading="lazy" /><span class="tag mono">B</span><div class="why-txt"><h3>Hours that fit you</h3><p>Part-time and full-time roles, flexible for students.</p></div></li>
+        <li class="why-card" data-in><img src="/assets/img/chess-king.webp" alt="" width="1200" height="900" loading="lazy" /><span class="tag mono">C</span><div class="why-txt"><h3>Grow with us</h3><p>Training from day one and room to move up.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="doors" id="doors" aria-labelledby="doors-title">
+    <div class="doors-pin">
+      <div class="doors-head">
+        <p class="mono">02 / Open opportunities</p>
+        <h2 id="doors-title">Pick the door that fits you.</h2>
+      </div>
+      <ul class="fan" id="fan">
+        <li><a href="/merida" data-cursor="See roles"><img class="art" src="/assets/img/chess-rook.png" alt="" width="1200" height="900" loading="lazy" /><span class="tag mono"><svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-r"/></svg>Mérida</span><b>Sales, support and admin</b><span class="go mono">See roles &rarr;</span></a></li>
+        <li><a href="/puerto-rico" data-cursor="See roles"><img class="art" src="/assets/img/chess-knight.webp" alt="" width="1200" height="900" loading="lazy" /><span class="tag mono"><svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-n"/></svg>Puerto Rico</span><b>Sales agents, from the island</b><span class="go mono">See roles &rarr;</span></a></li>
+        <li><a href="/developers" data-cursor="Start"><img class="art" src="/assets/img/chess-bishop.png" alt="" width="1200" height="900" loading="lazy" /><span class="tag mono"><svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-b"/></svg>Kosovo</span><b>Developers. Your code is your CV.</b><span class="go mono">Start the process &rarr;</span></a></li>
+        <li><a href="/merida#partner" data-cursor="Refer"><img class="art" src="/assets/img/chess-king.webp" alt="" width="1200" height="900" loading="lazy" /><span class="tag mono"><svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-p"/></svg>Referrals</span><b>Know someone great? Share your link.</b><span class="go mono">Become a partner &rarr;</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="next" id="next" aria-labelledby="next-title">
+    <div class="next-img"></div>
+    <div class="next-copy" data-in>
+      <p class="mono">03 / Your move</p>
+      <h2 id="next-title">The next step is yours.</h2>
+      <a class="pill pill-lg" href="/merida#careers">See open roles</a>
+    </div>
+  </section>
+</main>
+
+<script src="/assets/scroll.js?v=9"></script>
+</body>
+</html>
