@@ -125,13 +125,12 @@
   var links = document.querySelectorAll('#nav a');
   function onScroll() {
     var y = scrollY, vh = innerHeight, max = document.documentElement.scrollHeight - vh;
-    if (heroImg && y < vh * 1.2) heroImg.style.transform = 'translate3d(0,' + (y * 0.22).toFixed(1) + 'px,0) scale(' + (1 + y / vh * 0.06).toFixed(3) + ')';
+    if (heroImg && y < vh * 1.2) heroImg.style.backgroundPosition = '50% ' + (50 + y / vh * 30).toFixed(1) + '%';
     if (cross) cross.style.transform = 'translate3d(0,' + (60 + (vh - 150) * (max > 0 ? y / max : 0)).toFixed(1) + 'px,0)';
     var cur = 'hero';
     sections.forEach(function (s) { if (s.el && s.el.getBoundingClientRect().top < vh * 0.5) cur = s.id; });
     links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-s') === cur); });
     if (pageNo) var mv = sections.map(function (s) { return s.id; }).indexOf(cur); pageNo.textContent = 'MOVE 0' + (mv + 1) + ' · ' + ['E4', 'NF3', 'BC4', 'O-O'][mv];
-    if (hch && y < vh * 1.4) hch.style.transform = 'translate3d(' + (-y * 0.12).toFixed(1) + 'px,' + (y * 0.1).toFixed(1) + 'px,0)';
     drawStrip(); drawFan();
   }
   var queued = false;
