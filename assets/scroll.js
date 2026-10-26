@@ -124,12 +124,15 @@
   var hch = $('hero-checker'), heroImg = $('hero-img'), cross = $('cross'), pageNo = $('page-no');
   var sections = ['hero', 'why', 'doors', 'next'].map(function (id) { return { id: id, el: $(id) }; });
   var links = document.querySelectorAll('#nav a');
+  var floaters = Array.prototype.map.call(document.querySelectorAll('.fl'), function (el) { return { el: el, p: parseFloat(el.getAttribute('data-p')) || 0 }; });
   function onScroll() {
     var y = scrollY, vh = innerHeight, max = document.documentElement.scrollHeight - vh;
     if (heroImg && y < vh * 1.2) heroImg.style.backgroundPosition = (innerWidth < 900 ? '78% ' : '100% ') + Math.min(5, y / vh * 8).toFixed(1) + '%'; // stays near the top so the artist label below the art remains cropped
-    if (cross) cross.style.transform = 'translate3d(0,' + (60 + (vh - 150) * (max > 0 ? y / max : 0)).toFixed(1) + 'px,0)';
+    if (cross) cross.style.transform = 'translate3d(0,' + (80 + (vh - 190) * (max > 0 ? y / max : 0)).toFixed(1) + 'px,0)';
+    floaters.forEach(function (f) { f.el.style.transform = 'translate3d(0,' + (y * f.p).toFixed(1) + 'px,0)'; });
     var cur = 'hero';
     sections.forEach(function (s) { if (s.el && s.el.getBoundingClientRect().top < vh * 0.5) cur = s.id; });
+    root.style.setProperty('--rail', { hero: '#ffffff', why: '#0b0b0b', doors: '#d71920', next: '#ff4d55' }[cur]);
     links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-s') === cur); });
     if (pageNo) var mv = sections.map(function (s) { return s.id; }).indexOf(cur); pageNo.textContent = 'MOVE 0' + (mv + 1) + ' · ' + ['E4', 'NF3', 'BC4', 'O-O'][mv];
     drawStrip(); drawFan();

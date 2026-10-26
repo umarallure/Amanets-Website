@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/scroll.css?v=10" />
+<link rel="stylesheet" href="/assets/scroll.css?v=12" />
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body id="top">
@@ -19,6 +19,8 @@
   <symbol id="pc-n" viewBox="0 0 45 45"><path d="M14 36c0-8 1.6-12.6 6-16-3 0-5.8 1.4-8 4.8-.4-3.6 2.6-9.4 7-12L17.6 7l5 2.4c8-.2 13.2 6.6 12.4 26.6zM11 40h23v-4H11z"/></symbol>
   <symbol id="pc-r" viewBox="0 0 45 45"><path d="M12 19V9h4.6v3.4h4.2V9h3.4v3.4h4.2V9H33v10zM14.5 36V20h16v16zM11 40h23v-4H11z"/></symbol>
   <symbol id="pc-b" viewBox="0 0 45 45"><circle cx="22.5" cy="8.5" r="2.6"/><path d="M22.5 11.5c5.4 3.8 8.4 8.6 8.4 13 0 3-2 5-3.6 5.8 1 1.8 1.6 3.4 2.2 5.7H15.2c.6-2.3 1.2-3.9 2.2-5.7-1.6-.8-3.6-2.8-3.6-5.8 0-4.4 3.2-9.2 8.7-13zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-q" viewBox="0 0 45 45"><circle cx="9.5" cy="14" r="2.3"/><circle cx="16.5" cy="9.5" r="2.3"/><circle cx="22.5" cy="7.5" r="2.3"/><circle cx="28.5" cy="9.5" r="2.3"/><circle cx="35.5" cy="14" r="2.3"/><path d="M11.8 36 9.6 16.6l6.2 7 3.4-11.4 3.3 9.8 3.3-9.8 3.4 11.4 6.2-7L33.2 36zM11 40h23v-4H11z"/></symbol>
+  <symbol id="pc-k" viewBox="0 0 45 45"><path d="M21 3h3v4.6h4.6v3H24V15h-3v-4.4h-4.6v-3H21z"/><path d="M22.5 15c6.6 0 12 4 12 9.6 0 3.6-2 6.4-4.4 8L32 36H13l1.9-3.4c-2.4-1.6-4.4-4.4-4.4-8C10.5 19 15.9 15 22.5 15zM11 40h23v-4H11z"/></symbol>
   <symbol id="pc-p" viewBox="0 0 45 45"><circle cx="22.5" cy="13" r="5.6"/><path d="M15.5 36c.6-8 3.4-11.6 7-13.4 3.6 1.8 6.4 5.4 7 13.4zM11 40h23v-4H11z"/></symbol>
 </defs></svg>
 
@@ -29,12 +31,13 @@
 </div>
 <canvas class="wipe" id="wipe" aria-hidden="true"></canvas>
 
+<div class="rail" id="cross" aria-hidden="true"><svg viewBox="0 0 45 45"><use href="#pc-n"/></svg></div>
 <div class="cursor" id="cursor" aria-hidden="true">View details</div>
 
 <div class="hud" aria-hidden="true">
   <i class="hud-frame"></i>
   <span class="hud-burger"><i></i><i></i></span>
-  <span class="hud-cross" id="cross"><svg viewBox="0 0 45 45"><use href="#pc-n"/></svg></span>
+  
   <span class="hud-page" id="page-no">MOVE 01 · E4</span>
   <span class="hud-files" id="files"></span><span class="hud-ranks" id="ranks"></span>
 </div>
@@ -52,6 +55,7 @@
 
 <main id="main">
   <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="floaters" aria-hidden="true"><span class="fl" data-p="-0.05" style="--x:84%;--y:63%;--s:150px"><svg class="pc c-redline a-slide" viewBox="0 0 45 45"><use href="#pc-r"/></svg></span></div>
     <div class="hero-img" id="hero-img"></div>
     <div class="hero-checker" id="hero-checker" aria-hidden="true"></div>
     <div class="hero-copy">
@@ -70,6 +74,7 @@
   <div class="strip" id="strip" aria-hidden="true"><canvas id="strip-c"></canvas></div>
 
   <section class="why" id="why" aria-labelledby="why-title">
+    <div class="floaters" aria-hidden="true"><span class="fl" data-p="0.08" style="--x:73%;--y:-4%;--s:260px"><svg class="pc c-inkline a-tilt" viewBox="0 0 45 45"><use href="#pc-r"/></svg></span><span class="fl" data-p="-0.06" style="--x:-2%;--y:58%;--s:230px"><svg class="pc c-cream a-diag" viewBox="0 0 45 45"><use href="#pc-b"/></svg></span><span class="fl" data-p="0.04" style="--x:47%;--y:80%;--s:150px"><svg class="pc c-ink a-float" viewBox="0 0 45 45"><use href="#pc-p"/></svg></span></div>
     <div class="why-grid">
       <div class="why-head" data-in>
         <p class="mono">01 / Why Amanet</p>
@@ -87,6 +92,7 @@
 
   <section class="doors" id="doors" aria-labelledby="doors-title">
     <div class="doors-pin">
+    <div class="floaters" aria-hidden="true"><span class="fl" data-p="0.03" style="--x:80%;--y:4%;--s:170px"><svg class="pc c-red a-hop" viewBox="0 0 45 45"><use href="#pc-n"/></svg></span><span class="fl" data-p="-0.04" style="--x:60%;--y:27%;--s:200px"><svg class="pc c-inkline a-pulse" viewBox="0 0 45 45"><use href="#pc-q"/></svg></span><span class="fl" data-p="0.05" style="--x:94%;--y:46%;--s:120px"><svg class="pc c-redline a-float" viewBox="0 0 45 45"><use href="#pc-p"/></svg></span></div>
       <div class="doors-head">
         <p class="mono">02 / Open opportunities</p>
         <h2 id="doors-title">Pick the door that fits you.</h2>
@@ -101,6 +107,7 @@
   </section>
 
   <section class="next" id="next" aria-labelledby="next-title">
+    <div class="floaters" aria-hidden="true"><span class="fl" data-p="0.05" style="--x:30%;--y:2%;--s:250px"><svg class="pc c-creamline a-tilt" viewBox="0 0 45 45"><use href="#pc-k"/></svg></span><span class="fl" data-p="-0.05" style="--x:53%;--y:64%;--s:150px"><svg class="pc c-red a-float" viewBox="0 0 45 45"><use href="#pc-p"/></svg></span><span class="fl" data-p="0.04" style="--x:90%;--y:70%;--s:140px"><svg class="pc c-creamline a-hop" viewBox="0 0 45 45"><use href="#pc-n"/></svg></span></div>
     <div class="next-img"></div>
     <div class="next-copy" data-in>
       <p class="mono">03 / Your move</p>
@@ -110,6 +117,6 @@
   </section>
 </main>
 
-<script src="/assets/scroll.js?v=7"></script>
+<script src="/assets/scroll.js?v=8"></script>
 </body>
 </html>
