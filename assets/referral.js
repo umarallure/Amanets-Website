@@ -342,8 +342,9 @@
 
     form.appendChild(section('form.aboutYou', about));
     var working = field('form.working', choice('working_status', cfg.workStatusOptions, true), { required: true });
-    // Puerto Rico forms don't ask for a university.
-    var studies = PAGE === 'salesagent' ? [working] : [field('form.school', school, { required: true }), other, working];
+    // Puerto Rico forms don't ask for a university, but the CRM still requires a school, so send its neutral answer.
+    var noSchool = PAGE === 'salesagent';
+    var studies = noSchool ? [working] : [field('form.school', school, { required: true }), other, working];
     if (apply) studies.push(field('form.schedule', choice('work_schedule', cfg.scheduleOptions, true), { required: true }));
     form.appendChild(section('form.studies', studies));
 
@@ -386,6 +387,10 @@
     }
     if (more.length) form.appendChild(section('form.more', more));
 
+    if (noSchool) {
+      var none = (cfg.schoolOptions || []).filter(function (o) { return /^not in university$/i.test(o.value); })[0];
+      form.appendChild(el('input', { type: 'hidden', name: 'school', value: none ? none.value : 'Not in university' }));
+    }
     form.appendChild(el('label', { class: 'honey', 'aria-hidden': 'true' }, ['Website', el('input', { name: 'website', tabindex: '-1', autocomplete: 'off' })]));
     var consent = el('input', { type: 'checkbox', name: 'consent', required: true, id: 'f' + (++uid) });
     form.appendChild(el('div', { class: 'consent' }, [
