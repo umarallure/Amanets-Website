@@ -341,7 +341,9 @@
     if (!apply) about.push(field('form.age', el('input', { name: 'age', type: 'number', inputmode: 'numeric', min: '18', max: '100' }), { required: true }));
 
     form.appendChild(section('form.aboutYou', about));
-    var studies = [field('form.school', school, { required: true }), other, field('form.working', choice('working_status', cfg.workStatusOptions, true), { required: true })];
+    var working = field('form.working', choice('working_status', cfg.workStatusOptions, true), { required: true });
+    // Puerto Rico forms don't ask for a university.
+    var studies = PAGE === 'salesagent' ? [working] : [field('form.school', school, { required: true }), other, working];
     if (apply) studies.push(field('form.schedule', choice('work_schedule', cfg.scheduleOptions, true), { required: true }));
     form.appendChild(section('form.studies', studies));
 
