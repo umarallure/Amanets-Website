@@ -115,7 +115,8 @@
     cards.forEach(function (li) {
       var b = li.getBoundingClientRect(), d = Math.abs((b.left + b.width / 2) - vw / 2) / vw;
       var sc2 = 1 - clamp(d * 0.34, 0, 0.2);
-      li.style.transform = 'translateY(' + (d * 46).toFixed(1) + 'px) scale(' + sc2.toFixed(3) + ')';
+      var side = ((b.left + b.width / 2) - vw / 2) / vw;
+      li.style.transform = 'translateY(' + (d * 46).toFixed(1) + 'px) rotate(' + (side * 7).toFixed(2) + 'deg) scale(' + sc2.toFixed(3) + ')';
     });
   }
 
@@ -125,7 +126,7 @@
   var links = document.querySelectorAll('#nav a');
   function onScroll() {
     var y = scrollY, vh = innerHeight, max = document.documentElement.scrollHeight - vh;
-    if (heroImg && y < vh * 1.2) heroImg.style.backgroundPosition = '50% ' + (50 + y / vh * 30).toFixed(1) + '%';
+    if (heroImg && y < vh * 1.2) heroImg.style.backgroundPosition = '50% ' + Math.min(5, y / vh * 8).toFixed(1) + '%'; // stays near the top so the artist label below the art remains cropped
     if (cross) cross.style.transform = 'translate3d(0,' + (60 + (vh - 150) * (max > 0 ? y / max : 0)).toFixed(1) + 'px,0)';
     var cur = 'hero';
     sections.forEach(function (s) { if (s.el && s.el.getBoundingClientRect().top < vh * 0.5) cur = s.id; });
@@ -172,9 +173,23 @@
   document.querySelectorAll('.why-card').forEach(function (n) { checkerReveal(n, ['#0b0b0b', '#d71920']); });
   checkerReveal(document.querySelector('.next-img'), ['#0b0b0b', '#2a2a2e']);
 
+  /* ── Cards arrive one by one; the cursor names the action ── */
+  cards.forEach(function (li, i) { li.style.setProperty('--k', i); });
+  var cur = $('cursor');
+  if (cur && matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) {
+    var mx = 0, my = 0, cx2 = 0, cy2 = 0;
+    addEventListener('pointermove', function (e) { mx = e.clientX; my = e.clientY; }, { passive: true });
+    (function follow() { cx2 += (mx - cx2) * 0.2; cy2 += (my - cy2) * 0.2; cur.style.left = cx2.toFixed(1) + 'px'; cur.style.top = cy2.toFixed(1) + 'px'; requestAnimationFrame(follow); })();
+    document.querySelectorAll('[data-cursor]').forEach(function (a) {
+      a.addEventListener('pointerenter', function () { cur.textContent = a.getAttribute('data-cursor'); cur.classList.add('on'); });
+      a.addEventListener('pointerleave', function () { cur.classList.remove('on'); });
+    });
+  }
+
   /* ── Reveals ──────────────────────────────────────────────────── */
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: 0.18 });
     document.querySelectorAll('[data-in]').forEach(function (n) { io.observe(n); });
+    if (doors) io.observe(doors);
   } else document.querySelectorAll('[data-in]').forEach(function (n) { n.classList.add('in'); });
 })();
