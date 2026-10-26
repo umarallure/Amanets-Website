@@ -341,7 +341,9 @@
     if (!apply) about.push(field('form.age', el('input', { name: 'age', type: 'number', inputmode: 'numeric', min: '18', max: '100' }), { required: true }));
 
     form.appendChild(section('form.aboutYou', about));
-    var studies = [field('form.school', school, { required: true }), other, field('form.working', choice('working_status', cfg.workStatusOptions, true), { required: true })];
+    var working = field('form.working', choice('working_status', cfg.workStatusOptions, true), { required: true });
+    // Puerto Rico referral partners aren't asked for a university; applicants still are.
+    var studies = PAGE === 'salesagent' && !apply ? [working] : [field('form.school', school, { required: true }), other, working];
     if (apply) studies.push(field('form.schedule', choice('work_schedule', cfg.scheduleOptions, true), { required: true }));
     form.appendChild(section('form.studies', studies));
 
