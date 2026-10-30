@@ -1,7 +1,7 @@
-/* Link previews for role links (/merida?role=<slug>).
+/* Link previews for role links (/j/<slug>, which the site serves as the Mérida page).
    WhatsApp, iMessage, Telegram and the like build their preview card from the page's raw HTML and never run the
    page's scripts, so a role link would otherwise show the generic Mérida title. vercel.json sends only those
-   crawlers here (people and search-engine browsers still get the static page). We take merida.html and swap the
+   crawlers here (people still get the static page). We take merida.html and swap the
    title/description/og tags for the job. Anything unexpected serves the page unchanged. */
 const fs = require('fs');
 const path = require('path');
@@ -25,7 +25,7 @@ function build(html, job, host, slug, en) {
   const description = (lead || (en
     ? `Apply for ${title} at Amanet, a US company with an office in Mérida. Applying is quick.`
     : `Postúlate a ${title} en Amanet, una empresa de EE. UU. con oficina en Mérida. Postularte es rápido.`)).slice(0, 200);
-  const link = `https://${host}/merida?role=${slug}${en ? '&lang=en' : ''}`;
+  const link = `https://${host}/j/${slug}${en ? '?lang=en' : ''}`;
   const image = `https://${host}/assets/og/role-${slug}-${en ? 'en' : 'es'}.jpg`;
 
   let out = html;

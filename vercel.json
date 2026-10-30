@@ -9,19 +9,19 @@
   },
   "rewrites": [
     {
-      "source": "/merida",
+      "source": "/j/:slug",
       "has": [
-        {
-          "type": "query",
-          "key": "role"
-        },
         {
           "type": "header",
           "key": "user-agent",
           "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|Slackbot|LinkedInBot|Discordbot|SkypeUriPreview|Applebot|Googlebot|Google-PageRenderer|bingbot|Embedly|redditbot|Pinterest|Signal).*"
         }
       ],
-      "destination": "/api/role-preview"
+      "destination": "/api/role-preview?role=:slug"
+    },
+    {
+      "source": "/j/:slug",
+      "destination": "/merida"
     }
   ],
   "headers": [
