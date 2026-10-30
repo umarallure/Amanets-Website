@@ -26,7 +26,7 @@ function build(html, job, host, slug, en) {
     ? `Apply for ${title} at Amanet, a US company with an office in Mérida. Applying is quick.`
     : `Postúlate a ${title} en Amanet, una empresa de EE. UU. con oficina en Mérida. Postularte es rápido.`)).slice(0, 200);
   const link = `https://${host}/merida?role=${slug}${en ? '&lang=en' : ''}`;
-  const image = `https://${host}/assets/og.png`;
+  const image = `https://${host}/assets/og/role-${slug}-${en ? 'en' : 'es'}.jpg`;
 
   let out = html;
   out = setMeta(out, /<title>[^<]*<\/title>/, `<title>${esc(pageTitle)}</title>`);
@@ -34,8 +34,10 @@ function build(html, job, host, slug, en) {
   out = setMeta(out, /<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${esc(pageTitle)}" />`);
   out = setMeta(out, /<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${esc(description)}" />`);
   out = setMeta(out, /<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${esc(link)}" />`);
-  // Crawlers need an absolute image address.
+  // Crawlers need an absolute image address; each job has its own card, in both languages (assets/og/).
   out = setMeta(out, /<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${esc(image)}" />`);
+  out = setMeta(out, /<meta property="og:image:alt" content="[^"]*" \/>/, `<meta property="og:image:alt" content="${esc(pageTitle)}" />`);
+  out = setMeta(out, /<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${esc(image)}" />`);
   out = setMeta(out, /<meta name="twitter:card" content="summary_large_image" \/>/,
     `<meta name="twitter:card" content="summary_large_image" />\n<meta name="twitter:title" content="${esc(pageTitle)}" />\n<meta name="twitter:description" content="${esc(description)}" />\n<meta property="og:locale" content="${en ? 'en_US' : 'es_ES'}" />`);
   return out;
