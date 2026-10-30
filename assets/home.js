@@ -36,7 +36,7 @@
     'team.c2': 'Estudia y trabaja', 'team.c2b': 'Horarios de medio tiempo y tiempo completo que respetan tus clases.',
     'team.c3': 'Crecemos juntos', 'team.c3b': 'Trabajo real desde el primer día y habilidades por encima del currículum.',
     'loc.kicker': 'Ubicaciones', 'loc.title': 'Dos oficinas. Un equipo.', 'loc.lead': 'Atendemos a clientes de EE. UU. desde ambos lugares, así que siempre hay alguien trabajando en horario estadounidense.',
-    'loc.globe': 'Un globo terráqueo con Kosovo y Mérida marcados y un arco entre ambos.',
+    'loc.globe': 'Un globo terráqueo con Prishtina, Kosovo y Mérida, Venezuela marcados y un arco entre ambos.',
     'loc.a': 'Equipo de software', 'loc.ab': 'Ingenieros que crean y entregan para clientes de EE. UU. Contratación por retos reales, revisada por ingenieros.',
     'loc.b': 'Oficina de ventas y soporte', 'loc.bb': 'Rodero Plaza, cerca de la universidad y del centro. Puestos de ventas, soporte y administración.',
     'loc.time': 'Hora local', 'loc.cta': 'Puestos abiertos aquí',

@@ -20,8 +20,8 @@
   }
   var RAD = Math.PI / 180;
   var PLACES = [
-    { key: 'ks', name: 'Kosovo', lat: 42.66 * RAD, lon: 21.17 * RAD },
-    { key: 've', name: 'Mérida', lat: 8.59 * RAD, lon: -71.14 * RAD }
+    { key: 'ks', city: 'Prishtina', country: 'Kosovo', lat: 42.66 * RAD, lon: 21.17 * RAD },
+    { key: 've', city: 'Mérida', country: 'Venezuela', lat: 8.59 * RAD, lon: -71.14 * RAD }
   ];
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cards = document.querySelectorAll('[data-place]');
@@ -87,7 +87,9 @@
       prev = cur;
     }
     // markers + labels
-    ctx.font = '600 ' + Math.max(12, R / 17).toFixed(1) + 'px "Space Grotesk", system-ui, sans-serif'; ctx.textBaseline = 'middle';
+    var fs = Math.max(12, R / 17), family = 'px "Space Grotesk", system-ui, sans-serif';
+    var cityFont = '600 ' + fs.toFixed(1) + family, countryFont = '500 ' + (fs * .82).toFixed(1) + family;
+    ctx.textBaseline = 'middle';
     PLACES.forEach(function (pl, idx) {
       var p = project(pl.lat, pl.lon, R, cx, cy);
       if (p[2] <= .02) return;
@@ -96,8 +98,18 @@
       ctx.strokeStyle = 'rgba(237,28,36,' + ((1 - pulse) * (on ? .8 : .4)).toFixed(3) + ')'; ctx.lineWidth = 1.5; ctx.stroke();
       ctx.beginPath(); ctx.arc(p[0], p[1], R / 48 + (on ? 1.5 : 0), 0, 6.2832); ctx.fillStyle = '#ed1c24'; ctx.fill();
       ctx.lineWidth = 2; ctx.strokeStyle = '#fff'; ctx.stroke();
-      ctx.fillStyle = on ? '#fff' : 'rgba(255,255,255,.7)'; ctx.textAlign = p[0] > cx ? 'left' : 'right';
-      ctx.fillText(pl.name, p[0] + (p[0] > cx ? 1 : -1) * (R / 24 + 8), p[1] - 1);
+      // City in bold with the country under it. A label that would run off the canvas flips to the other side of its marker.
+      var gap = R / 24 + 8, side = p[0] > cx ? 1 : -1;
+      ctx.font = cityFont; var cityW = ctx.measureText(pl.city).width;
+      ctx.font = countryFont; var textW = Math.max(cityW, ctx.measureText(pl.country).width);
+      if (side > 0 && p[0] + gap + textW > w - 4) side = -1;
+      else if (side < 0 && p[0] - gap - textW < 4) side = 1;
+      var tx = p[0] + side * gap;
+      ctx.textAlign = side > 0 ? 'left' : 'right';
+      ctx.fillStyle = on ? '#fff' : 'rgba(255,255,255,.7)'; ctx.font = cityFont;
+      ctx.fillText(pl.city, tx, p[1] - fs * .5);
+      ctx.fillStyle = on ? 'rgba(255,255,255,.82)' : 'rgba(255,255,255,.62)'; ctx.font = countryFont;
+      ctx.fillText(pl.country, tx, p[1] + fs * .62);
     });
   }
 
