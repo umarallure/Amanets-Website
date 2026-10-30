@@ -43,6 +43,26 @@
     waiting.forEach(function (el) { seen.observe(el); });
     document.documentElement.classList.add('reveal-ready');
   }
+  // ?role=<slug> opens that job: the card is highlighted and the application form opens with the role chosen.
+  var roleParam = (params.get('role') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 60);
+  var roleHandled = false;
+  function slugOf(opening) { return opening.slug || String(opening.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  // A role's own link: this page, the role, and the partner's code when the visitor came through one.
+  function roleLink(opening) {
+    var url = new URL(location.pathname, location.origin);
+    url.searchParams.set('role', slugOf(opening));
+    if (ref) url.searchParams.set('ref', ref);
+    return url.toString();
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+    return new Promise(function (resolve, reject) {
+      var box = el('textarea', { readonly: '', 'aria-hidden': 'true', style: 'position:fixed;opacity:0;pointer-events:none' });
+      box.value = text; document.body.appendChild(box); box.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      box.remove(); ok ? resolve() : reject();
+    });
+  }
   var inviteNote = document.getElementById('invite');
   if (ref && inviteNote) inviteNote.hidden = false;
   // Illustrative referral card in the partner band. Its QR opens this page without any ?ref= code,
@@ -157,15 +177,56 @@
         el('span', { class: 'role-foot', 'aria-hidden': 'true' }, [el('span', { text: t('cta.apply') }), el('span', { class: 'role-go' })])
       ]);
       button.addEventListener('click', function () { openForm('apply', opening.title); });
-      var shareText = t('careers.shareMsg').replace('{role}', title).replace('{url}', location.origin + '/merida#careers');
+      var link = roleLink(opening);
+      var shareText = t('careers.shareMsg').replace('{role}', title).replace('{url}', link);
       var share = el('a', { class: 'role-share', href: 'https://wa.me/?text=' + encodeURIComponent(shareText), target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('careers.share') + ': ' + title }, [
         svgIcon('i-whatsapp'), el('span', { text: t('careers.share') })
       ]);
-      var item = el('li', {}, [button, share]);
+      // On a phone the share sheet carries the link to any app; elsewhere the WhatsApp link above is followed.
+      share.addEventListener('click', function (e) {
+        if (!navigator.share) return;
+        e.preventDefault();
+        navigator.share({ title: title, text: t('careers.shareText').replace('{role}', title), url: link }).catch(function () {});
+      });
+      var copy = el('button', { type: 'button', class: 'role-copy', 'aria-label': t('careers.copyLink') + ': ' + title }, [svgIcon('i-link')]);
+      copy.addEventListener('click', function () {
+        copyText(link).then(function () {
+          copy.setAttribute('data-msg', t('careers.copied')); copy.classList.add('is-copied');
+          setTimeout(function () { copy.classList.remove('is-copied'); }, 1800);
+        }).catch(function () { window.prompt(t('careers.copyLink'), link); });
+      });
+      var item = el('li', { 'data-slug': slugOf(opening) }, [button, share, copy]);
       item.style.setProperty('--i', Math.min(list.children.length, 8)); // cascade order if the list hasn't revealed yet
       list.appendChild(item);
     });
+    applyRoleLink();
   }
+
+  function applyRoleLink() {
+    var banner = document.getElementById('role-banner');
+    var hit = roleParam ? openings.filter(function (o) { return slugOf(o) === roleParam; })[0] : null;
+    var list = document.getElementById('roles');
+    if (list) Array.prototype.forEach.call(list.children, function (li) { li.classList.toggle('is-targeted', !!hit && li.getAttribute('data-slug') === roleParam); });
+    if (!hit) { if (banner) banner.hidden = true; return; } // an unknown or closed role just shows the normal page
+    var title = site.pick(hit.title, hit.title_es);
+    if (banner) {
+      banner.querySelector('.role-banner-text').textContent = t('role.banner').replace('{role}', title);
+      banner.hidden = false;
+    }
+    if (roleHandled) return;
+    roleHandled = true;
+    if (window.gtag) try { gtag('event', 'role_link_open', { role: roleParam }); } catch (e) {}
+    var card = list && list.querySelector('.is-targeted');
+    if (card) card.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    openForm('apply', hit.title, { linkedRole: title });
+  }
+  var bannerAll = document.getElementById('role-banner-all');
+  if (bannerAll) bannerAll.addEventListener('click', function (e) {
+    e.preventDefault();
+    roleParam = '';
+    var url = new URL(location.href); url.searchParams.delete('role'); history.replaceState(null, '', url.pathname + url.search + url.hash);
+    applyRoleLink();
+  });
 
   // The player speaks the page's language (Spanish by default): its controls, and captions in
   // that language when the video has them. Read at play time, so a language switch carries over.
@@ -524,6 +585,7 @@
     sheet.textContent = '';
     var apply = kind === 'apply';
     var body = el('div', { class: 'sheet-body' }, header(apply ? 'form.applyTitle' : 'form.partnerTitle', apply ? 'form.applyIntro' : 'form.partnerIntro'));
+    if (apply && extras && extras.linkedRole) body.appendChild(el('p', { class: 'invite', text: t('role.applying').replace('{role}', extras.linkedRole) }));
     if (ref) body.appendChild(el('p', { class: 'invite', 'data-i18n': 'form.linked', text: t('form.linked') }));
     body.appendChild(buildForm(kind, role, extras));
     sheet.appendChild(body);
