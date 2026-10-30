@@ -44,13 +44,14 @@
     document.documentElement.classList.add('reveal-ready');
   }
   // ?role=<slug> opens that job: the card is highlighted and the application form opens with the role chosen.
-  var roleParam = (params.get('role') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 60);
+  // A job's short link is /j/<slug>; the older ?role=<slug> form still works.
+  var pathRole = (location.pathname.match(/^\/j\/([a-z0-9-]+)\/?$/i) || [])[1] || '';
+  var roleParam = (params.get('role') || pathRole).toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 60);
   var roleHandled = false;
   function slugOf(opening) { return opening.slug || String(opening.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
   // A role's own link: this page, the role, and the partner's code when the visitor came through one.
   function roleLink(opening) {
-    var url = new URL(location.pathname, location.origin);
-    url.searchParams.set('role', slugOf(opening));
+    var url = new URL('/j/' + slugOf(opening), location.origin);
     if (ref) url.searchParams.set('ref', ref);
     return url.toString();
   }
@@ -217,7 +218,9 @@
   function seeAllRoles(e) {
     if (e) e.preventDefault();
     roleParam = '';
-    var url = new URL(location.href); url.searchParams.delete('role'); history.replaceState(null, '', url.pathname + url.search + url.hash);
+    var url = new URL(location.href); url.searchParams.delete('role');
+    var back = /^\/j\//.test(url.pathname) ? '/merida' : url.pathname; // a /j/<slug> link goes back to the Mérida page
+    history.replaceState(null, '', back + url.search + url.hash);
     applyRoleLink();
     var careers = document.getElementById('careers');
     if (careers) careers.scrollIntoView({ behavior: 'smooth', block: 'start' });
