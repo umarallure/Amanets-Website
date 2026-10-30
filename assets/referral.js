@@ -202,13 +202,78 @@
     applyRoleLink();
   }
 
+  // Opened from a role link, the Mérida hero speaks about that job instead of the general invitation.
+  function heroSet(node, text) {
+    if (!node) return;
+    if (node.hasAttribute('data-i18n')) { node.setAttribute('data-i18n-orig', node.getAttribute('data-i18n')); node.removeAttribute('data-i18n'); }
+    node.textContent = text;
+  }
+  function heroReset(node) {
+    var key = node && node.getAttribute('data-i18n-orig');
+    if (!key) return;
+    node.setAttribute('data-i18n', key); node.removeAttribute('data-i18n-orig');
+    node.textContent = t(key);
+  }
+  function seeAllRoles(e) {
+    if (e) e.preventDefault();
+    roleParam = '';
+    var url = new URL(location.href); url.searchParams.delete('role'); history.replaceState(null, '', url.pathname + url.search + url.hash);
+    applyRoleLink();
+    var careers = document.getElementById('careers');
+    if (careers) careers.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function heroForRole(hit, title) {
+    var h1a = document.getElementById('hero-h1a');
+    if (!h1a) return; // only the Mérida page has this hero
+    var facts = document.getElementById('hero-facts');
+    var partner = document.getElementById('hero-partner');
+    var description = site.pick(hit.description, hit.description_es);
+    heroSet(document.getElementById('hero-place'), t('role.heroKicker'));
+    heroSet(h1a, title);
+    heroSet(document.getElementById('hero-h1b'), t('role.heroTail'));
+    heroSet(document.getElementById('hero-lede'), description || t('role.heroLede'));
+    if (facts) {
+      facts.textContent = '';
+      var items = String(hit.location || '').split(/\s*[·•|]\s*/).filter(Boolean).map(function (part) { return ['i-pin', part]; });
+      if (hit.vacancies > 1) items.push(['i-user', t('careers.openings').replace('{n}', hit.vacancies)]);
+      items.push(['i-globe', t('role.factUS')], ['i-clock', t('role.factHours')], ['i-cap', t('role.factTraining')]);
+      items.forEach(function (it) { facts.appendChild(el('li', {}, [svgIcon(it[0]), el('span', { text: it[1] })])); });
+      facts.hidden = false;
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-open="apply"]'), function (b) {
+      if (b.closest('#roles')) return;
+      b.setAttribute('data-role', hit.title); b.setAttribute('data-role-label', title);
+    });
+    var heroApply = document.querySelector('.hero-actions [data-open="apply"]');
+    heroSet(heroApply, t('role.heroApply'));
+    if (partner) {
+      if (partner.hasAttribute('data-open')) { partner.setAttribute('data-open-orig', partner.getAttribute('data-open')); partner.removeAttribute('data-open'); partner.addEventListener('click', seeAllRoles); }
+      heroSet(partner, t('role.all'));
+    }
+  }
+  function heroForDefault() {
+    var h1a = document.getElementById('hero-h1a');
+    if (!h1a) return;
+    ['hero-place', 'hero-h1a', 'hero-h1b', 'hero-lede'].forEach(function (id) { heroReset(document.getElementById(id)); });
+    var facts = document.getElementById('hero-facts'); if (facts) facts.hidden = true;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-open="apply"]'), function (b) { b.removeAttribute('data-role'); b.removeAttribute('data-role-label'); });
+    heroReset(document.querySelector('.hero-actions [data-open="apply"]'));
+    var partner = document.getElementById('hero-partner');
+    if (partner && partner.hasAttribute('data-open-orig')) {
+      partner.setAttribute('data-open', partner.getAttribute('data-open-orig')); partner.removeAttribute('data-open-orig');
+      partner.removeEventListener('click', seeAllRoles);
+      heroReset(partner);
+    }
+  }
+
   function applyRoleLink() {
     var banner = document.getElementById('role-banner');
     var hit = roleParam ? openings.filter(function (o) { return slugOf(o) === roleParam; })[0] : null;
     var list = document.getElementById('roles');
     if (list) Array.prototype.forEach.call(list.children, function (li) { li.classList.toggle('is-targeted', !!hit && li.getAttribute('data-slug') === roleParam); });
-    if (!hit) { if (banner) banner.hidden = true; return; } // an unknown or closed role just shows the normal page
+    if (!hit) { if (banner) banner.hidden = true; heroForDefault(); return; } // an unknown or closed role just shows the normal page
     var title = site.pick(hit.title, hit.title_es);
+    heroForRole(hit, title);
     if (banner) {
       banner.querySelector('.role-banner-text').textContent = t('role.banner').replace('{role}', title);
       banner.hidden = false;
@@ -221,12 +286,7 @@
     openForm('apply', hit.title, { linkedRole: title });
   }
   var bannerAll = document.getElementById('role-banner-all');
-  if (bannerAll) bannerAll.addEventListener('click', function (e) {
-    e.preventDefault();
-    roleParam = '';
-    var url = new URL(location.href); url.searchParams.delete('role'); history.replaceState(null, '', url.pathname + url.search + url.hash);
-    applyRoleLink();
-  });
+  if (bannerAll) bannerAll.addEventListener('click', seeAllRoles);
 
   // The player speaks the page's language (Spanish by default): its controls, and captions in
   // that language when the video has them. Read at play time, so a language switch carries over.
@@ -291,6 +351,8 @@
     if (!opener) return;
     if (opener.getAttribute('data-open') === 'privacy') { event.preventDefault(); openPrivacy(); return; }
     var track = opener.getAttribute('data-track');
+    var roleAttr = opener.getAttribute('data-role');
+    if (roleAttr && opener.getAttribute('data-open') === 'apply') { openForm('apply', roleAttr, { linkedRole: opener.getAttribute('data-role-label') || roleAttr }); return; }
     openForm(opener.getAttribute('data-open'), null, track ? { note: 'Track: ' + track } : null);
   });
 

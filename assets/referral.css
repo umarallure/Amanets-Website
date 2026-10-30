@@ -1562,3 +1562,9 @@ body[data-page="developers"] .lang-switch { display: none; }
 .role-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 0 22px; padding: 14px 16px; border: 1px solid rgba(237, 28, 36, .5); border-radius: var(--radius); background: rgba(237, 28, 36, .1); font-size: 16px; font-weight: 600; }
 .role-banner[hidden] { display: none; }
 .role-banner a { color: inherit; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+/* The hero, when a page is opened from a role link: a row of plain facts about the job. */
+.hero-facts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.hero-facts[hidden] { display: none; }
+.hero-facts li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 999px; background: rgba(0, 0, 0, .35); font-size: 14px; font-weight: 600; color: #eee; }
+.hero-facts svg { width: 16px; height: 16px; flex: none; fill: none; stroke: var(--rose-hot, #ff4d55); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
