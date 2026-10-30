@@ -79,7 +79,10 @@
   }
   function shapeConfig(cfg) {
     cfg = cfg || {};
-    if (PAGE === 'developers') cfg.schoolOptions = KOSOVO_SCHOOLS.map(function (name) { return { value: name, es: name }; });
+    if (PAGE === 'developers') {
+      cfg.crmSchools = (cfg.schoolOptions || []).map(function (o) { return o.value; }); // what the CRM accepts, kept before the Kosovo list replaces it
+      cfg.schoolOptions = KOSOVO_SCHOOLS.map(function (name) { return { value: name, es: name }; });
+    }
     return cfg;
   }
 
@@ -479,6 +482,9 @@
     Array.from(data.keys()).filter(function (k) { return k.indexOf('custom_') === 0; }).forEach(function (k) { custom[k.slice(7)] = data.get(k); data.delete(k); });
     data.set('custom_fields', JSON.stringify(custom));
     if (data.get('cv') instanceof File && !data.get('cv').size) data.delete('cv');
+    // The CRM only knows its own school list. A Kosovo university it has never heard of goes in as "Other university" plus the name.
+    var chosenSchool = data.get('school'), known = (config && config.crmSchools) || [];
+    if (PAGE === 'developers' && chosenSchool && known.length && known.indexOf(chosenSchool) < 0) { data.set('school', OTHER_SCHOOL); data.set('school_other', chosenSchool); }
     data.set('action', kind); data.set('ref', ref); data.set('source', source);
     submit.disabled = true; submit.setAttribute('aria-busy', 'true'); submit.setAttribute('data-i18n', 'form.sending'); submit.textContent = t('form.sending');
     fetch(site.API + '/api/referrals', { method: 'POST', body: data })
