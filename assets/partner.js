@@ -27,8 +27,21 @@
       .catch(function (e) { error = e instanceof TypeError ? t('form.network') : site.apiError(e.message); render(); });
   }
 
+  // The link and QR lead back to the page the partner signed up on (?p= is set at sign-up); older partners fall back
+  // to the source the CRM stored, then to Mérida.
+  var HOMES = {
+    developers: { path: '/developers', share: 'dash.shareTextDev' },
+    'puerto-rico': { path: '/puerto-rico', share: 'dash.shareTextPr' },
+    merida: { path: '/merida', share: 'dash.shareText' }
+  };
+  function home() {
+    var key = new URLSearchParams(location.search).get('p');
+    if (!HOMES[key]) key = { 'KS-Developers': 'developers', 'PR-SalesAgent': 'puerto-rico' }[(data && data.partner && data.partner.source) || ''];
+    return HOMES[key] || HOMES.merida;
+  }
+
   function publicLink() {
-    var url = new URL('/merida', location.origin);
+    var url = new URL(home().path, location.origin);
     url.searchParams.set('ref', data.partner.code);
     return url.toString();
   }
@@ -73,11 +86,12 @@
 
   // Direct-send links. The message is the existing share text plus the partner's own link.
   function sendTiles(link) {
-    var message = t('dash.shareText') + ' ' + link;
+    var shareText = t(home().share);
+    var message = shareText + ' ' + link;
     var enc = encodeURIComponent;
     var tiles = [
       ['i-whatsapp', 'WhatsApp', 'https://wa.me/?text=' + enc(message), true, 'wa'],
-      ['i-telegram', 'Telegram', 'https://t.me/share/url?url=' + enc(link) + '&text=' + enc(t('dash.shareText')), true, 'tg'],
+      ['i-telegram', 'Telegram', 'https://t.me/share/url?url=' + enc(link) + '&text=' + enc(shareText), true, 'tg'],
       ['i-sms', 'SMS', 'sms:?&body=' + enc(message), false, 'sms'],
       ['i-mail', t('dash.email'), 'mailto:?subject=' + enc('Amanet') + '&body=' + enc(message), false, 'mail']
     ];
@@ -155,7 +169,7 @@
     var share = el('div', { class: 'dash-share-actions' }, [copyButton(link, 'dash.copy')]);
     if (navigator.share) {
       var shareButton = el('button', { type: 'button', class: 'btn btn-red', text: t('dash.share') });
-      shareButton.addEventListener('click', function () { navigator.share({ title: 'Amanet', text: t('dash.shareText'), url: link }).catch(function () {}); });
+      shareButton.addEventListener('click', function () { navigator.share({ title: 'Amanet', text: t(home().share), url: link }).catch(function () {}); });
       share.insertBefore(shareButton, share.firstChild);
     }
     var qr = site.qr(link, 8);
