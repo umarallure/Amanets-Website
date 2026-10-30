@@ -485,7 +485,7 @@
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (body) { return { ok: r.ok, body: body }; }); })
       .then(function (res) {
         if (!res.ok) throw new Error(site.apiError(res.body.error));
-        if (kind === 'partner') { location.assign('/referral/partner#' + res.body.token); return; }
+        if (kind === 'partner') { var landing = { salesagent: 'puerto-rico', developers: 'developers' }[PAGE]; location.assign('/referral/partner' + (landing ? '?p=' + landing : '') + '#' + res.body.token); return; }
         showDone();
       })
       .catch(function (error) {
