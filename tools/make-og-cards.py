@@ -1,7 +1,7 @@
 """Builds the link-preview cards (1200 x 630) in assets/og/ for the site pages and each Mérida job.
 
 Run again whenever a Mérida job is added or renamed:  python tools/make-og-cards.py
-Needs Pillow (pip install pillow). Set FONT_BOLD / FONT_REGULAR to .ttf files if the Windows defaults are missing.
+Needs Pillow (pip install pillow). Uses Space Grotesk (SIL Open Font License, see tools/fonts/OFL.txt); set FONT_BOLD / FONT_REGULAR to use other .ttf files.
 Job names and slugs come from the CRM's public config. The job list must match MERIDA_JOBS in api/role-preview.js
 and MERIDA_ROLES in assets/referral.js."""
 import json, os
@@ -12,8 +12,8 @@ OUT = os.path.join(ROOT, 'assets', 'og')
 os.makedirs(OUT, exist_ok=True)
 W, H = 1200, 630
 BG, RED, REDHOT, WHITE, SOFT = (9, 9, 9), (215, 25, 32), (255, 77, 85), (245, 245, 245), (190, 190, 190)
-FONT_B = os.environ.get('FONT_BOLD', 'C:/Windows/Fonts/segoeuib.ttf')
-FONT_R = os.environ.get('FONT_REGULAR', 'C:/Windows/Fonts/segoeui.ttf')
+FONT_B = os.environ.get('FONT_BOLD', os.path.join(ROOT, 'tools', 'fonts', 'SpaceGrotesk-Bold.ttf'))
+FONT_R = os.environ.get('FONT_REGULAR', os.path.join(ROOT, 'tools', 'fonts', 'SpaceGrotesk-Regular.ttf'))
 logo = Image.open(os.path.join(ROOT, 'assets', 'brand', 'amanet-white.png')).convert('RGBA')
 
 def font(path, size): return ImageFont.truetype(path, size)
