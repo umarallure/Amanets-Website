@@ -648,7 +648,6 @@
     var apply = kind === 'apply';
     var body = el('div', { class: 'sheet-body' }, header(apply ? 'form.applyTitle' : 'form.partnerTitle', apply ? 'form.applyIntro' : 'form.partnerIntro'));
     if (apply && extras && extras.linkedRole) body.appendChild(el('p', { class: 'invite', text: t('role.applying').replace('{role}', extras.linkedRole) }));
-    if (ref) body.appendChild(el('p', { class: 'invite', 'data-i18n': 'form.linked', text: t('form.linked') }));
     body.appendChild(buildForm(kind, role, extras));
     sheet.appendChild(body);
     site.apply(sheet);
