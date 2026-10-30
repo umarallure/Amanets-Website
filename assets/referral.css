@@ -1325,9 +1325,9 @@ body.dash-page .bar-cta { white-space: nowrap; }
    The footer is now two buttons side by side: a shorter red "Apply now" and an outlined "Share job" that opens
    WhatsApp with a ready-made message about the role. The share link sits beside the card button (a link cannot
    live inside a button), pinned over the footer's right end. On narrow phones it shrinks to the icon alone. */
-.role .role-foot { margin-right: 152px; }
+.role .role-foot { margin-right: 208px; }
 .role-share {
-  position: absolute; right: 22px; bottom: 22px; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  position: absolute; right: 78px; bottom: 22px; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   width: 142px; min-height: 48px; border: 1px solid #3f3f3f; border-radius: 10px; background: #161616; color: #f1f1f1;
   font-size: 15px; font-weight: 600; text-decoration: none; transition: background-color .18s ease, border-color .18s ease;
   -webkit-tap-highlight-color: transparent;
@@ -1337,7 +1337,7 @@ body.dash-page .bar-cta { white-space: nowrap; }
 .role-share:active { background: rgba(37, 211, 102, .16); border-color: #25d366; }
 @media (hover: hover) and (pointer: fine) { .role-share:hover { background: rgba(37, 211, 102, .12); border-color: #25d366; } }
 @media (max-width: 400px) {
-  .role .role-foot { margin-right: 58px; }
+  .role .role-foot { margin-right: 114px; }
   .role-share { width: 48px; }
   .role-share span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
@@ -1549,3 +1549,22 @@ body[data-page="developers"] .lang-switch { display: none; }
 .dev-code code { white-space: normal; }
 .dev-code .ln { white-space: pre; }
 @media (max-width: 480px) { .dev-code pre { font-size: 12px; padding: 14px 14px 18px; } }
+
+/* Copy link beside Share, and the highlight for a role opened from a shared link. */
+.role-copy { position: absolute; right: 22px; bottom: 22px; z-index: 2; display: inline-flex; align-items: center; justify-content: center; width: 48px; min-height: 48px; padding: 0; border: 1px solid #3f3f3f; border-radius: 10px; background: #161616; color: #f1f1f1; cursor: pointer; transition: background-color .18s ease, border-color .18s ease; -webkit-tap-highlight-color: transparent; }
+.role-copy svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.role-copy:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.role-copy:active { background: #262626; border-color: #fff; }
+@media (hover: hover) and (pointer: fine) { .role-copy:hover { background: #262626; border-color: #8a8a8a; } }
+.role-copy.is-copied { border-color: #25d366; color: #25d366; }
+.role-copy.is-copied::after { content: attr(data-msg); position: absolute; right: 0; bottom: 56px; padding: 6px 10px; border-radius: 6px; background: #fff; color: #111; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.roles > li.is-targeted { border-color: var(--rose-hot, #ed1c24); box-shadow: 0 0 0 1px var(--rose-hot, #ed1c24), 0 0 28px rgba(237, 28, 36, .22); }
+.role-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 0 22px; padding: 14px 16px; border: 1px solid rgba(237, 28, 36, .5); border-radius: var(--radius); background: rgba(237, 28, 36, .1); font-size: 16px; font-weight: 600; }
+.role-banner[hidden] { display: none; }
+.role-banner a { color: inherit; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+/* The hero, when a page is opened from a role link: a row of plain facts about the job. */
+.hero-facts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.hero-facts[hidden] { display: none; }
+.hero-facts li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 999px; background: rgba(0, 0, 0, .35); font-size: 14px; font-weight: 600; color: #eee; }
+.hero-facts svg { width: 16px; height: 16px; flex: none; fill: none; stroke: var(--rose-hot, #ff4d55); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
