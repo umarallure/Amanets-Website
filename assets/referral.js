@@ -61,7 +61,8 @@
      case-insensitively against the CRM's titles so the value sent back is always the CRM's own. If a
      page's list would come out empty (for example a position was renamed in the CRM) the CRM's full
      list is used rather than showing nothing. */
-  var CITY_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Representative', 'Customer Support Manager']; // Mérida and Puerto Rico
+  var CITY_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Representative', 'Customer Support Manager']; // Puerto Rico, and the core of Mérida
+  var MERIDA_ROLES = CITY_ROLES.concat(['Executive Assistant', 'Office Receptionist', 'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting']); // Mérida
   var DEV_ROLES = ['Frontend UI/UX Web Developer', 'Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)']; // Kosovo
   var KOSOVO_SCHOOLS = ['Not in university', 'Starting university next year',
     'Universiteti i Prishtinës “Hasan Prishtina”', 'Universiteti i Prizrenit “Ukshin Hoti”', 'Universiteti i Pejës “Haxhi Zeka”',
@@ -70,7 +71,7 @@
     'Cacttus Education', 'PROED Academy', 'Shkolla Profesionale e UBT-së', OTHER_SCHOOL];
   function norm(text) { return String(text || '').trim().toLowerCase(); }
   function shapeRoles(all) {
-    var wanted = PAGE === 'developers' ? DEV_ROLES : CITY_ROLES;
+    var wanted = PAGE === 'developers' ? DEV_ROLES : PAGE === 'salesagent' ? CITY_ROLES : MERIDA_ROLES;
     var out = wanted.map(function (title) {
       var hit = all.filter(function (o) { return norm(o.title) === norm(title); })[0];
       return hit || (PAGE === 'developers' ? { title: title, title_es: title, vacancies: 0, location: 'Kosovo' } : null);
@@ -100,8 +101,8 @@
     [/sales|ventas|vendedor/i, 'i-r-sales'],
     [/support|soporte|atenci|customer|servicio|cliente/i, 'i-r-support'],
     [/recruit|reclut|talent|talento/i, 'i-r-people'],
-    [/market|content|social|contenido/i, 'i-r-mkt'],
-    [/admin|assistant|asistente|operations|operaci|complian|cumplim/i, 'i-r-admin']
+    [/market|content|social|contenido|video|film/i, 'i-r-mkt'],
+    [/admin|assistant|asistente|operations|operaci|complian|cumplim|reception|recepci|financ|account|contab/i, 'i-r-admin']
   ];
   function roleIcon(text) {
     for (var i = 0; i < ROLE_ICONS.length; i++) if (ROLE_ICONS[i][0].test(text)) return ROLE_ICONS[i][1];
