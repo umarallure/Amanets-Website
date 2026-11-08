@@ -83,7 +83,7 @@
      page's list would come out empty (for example a position was renamed in the CRM) the CRM's full
      list is used rather than showing nothing. */
   var CITY_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Representative', 'Customer Support Manager']; // Puerto Rico, and the core of Mérida
-  var MERIDA_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Manager', 'Executive Assistant', 'Office Receptionist', 'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting']; // Mérida (no Customer Support Representative)
+  var MERIDA_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Manager', 'Executive Assistant', 'Office Receptionist', 'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting', 'Software Engineer']; // Mérida (no Customer Support Representative)
   var DEV_ROLES = ['Frontend UI/UX Web Developer', 'Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)']; // Kosovo
   var KOSOVO_SCHOOLS = ['Not in university', 'Starting university next year',
     'Universiteti i Prishtinës “Hasan Prishtina”', 'Universiteti i Prizrenit “Ukshin Hoti”', 'Universiteti i Pejës “Haxhi Zeka”',
@@ -119,6 +119,7 @@
 
   // Role icons: picked from words in the title (English or Spanish), with a briefcase as the fallback.
   var ROLE_ICONS = [
+    [/engineer|develop|software|desarroll|ingenier|program/i, 'i-code'],
     [/sales|ventas|vendedor/i, 'i-r-sales'],
     [/support|soporte|atenci|customer|servicio|cliente/i, 'i-r-support'],
     [/recruit|reclut|talent|talento/i, 'i-r-people'],
