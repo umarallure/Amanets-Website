@@ -79,7 +79,7 @@ card('developers.jpg', 'Amanet · Kosovo', 'Software developers in Kosovo', 'You
 import urllib.request
 cfg = json.load(urllib.request.urlopen('https://app.powerpolicies.com/api/referrals?roles=1', timeout=20))
 jobs = ['Sales Agent', 'Sales Manager', 'Customer Support Manager', 'Executive Assistant', 'Office Receptionist',
-        'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting']
+        'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting', 'Software Engineer']
 count = 0
 for r in cfg['roles']:
     if r['title'] not in jobs: continue

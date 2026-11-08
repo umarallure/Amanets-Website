@@ -9,7 +9,7 @@ const path = require('path');
 const API = 'https://app.powerpolicies.com';
 // The jobs the Mérida page offers. Keep in step with MERIDA_ROLES in assets/referral.js.
 const MERIDA_JOBS = ['Sales Agent', 'Sales Manager', 'Customer Support Manager', 'Executive Assistant', 'Office Receptionist',
-  'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting'];
+  'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting', 'Software Engineer'];
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
