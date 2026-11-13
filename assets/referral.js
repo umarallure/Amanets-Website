@@ -84,7 +84,7 @@
      list is used rather than showing nothing. */
   var CITY_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Representative', 'Customer Support Manager']; // Puerto Rico, and the core of Mérida
   var MERIDA_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Manager', 'Executive Assistant', 'Office Receptionist', 'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting', 'Software Engineer']; // Mérida (no Customer Support Representative)
-  var DEV_ROLES = ['Frontend UI/UX Web Developer', 'Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)']; // Kosovo
+  var DEV_ROLES = ['Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)']; // Kosovo
   var KOSOVO_SCHOOLS = ['Not in university', 'Starting university next year',
     'Universiteti i Prishtinës “Hasan Prishtina”', 'Universiteti i Prizrenit “Ukshin Hoti”', 'Universiteti i Pejës “Haxhi Zeka”',
     'Universiteti i Mitrovicës “Isa Boletini”', 'Universiteti i Gjilanit “Kadri Zeka”', 'Universiteti i Gjakovës “Fehmi Agani”',
@@ -614,6 +614,8 @@
     var chosenSchool = data.get('school'), known = (config && config.crmSchools) || [];
     if (PAGE === 'developers' && chosenSchool && known.length && known.indexOf(chosenSchool) < 0) { data.set('school', OTHER_SCHOOL); data.set('school_other', chosenSchool); }
     data.set('action', kind); data.set('ref', ref); data.set('source', source);
+    // The CRM files an applicant under the country of the page they applied from ('' = Mérida, also /j/<slug> links). Partners are not touched.
+    if (kind === 'apply') data.set('country', { salesagent: 'Puerto Rico', developers: 'Kosovo' }[PAGE] || 'Venezuela');
     submit.disabled = true; submit.setAttribute('aria-busy', 'true'); submit.setAttribute('data-i18n', 'form.sending'); submit.textContent = t('form.sending');
     fetch(site.API + '/api/referrals', { method: 'POST', body: data })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (body) { return { ok: r.ok, body: body }; }); })
