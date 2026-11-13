@@ -84,7 +84,7 @@
      list is used rather than showing nothing. */
   var CITY_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Representative', 'Customer Support Manager']; // Puerto Rico, and the core of Mérida
   var MERIDA_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Manager', 'Executive Assistant', 'Office Receptionist', 'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting', 'Software Engineer']; // Mérida (no Customer Support Representative)
-  var DEV_ROLES = ['Frontend UI/UX Web Developer', 'Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)']; // Kosovo
+  var DEV_ROLES = ['Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)']; // Kosovo
   var KOSOVO_SCHOOLS = ['Not in university', 'Starting university next year',
     'Universiteti i Prishtinës “Hasan Prishtina”', 'Universiteti i Prizrenit “Ukshin Hoti”', 'Universiteti i Pejës “Haxhi Zeka”',
     'Universiteti i Mitrovicës “Isa Boletini”', 'Universiteti i Gjilanit “Kadri Zeka”', 'Universiteti i Gjakovës “Fehmi Agani”',
