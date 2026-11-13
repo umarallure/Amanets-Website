@@ -614,6 +614,8 @@
     var chosenSchool = data.get('school'), known = (config && config.crmSchools) || [];
     if (PAGE === 'developers' && chosenSchool && known.length && known.indexOf(chosenSchool) < 0) { data.set('school', OTHER_SCHOOL); data.set('school_other', chosenSchool); }
     data.set('action', kind); data.set('ref', ref); data.set('source', source);
+    // The CRM files an applicant under the country of the page they applied from ('' = Mérida, also /j/<slug> links). Partners are not touched.
+    if (kind === 'apply') data.set('country', { salesagent: 'Puerto Rico', developers: 'Kosovo' }[PAGE] || 'Venezuela');
     submit.disabled = true; submit.setAttribute('aria-busy', 'true'); submit.setAttribute('data-i18n', 'form.sending'); submit.textContent = t('form.sending');
     fetch(site.API + '/api/referrals', { method: 'POST', body: data })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (body) { return { ok: r.ok, body: body }; }); })
