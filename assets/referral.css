@@ -1559,7 +1559,7 @@ body[data-page="developers"] .lang-switch { display: none; }
 .role-copy.is-copied { border-color: #25d366; color: #25d366; }
 .role-copy.is-copied::after { content: attr(data-msg); position: absolute; right: 0; bottom: 56px; padding: 6px 10px; border-radius: 6px; background: #fff; color: #111; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .roles > li.is-targeted { border-color: var(--rose-hot, #ed1c24); box-shadow: 0 0 0 1px var(--rose-hot, #ed1c24), 0 0 28px rgba(237, 28, 36, .22); }
-.role-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 0 22px; padding: 14px 16px; border: 1px solid rgba(237, 28, 36, .5); border-radius: var(--radius); background: rgba(237, 28, 36, .1); font-size: 16px; font-weight: 600; }
+.role-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 auto 22px; padding: 14px 16px; border: 1px solid rgba(237, 28, 36, .5); border-radius: var(--radius); background: rgba(237, 28, 36, .1); font-size: 16px; font-weight: 600; }
 .role-banner[hidden] { display: none; }
 .role-banner a { color: inherit; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
 

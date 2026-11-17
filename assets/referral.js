@@ -468,7 +468,7 @@
 
     var about = [
       field('form.name', el('input', { name: 'name', maxlength: '140', autocomplete: 'name' }), { required: true, wide: true }),
-      field(apply ? 'form.emailOptional' : 'form.email', el('input', { name: 'email', type: 'email', inputmode: 'email', maxlength: '254', autocomplete: 'email', spellcheck: 'false' }), { required: !apply }),
+      field('form.email', el('input', { name: 'email', type: 'email', inputmode: 'email', maxlength: '254', autocomplete: 'email', spellcheck: 'false' }), { required: true }), // required for applicants too (owner, 2026-11-18)
       phone,
       field('form.city', el('input', { name: 'city', maxlength: '100', autocomplete: 'address-level2', value: PAGE ? '' : 'Mérida' }), { required: true })
     ];
