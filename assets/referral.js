@@ -51,7 +51,8 @@
   function slugOf(opening) { return opening.slug || String(opening.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
   // A role's own link: this page, the role, and the partner's code when the visitor came through one.
   function roleLink(opening) {
-    var url = new URL('/j/' + slugOf(opening), location.origin);
+    // Mérida jobs get a /j/<slug> link (with a link preview); the Kosovo page links back to itself.
+    var url = PAGE === 'developers' ? new URL('/developers?role=' + slugOf(opening), location.origin) : new URL('/j/' + slugOf(opening), location.origin);
     if (ref) url.searchParams.set('ref', ref);
     return url.toString();
   }
@@ -84,7 +85,7 @@
      list is used rather than showing nothing. */
   var CITY_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Representative', 'Customer Support Manager']; // Puerto Rico, and the core of Mérida
   var MERIDA_ROLES = ['Sales Agent', 'Sales Manager', 'Customer Support Manager', 'Executive Assistant', 'Office Receptionist', 'Videographer', 'Content Creators', 'Social Media Manager', 'Finance / Accounting', 'Software Engineer']; // Mérida (no Customer Support Representative)
-  var DEV_ROLES = ['Frontend UI/UX Web Developer', 'Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)']; // Kosovo
+  var DEV_ROLES = ['Frontend UI/UX Web Developer', 'Full-Stack React / Next.js Developer', 'Full-Stack AI/ML Developer (Voice AI)', 'Technical Recruiter']; // Kosovo
   var KOSOVO_SCHOOLS = ['Not in university', 'Starting university next year',
     'Universiteti i Prishtinës “Hasan Prishtina”', 'Universiteti i Prizrenit “Ukshin Hoti”', 'Universiteti i Pejës “Haxhi Zeka”',
     'Universiteti i Mitrovicës “Isa Boletini”', 'Universiteti i Gjilanit “Kadri Zeka”', 'Universiteti i Gjakovës “Fehmi Agani”',
@@ -139,6 +140,8 @@
     return svg;
   }
 
+  // The share messages name Mérida; on the Kosovo page they name Kosovo.
+  function place(text) { return PAGE === 'developers' ? text.replace('Mérida', 'Kosovo') : text; }
   function renderRoles() {
     var list = document.getElementById('roles');
     if (!list) return; // pages without a roles list (for example /salesagent)
@@ -180,7 +183,7 @@
       ]);
       button.addEventListener('click', function () { openForm('apply', opening.title); });
       var link = roleLink(opening);
-      var shareText = t('careers.shareMsg').replace('{role}', title).replace('{url}', link);
+      var shareText = place(t('careers.shareMsg')).replace('{role}', title).replace('{url}', link);
       var share = el('a', { class: 'role-share', href: 'https://wa.me/?text=' + encodeURIComponent(shareText), target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('careers.share') + ': ' + title }, [
         svgIcon('i-whatsapp'), el('span', { text: t('careers.share') })
       ]);
@@ -188,7 +191,7 @@
       share.addEventListener('click', function (e) {
         if (!navigator.share) return;
         e.preventDefault();
-        navigator.share({ title: title, text: t('careers.shareText').replace('{role}', title), url: link }).catch(function () {});
+        navigator.share({ title: title, text: place(t('careers.shareText')).replace('{role}', title), url: link }).catch(function () {});
       });
       var copy = el('button', { type: 'button', class: 'role-copy', 'aria-label': t('careers.copyLink') + ': ' + title }, [svgIcon('i-link')]);
       copy.addEventListener('click', function () {
